@@ -73,7 +73,7 @@ const Login = () => {
             mx: 'auto',
           }}
         >
-          Don't have an account?
+          Don&apos;t have an account?
         </CustomLink>
       </Flex>
     </AuthLayout>
