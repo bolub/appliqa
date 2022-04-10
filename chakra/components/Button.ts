@@ -10,6 +10,8 @@ export const Button: ComponentStyleConfig = {
   sizes: {
     md: {
       height: '48px',
+      fontSize: 'sm',
+      px: 6,
     },
   },
   // Two variants: outline and solid
