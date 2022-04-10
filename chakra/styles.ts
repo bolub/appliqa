@@ -4,6 +4,9 @@ const styles = {
     a: {
       textDecor: 'none !important',
     },
+    'input::-webkit-calendar-picker-indicator': {
+      display: 'none !important',
+    },
   },
 };
 

@@ -20,6 +20,8 @@ interface FormInputProps {
   inputProps?: InputProps;
   formControlProps?: FormControlProps;
   rightElement?: any;
+  listLabel?: string;
+  listData?: string[];
 }
 
 const FormInput: FC<FormInputProps> = (props) => {
@@ -48,8 +50,14 @@ const FormInput: FC<FormInputProps> = (props) => {
           }}
           id={props.for}
           type={!show ? props.type : 'text'}
+          list={props.listLabel}
           {...props.inputProps}
         />
+        <datalist id={props.listLabel}>
+          {props.listData?.map((value) => (
+            <option key={value} value={value} />
+          ))}
+        </datalist>
 
         {(props.rightElement || props.type === 'password') && (
           <InputRightElement>

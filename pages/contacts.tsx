@@ -1,7 +1,8 @@
 import React from 'react';
+import Construction from '../components/UI/Construction';
 
 const Contacts = () => {
-  return <div>contacts</div>;
+  return <Construction />;
 };
 
 export default Contacts;

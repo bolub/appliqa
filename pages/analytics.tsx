@@ -1,7 +1,8 @@
 import React from 'react';
+import Construction from '../components/UI/Construction';
 
 const Analytics = () => {
-  return <div>Analytics</div>;
+  return <Construction />;
 };
 
 export default Analytics;
