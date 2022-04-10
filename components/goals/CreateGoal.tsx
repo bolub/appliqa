@@ -51,6 +51,9 @@ const CreateGoal = () => {
             label='Job Type'
             type='string'
             for='job_type'
+            inputProps={{
+              placeholder: 'Remote',
+            }}
             listLabel='job_types'
             listData={[
               'Remote',
