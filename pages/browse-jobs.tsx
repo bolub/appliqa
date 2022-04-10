@@ -1,7 +1,8 @@
 import React from 'react';
+import Construction from '../components/UI/Construction';
 
 const BrowseJobs = () => {
-  return <div>browse jobs</div>;
+  return <Construction />;
 };
 
 export default BrowseJobs;

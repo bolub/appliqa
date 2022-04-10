@@ -1,5 +1,14 @@
-import { Button, Container, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import {
+  Button,
+  Container,
+  Flex,
+  Heading,
+  SimpleGrid,
+  useDisclosure,
+} from '@chakra-ui/react';
+import CreateGoal from '../components/goals/CreateGoal';
 import SingleGoal from '../components/goals/SingleGoal';
+import CustomModal from '../components/UI/CustomModal';
 import SearchInput from '../components/UI/Form/SearchInput';
 
 export interface GoalProps {
@@ -77,6 +86,8 @@ const Goals = () => {
     },
   ];
 
+  const createGoalDisclosure = useDisclosure();
+
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
@@ -96,6 +107,7 @@ const Goals = () => {
           mt={{ base: 3, md: 'auto' }}
           mb={{ md: 'auto' }}
           colorScheme={'green'}
+          onClick={createGoalDisclosure.onOpen}
         >
           Create Goal
         </Button>
@@ -106,6 +118,10 @@ const Goals = () => {
           return <SingleGoal key={goal.id} data={goal} />;
         })}
       </SimpleGrid>
+
+      <CustomModal disclosure={createGoalDisclosure} title='Create Goal'>
+        <CreateGoal />
+      </CustomModal>
     </Container>
   );
 };

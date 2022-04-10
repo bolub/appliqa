@@ -1,7 +1,8 @@
 import React from 'react';
+import Construction from '../components/UI/Construction';
 
 const Boards = () => {
-  return <div>hello from boards</div>;
+  return <Construction />;
 };
 
 export default Boards;
