@@ -13,7 +13,7 @@ const Navbar = () => {
           containerProps={{ my: 'auto', mr: 20 }}
         />
 
-        <HStack spacing={4}>
+        <HStack spacing={4} d={{ base: 'none', md: 'flex' }}>
           <NavItem label='Analytics' href={DASHBOARD_ROUTES.ANALYTICS} />
           <NavItem label='Goals' href={DASHBOARD_ROUTES.GOALS} />
           <NavItem label='Boards' href={DASHBOARD_ROUTES.BOARDS} />
