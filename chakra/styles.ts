@@ -2,7 +2,7 @@ const styles = {
   global: {
     'html, body': {},
     a: {
-      textDecor: 'none',
+      textDecor: 'none !important',
     },
   },
 };
