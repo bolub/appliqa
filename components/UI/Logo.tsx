@@ -8,10 +8,11 @@ const Logo: FC<{ color?: string }> = ({ color = '#16A34A' }) => {
       fontWeight='900'
       color='white'
       textTransform={'uppercase'}
-      textShadow={`-1px -1px 0 ${color}, 1px -1px 0 ${color}, -1px 1px 0 ${color}, 1px 1px 0 ${color}`}
+      textShadow={`-1px 1px 0px ${color}, 1px 1px 0px ${color}, 1px -1px 0 ${color}, -1px -1px 0 ${color}`}
       // style={{
       //   WebkitTextStrokeWidth: '1px',
       //   WebkitTextStrokeColor: color,
+      //   // WebkitTextFillColor: 'white',
       // }}
     >
       Appliqa
