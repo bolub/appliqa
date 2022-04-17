@@ -2,7 +2,6 @@ import { Box, Button, Flex, SimpleGrid, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { DUMMY_STAGES } from '../../utils/data';
 import FormInput from '../UI/Form/FormInput';
-import RangeInput from '../UI/Form/RangeInput';
 import SearchableSelect from '../UI/Form/SearchableSelect';
 
 const CreateJob = () => {
