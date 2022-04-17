@@ -47,7 +47,7 @@ const Column = ({ column, tasks }) => {
           return (
             <VStack
               align={'start'}
-              spacing={5}
+              spacing={4}
               mt={2}
               {...provided.droppableProps}
               ref={provided.innerRef}
