@@ -1,9 +1,18 @@
-import { Button, Container, Flex, Heading, HStack } from '@chakra-ui/react';
+import {
+  Button,
+  Container,
+  Flex,
+  Heading,
+  HStack,
+  useDisclosure,
+} from '@chakra-ui/react';
 import React, { useState } from 'react';
 import SearchInput from '../components/UI/Form/SearchInput';
 import { initialData } from '../utils/board';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './../components/boards/Column';
+import CustomModal from '../components/UI/CustomModal';
+import CreateJob from '../components/boards/CreateJob';
 
 const Boards = () => {
   const [testData, setTestData] = useState(initialData);
@@ -78,6 +87,8 @@ const Boards = () => {
     }
   };
 
+  const jobDisclosure = useDisclosure();
+
   return (
     <Container maxW='7xl' pt={{ base: 12, md: 20 }}>
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
@@ -97,8 +108,9 @@ const Boards = () => {
           mt={{ base: 3, md: 'auto' }}
           mb={{ md: 'auto' }}
           colorScheme={'green'}
+          onClick={jobDisclosure.onOpen}
         >
-          Create Goal
+          Create Job
         </Button>
       </Flex>
 
@@ -108,11 +120,6 @@ const Boards = () => {
         onDragEnd={onDragEnd}
       >
         <HStack align='start' spacing={6} mt={8} overflowX='scroll'>
-          {/* <DragDropContext
-          // onDragStart
-          // onDragUpdate
-          onDragEnd={onDragEnd}
-        > */}
           {/* Map through the columnOrder */}
           {testData.columnOrder.map((columnId) => {
             // get columnData based on the current columId
@@ -128,6 +135,10 @@ const Boards = () => {
           {/* </DragDropContext> */}
         </HStack>
       </DragDropContext>
+
+      <CustomModal disclosure={jobDisclosure} title='Add Job'>
+        <CreateJob />
+      </CustomModal>
     </Container>
   );
 };
