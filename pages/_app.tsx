@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     for (const key in AUTH_ROUTES) {
       //@ts-ignore
-      if (pathname === AUTH_ROUTES[key]) {
+      if (pathname.includes(AUTH_ROUTES[key])) {
         setIsAuthRoute(true);
         setIsDashboardRoute(false);
       }
@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     for (const key in DASHBOARD_ROUTES) {
       //@ts-ignore
-      if (pathname === DASHBOARD_ROUTES[key]) {
+      if (pathname.includes(DASHBOARD_ROUTES[key])) {
         setIsDashboardRoute(true);
         setIsAuthRoute(false);
       }

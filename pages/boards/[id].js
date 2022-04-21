@@ -7,24 +7,25 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import SearchInput from '../components/UI/Form/SearchInput';
-import { initialData } from '../utils/board';
+import SearchInput from '../../components/UI/Form/SearchInput';
+import { initialData } from '../../utils/board';
 import { DragDropContext } from 'react-beautiful-dnd';
-import Column from './../components/boards/Column';
-import CustomModal from '../components/UI/CustomModal';
-import CreateJob from '../components/boards/CreateJob';
+import Column from '../../components/boards/Column';
+import CustomModal from '../../components/UI/CustomModal';
+import CreateJob from '../../components/boards/CreateJob';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { fetchSingleBoard, updateStage } from '../API/boards';
-import Loader from '../components/UI/Loader';
+import { fetchSingleBoard, updateStage } from '../../API/boards';
+import Loader from '../../components/UI/Loader';
+import { useRouter } from 'next/router';
 
 const Boards = () => {
   const [boardData, setBoardData] = useState(initialData);
 
-  const boardId = 2;
+  const { query } = useRouter();
 
   const queryClient = useQueryClient();
-  const { data, status } = useQuery(['board', boardId], () =>
-    fetchSingleBoard(boardId)
+  const { data, status } = useQuery(['board', query.id], () =>
+    fetchSingleBoard(query.id)
   );
 
   const { mutate: updateCStage } = useMutation(updateStage, {
@@ -167,6 +168,7 @@ const Boards = () => {
           mb={{ md: 'auto' }}
           colorScheme={'green'}
           onClick={jobDisclosure.onOpen}
+          isDisabled={!data}
         >
           Add Job
         </Button>

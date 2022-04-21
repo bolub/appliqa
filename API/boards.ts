@@ -1,4 +1,5 @@
 import API from '.';
+import { getCookie } from 'cookies-next';
 
 // export const fetchJobs = async () => {
 //   const response = await API.get(`/jobs`);
@@ -16,6 +17,14 @@ import API from '.';
 
 //   return response.data.data;
 // };
+
+export const fetchAllBoards = async () => {
+  const response = await API.get(
+    `/boards/?filters[userId][$eq]=${getCookie('USER_ID')}&populate=*`
+  );
+
+  return response.data.data;
+};
 
 export const fetchSingleBoard = async (id: string | number) => {
   const response = await API.get(`/boards/${id}?populate=*`);

@@ -1,5 +1,7 @@
 import { CURRENCIES, JOB_TYPES } from './data';
 import { Options } from './GeneralProps';
+import { removeCookies, setCookies } from 'cookies-next';
+import { AUTH_ROUTES } from './routes';
 
 export const getRange = (
   currency: string | undefined,
@@ -18,8 +20,14 @@ export const getCurrencySymbol = (value: any) => {
 };
 
 export const getCurrencyLabel = (value: any) => {
-  console.log(value);
   return CURRENCIES.find((cd: Options) => cd?.value === value)?.label;
 };
 
+export const logout = () => {
+  removeCookies('USER_TOKEN');
+  removeCookies('USER_ID');
+  setCookies('USER_AUTHENTICATED', 'false');
+
+  window.location.href = AUTH_ROUTES.LOGIN;
+};
 // remote_fulltime;

@@ -15,6 +15,8 @@ import FormInput from '../UI/Form/FormInput';
 import RangeInput from '../UI/Form/RangeInput';
 import SearchableSelect from '../UI/Form/SearchableSelect';
 import { Options } from './../../utils/GeneralProps';
+import { getCookie } from 'cookies-next';
+import ToastBody from '../UI/ToastBody';
 
 const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
   const [dataToSend, setDataToSend] = useState({
@@ -44,21 +46,27 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
       toast({
         position: 'top-right',
         render: () => (
-          <Box
-            p={3}
-            bg='white'
-            borderRadius={'8px'}
-            borderWidth='1px'
-            borderColor={'gray.300'}
-            color='gray.500'
-            fontWeight={'bold'}
-          >
-            Goal created successfully
-          </Box>
+          <ToastBody title='Success' message='Goal created successfully' />
         ),
       });
 
       disclosure.onClose();
+    },
+    onError: (data: any) => {
+      const errors = { ...data };
+
+      toast({
+        position: 'top-right',
+        render: () => (
+          <ToastBody
+            status='error'
+            title={errors?.response?.data?.error?.name || 'Error'}
+            message={
+              errors?.response?.data?.error?.message || 'Something happened'
+            }
+          />
+        ),
+      });
     },
   });
 
@@ -162,7 +170,7 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
         <Button
           isDisabled={status === 'loading'}
           onClick={() => {
-            mutate(dataToSend);
+            mutate({ ...dataToSend, userId: getCookie('USER_ID') });
           }}
           ml={2}
           colorScheme={'green'}

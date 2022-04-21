@@ -30,7 +30,7 @@ export interface GoalProps {
 const Goals = () => {
   const { data, status } = useQuery('goals', fetchGoals);
   const createGoalDisclosure = useDisclosure();
-
+  console.log(data);
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>

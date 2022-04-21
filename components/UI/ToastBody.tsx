@@ -1,4 +1,4 @@
-import { Box, HStack, Text } from '@chakra-ui/react';
+import { Box, HStack, Text, VStack } from '@chakra-ui/react';
 import React, { FC } from 'react';
 
 interface Props {
@@ -30,24 +30,24 @@ const ToastBody: FC<Props> = ({ title, message, status = 'success' }) => {
 
   return (
     <Box
-      py={4}
+      py={5}
       px={5}
       bg='white'
       borderRadius={'8px'}
       borderWidth='1px'
       borderColor={'gray.300'}
       fontWeight={'bold'}
-      minW={{ base: 'auto', md: '300px' }}
+      minW={{ base: 'auto', md: '360px' }}
     >
-      <HStack align={'start'}>
+      <HStack align={'start'} spacing={3}>
         <Text color={getColor(status)} fontSize={'19px'}>
           {getEmoji(status)}
         </Text>
 
-        <Box fontSize={'md'} fontWeight='bold'>
+        <VStack align={'start'} spacing={0} fontSize={'md'} fontWeight='bold'>
           <Text color={getColor(status)}> {title}</Text>
           <Text color={'gray.500'}>{message}</Text>
-        </Box>
+        </VStack>
       </HStack>
     </Box>
   );
