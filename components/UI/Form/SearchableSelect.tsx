@@ -7,12 +7,12 @@ interface selectProps {
   isMulti?: boolean;
   options?: any;
   placeholder?: string;
-  handleInputSelect?: any;
+  onChange?: any;
   label?: string;
 }
 
 const SearchableSelect = ({
-  handleInputSelect,
+  onChange,
   options,
   isMulti,
   value,
@@ -67,14 +67,14 @@ const SearchableSelect = ({
   };
 
   return (
-    <VStack align={'start'} w='100%' spacing={0}>
+    <VStack align={'start'} w='100%' spacing={-1}>
       <FormLabel fontWeight={'bold'} fontSize='sm' color='gray.500'>
         {label}
       </FormLabel>
       <Select
         placeholder={placeholder}
         value={value}
-        onChange={handleInputSelect}
+        onChange={onChange}
         options={options}
         defaultValue={defaultValue}
         styles={customStyles}

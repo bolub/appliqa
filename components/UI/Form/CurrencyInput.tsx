@@ -21,10 +21,14 @@ interface CurrencyInputProps {
   inputProps?: InputProps;
   formControlProps?: FormControlProps;
   groupProps?: InputGroupProps;
+  getChosenCurrency?: any;
+  currencyValue?: string;
 }
 
 const CurrencyInput: FC<CurrencyInputProps> = (props) => {
-  const [chosenCurrency, setChosenCurrency] = useState('$');
+  const [chosenCurrency, setChosenCurrency] = useState<string | undefined>(
+    props.currencyValue
+  );
 
   return (
     <InputGroup size='md' {...props.groupProps}>
@@ -54,6 +58,8 @@ const CurrencyInput: FC<CurrencyInputProps> = (props) => {
             <MenuItem
               onClick={() => {
                 setChosenCurrency('£');
+                if (!props.getChosenCurrency) return;
+                props.getChosenCurrency('£');
               }}
             >
               £
@@ -61,6 +67,8 @@ const CurrencyInput: FC<CurrencyInputProps> = (props) => {
             <MenuItem
               onClick={() => {
                 setChosenCurrency('$');
+                if (!props.getChosenCurrency) return;
+                props.getChosenCurrency('$');
               }}
             >
               $
@@ -79,7 +87,7 @@ const CurrencyInput: FC<CurrencyInputProps> = (props) => {
           color: 'gray.400',
         }}
         id={props.for}
-        type='text'
+        type='number'
         {...props.inputProps}
       />
     </InputGroup>

@@ -1,13 +1,81 @@
-import { Button, Flex, SimpleGrid, VStack } from '@chakra-ui/react';
-import React from 'react';
+import {
+  Box,
+  Button,
+  Flex,
+  SimpleGrid,
+  useToast,
+  VStack,
+} from '@chakra-ui/react';
+import React, { FC, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { createGoal } from '../../API/goals';
+import { COUNTRIES } from '../../utils/data';
+import { getCurrencyLabel } from '../../utils/functions';
 import FormInput from '../UI/Form/FormInput';
 import RangeInput from '../UI/Form/RangeInput';
+import SearchableSelect from '../UI/Form/SearchableSelect';
+import { Options } from './../../utils/GeneralProps';
 
-const CreateGoal = () => {
+const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
+  const [dataToSend, setDataToSend] = useState({
+    minimum_salary_range: 5000,
+    maximum_salary_range: 500000,
+    level: '',
+    role: '',
+    job_type: '',
+    country: '',
+    currency: getCurrencyLabel('$'),
+  });
+
+  const setData = (label: string, value: string | number | undefined) => {
+    setDataToSend((prev) => {
+      return {
+        ...prev,
+        [label]: value,
+      };
+    });
+  };
+
+  const queryClient = useQueryClient();
+
+  const { mutate, status } = useMutation(createGoal, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('goals');
+      toast({
+        position: 'top-right',
+        render: () => (
+          <Box
+            p={3}
+            bg='white'
+            borderRadius={'8px'}
+            borderWidth='1px'
+            borderColor={'gray.300'}
+            color='gray.500'
+            fontWeight={'bold'}
+          >
+            Goal created successfully
+          </Box>
+        ),
+      });
+
+      disclosure.onClose();
+    },
+  });
+
+  const toast = useToast();
+
   return (
     <>
       <VStack align='start' w='100%' spacing={8}>
-        <RangeInput />
+        <RangeInput
+          onChange={(data: any) => {
+            setData('minimum_salary_range', data[0]);
+            setData('maximum_salary_range', data[1]);
+          }}
+          getChosenCurrency={(value: string) => {
+            setData('currency', getCurrencyLabel(value));
+          }}
+        />
 
         <SimpleGrid columns={{ base: 1, md: 2 }} w='100%' spacing={8}>
           <FormInput
@@ -16,6 +84,9 @@ const CreateGoal = () => {
             for='level'
             inputProps={{
               placeholder: 'Senior',
+              onChange: (e) => {
+                setData('level', e.target.value);
+              },
             }}
             listLabel='levels'
             listData={[
@@ -35,6 +106,9 @@ const CreateGoal = () => {
             for='role'
             inputProps={{
               placeholder: 'Frontend Developer',
+              onChange: (e) => {
+                setData('role', e.target.value);
+              },
             }}
             listLabel='roles'
             listData={[
@@ -53,6 +127,9 @@ const CreateGoal = () => {
             for='job_type'
             inputProps={{
               placeholder: 'Remote',
+              onChange: (e) => {
+                setData('job_type', e.target.value);
+              },
             }}
             listLabel='job_types'
             listData={[
@@ -64,13 +141,40 @@ const CreateGoal = () => {
             ]}
           />
 
-          <FormInput label='Country' type='string' for='country' />
+          <SearchableSelect
+            label='Country'
+            options={COUNTRIES}
+            onChange={(value: Options) => {
+              setData('country', value.label);
+            }}
+          />
         </SimpleGrid>
       </VStack>
 
       <Flex justifyContent={'end'} mt={16}>
-        <Button variant={'ghost'}>Cancel</Button>
-        <Button ml={2} colorScheme={'green'}>
+        <Button
+          onClick={disclosure.onClose}
+          isDisabled={status === 'loading'}
+          variant={'ghost'}
+        >
+          Cancel
+        </Button>
+        <Button
+          isDisabled={status === 'loading'}
+          onClick={() => {
+            mutate(dataToSend);
+          }}
+          ml={2}
+          colorScheme={'green'}
+          disabled={
+            !dataToSend.level ||
+            !dataToSend.role ||
+            !dataToSend.job_type ||
+            !dataToSend.country ||
+            !dataToSend.minimum_salary_range ||
+            !dataToSend.maximum_salary_range
+          }
+        >
           Create goal
         </Button>
       </Flex>

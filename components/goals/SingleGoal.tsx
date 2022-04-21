@@ -9,7 +9,7 @@ import {
 import React, { FC } from 'react';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { GoalProps } from '../../pages/goals';
-import { getJobType, getRange } from '../../utils/functions';
+import { getCurrencySymbol, getRange } from '../../utils/functions';
 
 const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
   return (
@@ -28,7 +28,7 @@ const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
             🥅
           </Text>
           <Text as='span' my='auto'>
-            {data.level} {data.role}
+            {data.attributes.level} {data.attributes.role}
           </Text>
         </Heading>
 
@@ -48,13 +48,17 @@ const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
         <HStack fontSize={'sm'} fontWeight='semibold' color='gray.500'>
           <Text as='span'>💰</Text>
           <Text as='span'>
-            {getRange(data.currency, data.minRange, data.maxRange)}
+            {getRange(
+              getCurrencySymbol(data?.attributes?.currency),
+              data.attributes.minimum_salary_range,
+              data.attributes.maximum_salary_range
+            )}
           </Text>
         </HStack>
 
         <HStack fontSize={'sm'} fontWeight='semibold' color='gray.500'>
           <Text as='span'>💼</Text>
-          <Text as='span'>{getJobType(data.job_type)}</Text>
+          <Text as='span'>{data.attributes.job_type}</Text>
         </HStack>
       </VStack>
     </Flex>

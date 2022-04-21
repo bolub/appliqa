@@ -6,16 +6,65 @@ import {
   HStack,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchInput from '../components/UI/Form/SearchInput';
 import { initialData } from '../utils/board';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './../components/boards/Column';
 import CustomModal from '../components/UI/CustomModal';
 import CreateJob from '../components/boards/CreateJob';
+import { useMutation, useQuery } from 'react-query';
+import { fetchSingleBoard, updateStage } from '../API/boards';
+import Loader from '../components/UI/Loader';
 
 const Boards = () => {
-  const [testData, setTestData] = useState(initialData);
+  const [boardData, setBoardData] = useState(initialData);
+
+  const boardId = 2;
+
+  const queryClient = useQueryClient();
+  const { data, status } = useQuery(['board', boardId], () =>
+    fetchSingleBoard(boardId)
+  );
+
+  const { mutate: updateCStage } = useMutation(updateStage, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('board');
+    },
+  });
+
+  useEffect(() => {
+    const columnOrder =
+      data?.attributes?.stage_order?.data?.attributes?.order.split(',');
+
+    const columns = data?.attributes?.stages?.data
+      .map((cd) => {
+        return {
+          id: cd?.id,
+          slug: cd?.attributes?.slug,
+          title: cd?.attributes?.title,
+          taskIds: cd?.attributes?.job_ids
+            ? cd?.attributes?.job_ids?.split(',')
+            : [],
+        };
+      })
+      .reduce((obj, cur) => ({ ...obj, [cur?.slug]: cur }), {});
+
+    const tasks = data?.attributes?.jobs?.data
+      .map((cd) => {
+        return {
+          id: cd?.id,
+          ...cd.attributes,
+        };
+      })
+      .reduce((obj, cur) => ({ ...obj, [cur.slug]: cur }), {});
+
+    setBoardData({
+      tasks,
+      columns,
+      columnOrder,
+    });
+  }, [data]);
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -30,33 +79,33 @@ const Boards = () => {
     )
       return;
 
-    // const column = testData.columns[source.droppableId];
-
     // get column where we picked the content to drag and column where we are going to drop
-    const start = testData.columns[source.droppableId];
-    const finish = testData.columns[destination.droppableId];
+    const start = boardData.columns[source.droppableId];
+    const finish = boardData.columns[destination.droppableId];
 
     if (start === finish) {
       // get taskIds from column
-      const clonedTaskIds = Array.from(start.taskIds);
-      // clonedTaskIds.splice(source.index, 1);
-      // clonedTaskIds.splice(destination.index, 0, source.index);
-
+      const clonedTaskIds = Array.from(start?.taskIds);
       [clonedTaskIds[source.index], clonedTaskIds[destination.index]] = [
         clonedTaskIds[destination.index],
         clonedTaskIds[source.index],
       ];
-
       const newColumn = {
         ...start,
         taskIds: clonedTaskIds,
       };
 
-      setTestData((prevData) => ({
+      const newColumnForAPI = {
+        job_ids: clonedTaskIds.toString(),
+      };
+
+      updateCStage({ id: start.id, body: newColumnForAPI });
+
+      setBoardData((prevData) => ({
         ...prevData,
         columns: {
           ...prevData.columns,
-          [newColumn.id]: newColumn,
+          [newColumn.slug]: newColumn,
         },
       }));
     } else {
@@ -66,6 +115,9 @@ const Boards = () => {
         ...start,
         taskIds: clonedStartTaskIds,
       };
+      const newStartForAPI = {
+        job_ids: clonedStartTaskIds.toString(),
+      };
 
       const clonedFinishTaskIds = [...finish.taskIds];
       clonedFinishTaskIds.splice(destination.index, 0, draggableId);
@@ -73,14 +125,20 @@ const Boards = () => {
         ...finish,
         taskIds: clonedFinishTaskIds,
       };
+      const newFinishForAPI = {
+        job_ids: clonedFinishTaskIds.toString(),
+      };
 
-      setTestData((prevData) => {
+      updateCStage({ id: newStart.id, body: newStartForAPI });
+      updateCStage({ id: newFinish.id, body: newFinishForAPI });
+
+      setBoardData((prevData) => {
         return {
           ...prevData,
           columns: {
             ...prevData.columns,
-            [newStart.id]: newStart,
-            [newFinish.id]: newFinish,
+            [newStart.slug]: newStart,
+            [newFinish.slug]: newFinish,
           },
         };
       });
@@ -114,31 +172,33 @@ const Boards = () => {
         </Button>
       </Flex>
 
-      <DragDropContext
-        // onDragStart
-        // onDragUpdate
-        onDragEnd={onDragEnd}
-      >
-        <HStack align='start' spacing={6} mt={8} overflowX='scroll'>
-          {/* Map through the columnOrder */}
-          {testData.columnOrder.map((columnId) => {
-            // get columnData based on the current columId
-            const column = testData.columns[columnId];
+      <Loader status={status} loadingText='Fetching Board Data...'>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <HStack align='start' spacing={6} mt={8} overflowX='scroll'>
+            {boardData?.columnOrder?.map((columnId) => {
+              // get columnData based on the current columId
+              const column = boardData?.columns[columnId];
 
-            // get all tasks related to the gotten column
-            const tasks = column.taskIds.map(
-              (taskId) => testData.tasks[taskId]
-            );
+              // get all tasks related to the gotten column
+              const ntasks = column?.taskIds?.map((taskId) => {
+                return boardData?.tasks[taskId];
+              });
 
-            return <Column key={column.id} column={column} tasks={tasks} />;
-          })}{' '}
-          {/* </DragDropContext> */}
-        </HStack>
-      </DragDropContext>
+              return (
+                <Column key={column?.slug} column={column} tasks={ntasks} />
+              );
+            })}{' '}
+          </HStack>
+        </DragDropContext>
 
-      <CustomModal disclosure={jobDisclosure} title='Add Job'>
-        <CreateJob />
-      </CustomModal>
+        <CustomModal disclosure={jobDisclosure} title='Add Job'>
+          <CreateJob
+            boardData={boardData}
+            originalBoardData={data}
+            disclosure={jobDisclosure}
+          />
+        </CustomModal>
+      </Loader>
     </Container>
   );
 };

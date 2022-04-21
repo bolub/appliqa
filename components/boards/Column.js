@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 const Column = ({ column, tasks }) => {
   const [draggingOver, setIsDraggingOver] = useState(false);
-
   return (
     <Box
       borderWidth={!draggingOver ? '1px' : '2px'}
@@ -22,8 +21,13 @@ const Column = ({ column, tasks }) => {
       minH='200px'
     >
       <HStack>
-        <Heading as='h2' fontWeight={'semibold'} fontSize='md'>
-          {column.title}
+        <Heading
+          as='h2'
+          fontWeight={'semibold'}
+          fontSize='md'
+          textTransform={'capitalize'}
+        >
+          {column?.title}
         </Heading>
 
         <Badge
@@ -36,11 +40,11 @@ const Column = ({ column, tasks }) => {
           fontWeight='bold'
           fontSize={'md'}
         >
-          {tasks.length}
+          {tasks?.length || 0}
         </Badge>
       </HStack>
 
-      <Droppable droppableId={column.id}>
+      <Droppable droppableId={column?.slug}>
         {(provided, snapshot) => {
           setIsDraggingOver(snapshot.isDraggingOver);
 
@@ -52,8 +56,8 @@ const Column = ({ column, tasks }) => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {tasks.map((task, index) => {
-                return <Task key={task.id} task={task} index={index} />;
+              {tasks?.map((task, index) => {
+                return <Task key={task?.id} task={task} index={index} />;
               })}
               {provided.placeholder}
             </VStack>

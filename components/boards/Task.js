@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 const Task = ({ task, index }) => {
   return (
-    <Draggable draggableId={task.id} index={index}>
+    <Draggable draggableId={task?.slug} index={index}>
       {(provided, snapshot) => (
         <Flex
           {...provided.draggableProps}
@@ -29,10 +29,10 @@ const Task = ({ task, index }) => {
 
             <VStack align='start' spacing={0}>
               <Text as='span' my='auto' fontWeight='extrabold' fontSize={'sm'}>
-                {task.level} {task.role}
+                {task?.level} {task?.role}
               </Text>
               <Text color='gray.500' fontSize={'sm'}>
-                {task.company_name}
+                {task?.company_name}
               </Text>
             </VStack>
           </HStack>
@@ -44,7 +44,7 @@ const Task = ({ task, index }) => {
             fontWeight={'semibold'}
             color='gray.500'
           >
-            {task.created}
+            {task?.created}
           </Text>
         </Flex>
       )}
