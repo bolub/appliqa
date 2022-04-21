@@ -6,6 +6,7 @@ import {
   SimpleGrid,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchGoals } from '../API/goals';
 import CreateGoal from '../components/goals/CreateGoal';
@@ -28,9 +29,30 @@ export interface GoalProps {
 }
 
 const Goals = () => {
-  const { data, status } = useQuery('goals', fetchGoals);
+  const [allGoals, setAllGoals] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
+
+  const { status } = useQuery('goals', fetchGoals, {
+    onSuccess: (data) => {
+      setAllGoals(data);
+      setOriginalData(data);
+    },
+  });
   const createGoalDisclosure = useDisclosure();
-  console.log(data);
+
+  const searchGoals = (value: string) => {
+    if (!value || value === '') {
+      setAllGoals(originalData);
+      return;
+    }
+
+    const filteredGoals = [...allGoals].filter((goal: any) => {
+      return `${goal.attributes.level} ${goal.role}`.includes(value);
+    });
+
+    setAllGoals(filteredGoals);
+  };
+
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
@@ -42,6 +64,11 @@ const Goals = () => {
           containerProps={{
             maxW: '400px',
             my: 'auto',
+          }}
+          inputProps={{
+            onChange: (e) => {
+              searchGoals(e.target.value);
+            },
           }}
         />
 
@@ -58,7 +85,7 @@ const Goals = () => {
 
       <Loader status={status}>
         <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-          {data?.map((goal: GoalProps) => {
+          {allGoals?.map((goal: GoalProps) => {
             return <SingleGoal key={goal.id} data={goal} />;
           })}
         </SimpleGrid>
