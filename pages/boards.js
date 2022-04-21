@@ -13,7 +13,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './../components/boards/Column';
 import CustomModal from '../components/UI/CustomModal';
 import CreateJob from '../components/boards/CreateJob';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { fetchSingleBoard, updateStage } from '../API/boards';
 import Loader from '../components/UI/Loader';
 
@@ -168,7 +168,7 @@ const Boards = () => {
           colorScheme={'green'}
           onClick={jobDisclosure.onOpen}
         >
-          Create Job
+          Add Job
         </Button>
       </Flex>
 
