@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/boards.js"
+    "pages/boards/boards.js"
   ],
   "exclude": [
     "node_modules"

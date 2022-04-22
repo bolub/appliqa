@@ -1,6 +1,18 @@
-import { chakra, Container, HStack } from '@chakra-ui/react';
-import { DASHBOARD_ROUTES } from '../../../utils/routes';
+import {
+  chakra,
+  Container,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
+import { HiUserCircle } from 'react-icons/hi';
+import { logout } from '../../../utils/functions';
+import { AUTH_ROUTES, DASHBOARD_ROUTES } from '../../../utils/routes';
+import CustomLink from '../CustomLink';
 import Logo from '../Logo';
+import AllBoards from './AllBoards';
 import NavItem from './NavItem';
 
 const Navbar = () => {
@@ -16,10 +28,26 @@ const Navbar = () => {
         <HStack spacing={4} d={{ base: 'none', md: 'flex' }}>
           <NavItem label='Analytics' href={DASHBOARD_ROUTES.ANALYTICS} />
           <NavItem label='Goals' href={DASHBOARD_ROUTES.GOALS} />
-          <NavItem label='Boards' href={DASHBOARD_ROUTES.BOARDS} />
+          <AllBoards />
           <NavItem label='Browse Jobs' href={DASHBOARD_ROUTES.JOBS} />
           <NavItem label='Contacts' href={DASHBOARD_ROUTES.CONTACTS} />
         </HStack>
+
+        <Menu autoSelect={false}>
+          <MenuButton
+            ml='auto'
+            fontSize={'3xl'}
+            aria-label='profile'
+            color='white'
+          >
+            <HiUserCircle />
+          </MenuButton>
+          <MenuList>
+            <CustomLink href={AUTH_ROUTES.LOGIN}>
+              <MenuItem onClick={logout}>Logout</MenuItem>
+            </CustomLink>
+          </MenuList>
+        </Menu>
       </Container>
     </chakra.nav>
   );

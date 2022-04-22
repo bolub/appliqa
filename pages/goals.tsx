@@ -6,87 +6,52 @@ import {
   SimpleGrid,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { fetchGoals } from '../API/goals';
 import CreateGoal from '../components/goals/CreateGoal';
 import SingleGoal from '../components/goals/SingleGoal';
 import CustomModal from '../components/UI/CustomModal';
 import SearchInput from '../components/UI/Form/SearchInput';
+import Loader from '../components/UI/Loader';
 
 export interface GoalProps {
-  id: string;
-  level: string;
-  role: string;
-  job_type: string;
-  country: string;
-  currency: string;
-  minRange: string;
-  maxRange: string;
+  id: string | number;
+  attributes: {
+    level: string;
+    role: string;
+    job_type: string;
+    country: string;
+    currency: string;
+    minimum_salary_range: string;
+    maximum_salary_range: string;
+  };
 }
 
 const Goals = () => {
-  const dummyData: GoalProps[] = [
-    {
-      id: 'eweewvec',
-      level: 'Senior',
-      role: 'Frontend Developer',
-      job_type: 'remote_fulltime',
-      country: 'united_states',
-      currency: '$',
-      minRange: '50000',
-      maxRange: '80000',
-    },
-    {
-      id: 'nvoqewnwi',
-      level: 'Senior',
-      role: 'Frontend Developer',
-      job_type: 'remote_fulltime',
-      country: 'united_states',
-      currency: '$',
-      minRange: '50000',
-      maxRange: '80000',
-    },
-    {
-      id: 'nvoqewnwijkd',
-      level: 'Senior',
-      role: 'Frontend Developer',
-      job_type: 'remote_fulltime',
-      country: 'united_states',
-      currency: '$',
-      minRange: '50000',
-      maxRange: '80000',
-    },
-    {
-      id: 'eweewvecf',
-      level: 'Senior',
-      role: 'Frontend Developer',
-      job_type: 'remote_fulltime',
-      country: 'united_states',
-      currency: '$',
-      minRange: '50000',
-      maxRange: '80000',
-    },
-    {
-      id: 'nvoqewnwic',
-      level: 'Senior',
-      role: 'Frontend Developer',
-      job_type: 'remote_fulltime',
-      country: 'united_states',
-      currency: '$',
-      minRange: '50000',
-      maxRange: '80000',
-    },
-    {
-      id: 'nvoqewnwijkdnj',
-      level: 'Senior',
-      role: 'Frontend Developer',
-      job_type: 'remote_fulltime',
-      country: 'united_states',
-      currency: '$',
-      minRange: '50000',
-      maxRange: '80000',
-    },
-  ];
+  const [allGoals, setAllGoals] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
 
+  const { status } = useQuery('goals', fetchGoals, {
+    onSuccess: (data) => {
+      setAllGoals(data);
+      setOriginalData(data);
+    },
+  });
   const createGoalDisclosure = useDisclosure();
+
+  const searchGoals = (value: string) => {
+    if (!value || value === '') {
+      setAllGoals(originalData);
+      return;
+    }
+
+    const filteredGoals = [...allGoals].filter((goal: any) => {
+      return `${goal.attributes.level} ${goal.role}`.includes(value);
+    });
+
+    setAllGoals(filteredGoals);
+  };
 
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
@@ -99,6 +64,11 @@ const Goals = () => {
           containerProps={{
             maxW: '400px',
             my: 'auto',
+          }}
+          inputProps={{
+            onChange: (e) => {
+              searchGoals(e.target.value);
+            },
           }}
         />
 
@@ -113,14 +83,16 @@ const Goals = () => {
         </Button>
       </Flex>
 
-      <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-        {dummyData.map((goal: GoalProps) => {
-          return <SingleGoal key={goal.id} data={goal} />;
-        })}
-      </SimpleGrid>
+      <Loader status={status}>
+        <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+          {allGoals?.map((goal: GoalProps) => {
+            return <SingleGoal key={goal.id} data={goal} />;
+          })}
+        </SimpleGrid>
+      </Loader>
 
       <CustomModal disclosure={createGoalDisclosure} title='Create Goal'>
-        <CreateGoal />
+        <CreateGoal disclosure={createGoalDisclosure} />
       </CustomModal>
     </Container>
   );
