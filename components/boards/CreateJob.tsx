@@ -86,7 +86,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
       };
 
       updateCStage({ id: dataToSend.stage_id, body: columnToUpdate });
-      updateCBoard({ id: '2', body: jobsToUpdate });
+      updateCBoard({ id: '1', body: jobsToUpdate });
     },
   });
 
