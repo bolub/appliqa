@@ -73,7 +73,7 @@ const Signup = () => {
       </Heading>
 
       <Text color='gray.800' fontSize={'lg'} mt={2} mb={12}>
-        This won't take long i promise 🙃
+        This won&apos;t take long i promise 🙃
       </Text>
 
       <form

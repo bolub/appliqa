@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  SimpleGrid,
-  useToast,
-  VStack,
-} from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid, useToast, VStack } from '@chakra-ui/react';
 import React, { FC, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { createGoal } from '../../API/goals';

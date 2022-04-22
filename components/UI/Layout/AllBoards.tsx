@@ -45,7 +45,7 @@ const AllBoards = () => {
         <MenuGroup title='Boards'>
           {data?.map((bd: any) => {
             return (
-              <CustomLink href={`/boards/${bd.id}`}>
+              <CustomLink key={bd.id} href={`/boards/${bd.id}`}>
                 <MenuItem fontSize='15px' key={bd?.id}>
                   {bd?.attributes?.title}
                 </MenuItem>

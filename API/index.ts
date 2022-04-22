@@ -7,6 +7,6 @@ const emptyHeader = {};
 const headerData = getCookie('USER_TOKEN') ? tokenAuth : emptyHeader;
 
 export default axios.create({
-  baseURL: 'http://localhost:1337/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: headerData,
 });

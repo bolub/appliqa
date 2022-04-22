@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Center,
   Container,
@@ -40,9 +39,9 @@ const AllBoards = () => {
             maxW: '400px',
             my: 'auto',
           }}
-          inputProps={{
-            onChange: (e) => {},
-          }}
+          // inputProps={{
+          //   onChange: (e) => {},
+          // }}
         />
 
         <Button

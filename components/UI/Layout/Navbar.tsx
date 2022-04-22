@@ -7,7 +7,6 @@ import {
   MenuList,
   MenuItem,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 import { HiUserCircle } from 'react-icons/hi';
 import { logout } from '../../../utils/functions';
 import { AUTH_ROUTES, DASHBOARD_ROUTES } from '../../../utils/routes';

@@ -13,6 +13,9 @@ const styles = {
       color: 'gray.500',
       fontWeight: 'bold !important',
     },
+    li: {
+      ml: 4,
+    },
   },
 };
 
