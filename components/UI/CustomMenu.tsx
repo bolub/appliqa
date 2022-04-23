@@ -5,20 +5,29 @@ import {
   MenuItem,
   MenuButtonProps,
   MenuListProps,
+  MenuItemProps,
 } from '@chakra-ui/react';
-import { FC } from 'react';
+import { FC, ReactComponentElement } from 'react';
+
+interface itemProps {
+  title: any;
+  actions: MenuItemProps;
+}
 
 interface Props {
   buttonProps: MenuButtonProps;
   listProps: MenuListProps;
+  items: itemProps[];
 }
 
-const CustomMenu: FC<Props> = ({ buttonProps, listProps }) => {
+const CustomMenu: FC<Props> = ({ buttonProps, listProps, children, items }) => {
   return (
-    <Menu>
-      <MenuButton {...buttonProps}>Actions</MenuButton>
+    <Menu autoSelect={false}>
+      <MenuButton {...buttonProps}>{children}</MenuButton>
       <MenuList {...listProps}>
-        <MenuItem>Download</MenuItem>
+        {items?.map((item: any) => {
+          return <MenuItem {...item.actions}>{item.title}</MenuItem>;
+        })}
       </MenuList>
     </Menu>
   );

@@ -1,14 +1,16 @@
 import Select from 'react-select';
 import { FormLabel, VStack } from '@chakra-ui/react';
+import { Options } from '../../../utils/GeneralProps';
 
 interface selectProps {
   defaultValue?: string;
-  value?: string;
+  value?: any;
   isMulti?: boolean;
   options?: any;
   placeholder?: string;
   onChange?: any;
   label?: string;
+  onBlur?: () => void;
 }
 
 const SearchableSelect = ({
@@ -19,6 +21,7 @@ const SearchableSelect = ({
   defaultValue,
   placeholder,
   label,
+  onBlur = () => {},
 }: selectProps) => {
   const customStyles = {
     input: (provided: any) => ({
@@ -79,6 +82,7 @@ const SearchableSelect = ({
         defaultValue={defaultValue}
         styles={customStyles}
         isMulti={isMulti}
+        onBlur={onBlur}
       />
     </VStack>
   );

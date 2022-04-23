@@ -24,24 +24,6 @@ const AllBoards = () => {
 
   return (
     <Menu autoSelect={false}>
-      {/* <MenuButton
-        fontWeight='extrabold'
-        color='white'
-        fontSize='sm'
-        borderRadius='4px'
-        px={4}
-        py={2}
-        bg={isActive ? 'green.700' : ''}
-        _hover={{
-          bg: 'green.700',
-        }}
-      >
-        <HStack>
-          <Text>Boards</Text>
-          <HiOutlineChevronDown />
-        </HStack>
-      </MenuButton> */}
-
       <Box
         fontWeight='extrabold'
         color='white'

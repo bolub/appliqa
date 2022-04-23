@@ -145,7 +145,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
             size={'lg'}
           />
 
-          <Box w='full' pt={{ base: 4 }}>
+          <Box w='full' pt={{ base: 4, md: 0 }}>
             <Text fontSize={'sm'} fontWeight='bold' color='gray.500'>
               {job?.company?.name}
             </Text>

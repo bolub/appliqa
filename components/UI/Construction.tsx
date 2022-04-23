@@ -1,10 +1,10 @@
 import { Center, Text } from '@chakra-ui/react';
-import React from 'react';
+import { FC } from 'react';
 
-const Construction = () => {
+const Construction: FC<{ height?: string }> = ({ height = '80vh' }) => {
   return (
     <Center
-      h='80vh'
+      h={height}
       fontWeight={'extrabold'}
       textAlign={'center'}
       flexDir='column'

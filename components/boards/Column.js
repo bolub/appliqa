@@ -57,7 +57,14 @@ const Column = ({ column, tasks }) => {
               ref={provided.innerRef}
             >
               {tasks?.map((task, index) => {
-                return <Task key={task?.id} task={task} index={index} />;
+                return (
+                  <Task
+                    key={task?.id}
+                    task={task}
+                    index={index}
+                    column={column}
+                  />
+                );
               })}
               {provided.placeholder}
             </VStack>

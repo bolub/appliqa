@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQueryClient } from 'react-query';
 import { createJob, updateBoard, updateStage } from '../../API/boards';
 import ToastBody from '../UI/ToastBody';
+import { useRouter } from 'next/router';
 
 // @types/uuid
 
@@ -39,6 +40,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
   };
 
   const queryClient = useQueryClient();
+  const { query } = useRouter();
 
   const { mutate: updateCStage } = useMutation(updateStage, {
     onSuccess: () => {
@@ -86,7 +88,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
       };
 
       updateCStage({ id: dataToSend.stage_id, body: columnToUpdate });
-      updateCBoard({ id: '1', body: jobsToUpdate });
+      updateCBoard({ id: query?.id, body: jobsToUpdate });
     },
   });
 

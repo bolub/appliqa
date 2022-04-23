@@ -86,6 +86,7 @@ const RangeInput: FC<RangeInputProps> = ({ onChange, getChosenCurrency }) => {
           for='min'
           groupProps={{
             maxW: '150px',
+            ml: 'auto',
           }}
           inputProps={{
             value: secondValue,
