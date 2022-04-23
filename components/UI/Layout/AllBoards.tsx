@@ -10,6 +10,10 @@ import {
   MenuGroup,
   MenuDivider,
   Text,
+  ButtonGroup,
+  Button,
+  IconButton,
+  Box,
 } from '@chakra-ui/react';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { DASHBOARD_ROUTES } from '../../../utils/routes';
@@ -24,7 +28,7 @@ const AllBoards = () => {
 
   return (
     <Menu autoSelect={false}>
-      <MenuButton
+      {/* <MenuButton
         fontWeight='extrabold'
         color='white'
         fontSize='sm'
@@ -40,7 +44,31 @@ const AllBoards = () => {
           <Text>Boards</Text>
           <HiOutlineChevronDown />
         </HStack>
-      </MenuButton>
+      </MenuButton> */}
+
+      <Box
+        fontWeight='extrabold'
+        color='white'
+        fontSize='sm'
+        borderRadius='4px'
+        px={4}
+        py={2}
+        bg={isActive ? 'green.700' : ''}
+        _hover={{
+          bg: 'green.700',
+        }}
+      >
+        <HStack>
+          <CustomLink href={data[0]?.id ? `/boards/${data[0]?.id}` : '/boards'}>
+            Boards
+          </CustomLink>
+
+          <MenuButton>
+            <HiOutlineChevronDown />
+          </MenuButton>
+        </HStack>
+      </Box>
+
       <MenuList>
         <MenuGroup title='Boards'>
           {data?.map((bd: any) => {
