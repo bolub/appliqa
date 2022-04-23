@@ -9,10 +9,6 @@ import {
   MenuItem,
   MenuGroup,
   MenuDivider,
-  Text,
-  ButtonGroup,
-  Button,
-  IconButton,
   Box,
 } from '@chakra-ui/react';
 import { HiOutlineChevronDown } from 'react-icons/hi';
