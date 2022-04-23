@@ -20,7 +20,7 @@ const AllBoards = () => {
   const { pathname } = useRouter();
 
   const isActive = pathname.includes('board');
-  const { data } = useQuery('all-boards', fetchAllBoards);
+  const { data = [] } = useQuery('all-boards', fetchAllBoards);
 
   return (
     <Menu autoSelect={false}>

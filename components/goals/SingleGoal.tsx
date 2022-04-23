@@ -49,7 +49,7 @@ const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
           <Text as='span'>💰</Text>
           <Text as='span'>
             {getRange(
-              getCurrencySymbol(data?.attributes?.currency),
+              data?.attributes?.currency,
               data.attributes.minimum_salary_range,
               data.attributes.maximum_salary_range
             )}

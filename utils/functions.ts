@@ -3,12 +3,25 @@ import { Options } from './GeneralProps';
 import { removeCookies, setCookies } from 'cookies-next';
 import { AUTH_ROUTES } from './routes';
 
+export const formatNumber = (num: number, currency: string) => {
+  const formattedNumber = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 0,
+  }).format(num);
+
+  return formattedNumber;
+};
+
 export const getRange = (
-  currency: string | undefined,
+  currency: string = 'USD',
   min: string,
   max: string
 ) => {
-  return `${currency}${min} - ${currency}${max}`;
+  return `${formatNumber(Number(min), currency)} - ${formatNumber(
+    Number(max),
+    currency
+  )}`;
 };
 
 export const getJobType = (value: string) => {
