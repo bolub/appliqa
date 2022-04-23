@@ -9,7 +9,7 @@ import {
 import React, { FC } from 'react';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { GoalProps } from '../../pages/goals';
-import { getCurrencySymbol, getRange } from '../../utils/functions';
+import { getRange } from '../../utils/functions';
 
 const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
   return (
