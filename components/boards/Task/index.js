@@ -22,6 +22,7 @@ import { deleteJob, updateBoard, updateStage } from '../../../API/boards';
 import { useMutation, useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import ToastBody from '../../UI/ToastBody';
+import { formatDateAgo } from '../../../utils/functions';
 
 const Task = ({ task, index, column, originalBoardData }) => {
   const viewJobDisclosure = useDisclosure();
@@ -188,7 +189,7 @@ const Task = ({ task, index, column, originalBoardData }) => {
               fontWeight={'semibold'}
               color='gray.500'
             >
-              5 days ago
+              {formatDateAgo(task?.publishedAt)}
             </Text>
           </Flex>
         )}

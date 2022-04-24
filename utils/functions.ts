@@ -2,6 +2,9 @@ import { CURRENCIES, JOB_TYPES } from './data';
 import { Options } from './GeneralProps';
 import { removeCookies, setCookies } from 'cookies-next';
 import { AUTH_ROUTES } from './routes';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 export const formatNumber = (num: number, currency: string) => {
   const formattedNumber = new Intl.NumberFormat('en-US', {
@@ -42,5 +45,9 @@ export const logout = () => {
   setCookies('USER_AUTHENTICATED', 'false');
 
   window.location.href = AUTH_ROUTES.LOGIN;
+};
+
+export const formatDateAgo = (date: Date) => {
+  return dayjs(date).fromNow();
 };
 // remote_fulltime;

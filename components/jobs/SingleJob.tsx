@@ -22,6 +22,7 @@ import {
   HiOutlineDotsVertical,
   HiOutlineTag,
 } from 'react-icons/hi';
+import { formatDateAgo } from '../../utils/functions';
 
 const SingleJob: FC<{ job: any }> = ({ job }) => {
   const { isOpen, onToggle } = useDisclosure();
@@ -33,7 +34,9 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
           <HiOutlineCalendar />
         </Text>
 
-        <Text fontWeight='bold'>Posted 5 days ago</Text>
+        <Text fontWeight='bold'>
+          Posted {formatDateAgo(job?.publication_date)}
+        </Text>
       </HStack>
 
       <VStack align={'start'} d={{ base: 'none', md: 'flex' }}>
@@ -214,7 +217,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
             color='gray.500'
             textAlign={{ md: 'center' }}
           >
-            5 days ago
+            {formatDateAgo(job?.publication_date)}
           </Text>
         </Box>
 
