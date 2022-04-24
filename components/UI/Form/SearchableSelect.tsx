@@ -1,6 +1,5 @@
 import Select from 'react-select';
 import { FormLabel, VStack } from '@chakra-ui/react';
-import { Options } from '../../../utils/GeneralProps';
 
 interface selectProps {
   defaultValue?: string;

@@ -7,7 +7,8 @@ import {
   MenuListProps,
   MenuItemProps,
 } from '@chakra-ui/react';
-import { FC, ReactComponentElement } from 'react';
+import { FC } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface itemProps {
   title: any;
@@ -26,7 +27,11 @@ const CustomMenu: FC<Props> = ({ buttonProps, listProps, children, items }) => {
       <MenuButton {...buttonProps}>{children}</MenuButton>
       <MenuList {...listProps}>
         {items?.map((item: any) => {
-          return <MenuItem {...item.actions}>{item.title}</MenuItem>;
+          return (
+            <MenuItem key={uuidv4()} {...item.actions}>
+              {item.title}
+            </MenuItem>
+          );
         })}
       </MenuList>
     </Menu>

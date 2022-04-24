@@ -17,7 +17,6 @@ import CurrencyInput from '../../../UI/Form/CurrencyInput';
 import { useMutation, useQueryClient } from 'react-query';
 import { updateJob } from '../../../../API/boards';
 import ToastBody from '../../../UI/ToastBody';
-import { getCurrencyLabel } from '../../../../utils/functions';
 
 const JobDetails: FC<any> = ({ data }) => {
   const [editMode, setEditMode] = useState(false);

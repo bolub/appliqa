@@ -53,3 +53,11 @@ export const deleteJob = async (data: { id: string | number }) => {
 
   return response.data.data;
 };
+
+export const updateJob = async (data: { id: string | number; body: any }) => {
+  const response = await API.put(`/jobs/${data.id}`, {
+    data: { ...data.body },
+  });
+
+  return response.data.data;
+};

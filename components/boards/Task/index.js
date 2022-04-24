@@ -4,6 +4,7 @@ import {
   HStack,
   Text,
   useDisclosure,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 import React from 'react';
@@ -20,10 +21,12 @@ import {
 import { deleteJob, updateBoard, updateStage } from '../../../API/boards';
 import { useMutation, useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
+import ToastBody from '../../UI/ToastBody';
 
 const Task = ({ task, index, column }) => {
   const viewJobDisclosure = useDisclosure();
   const deleteJobDisclosure = useDisclosure();
+  const toast = useToast();
 
   const title = `${task?.level} ${task?.role}`;
   const company = task?.company_name;
