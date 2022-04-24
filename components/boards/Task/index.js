@@ -23,7 +23,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import ToastBody from '../../UI/ToastBody';
 
-const Task = ({ task, index, column }) => {
+const Task = ({ task, index, column, originalBoardData }) => {
   const viewJobDisclosure = useDisclosure();
   const deleteJobDisclosure = useDisclosure();
   const toast = useToast();
@@ -51,6 +51,7 @@ const Task = ({ task, index, column }) => {
           />
         ),
       });
+      deleteJobDisclosure.onClose();
     },
   });
 
@@ -63,9 +64,13 @@ const Task = ({ task, index, column }) => {
         .toString(),
     };
 
+    const mappedJobIds = originalBoardData.attributes.jobs.data.map((jd) => {
+      return jd.id;
+    });
+
     const boardDataToUpdate = {
-      jobs: column?.taskIds?.filter((jid) => {
-        return jid !== task?.slug;
+      jobs: mappedJobIds?.filter((jid) => {
+        return jid !== task?.id;
       }),
     };
 
@@ -74,11 +79,7 @@ const Task = ({ task, index, column }) => {
     updateCBoard({ id: query.id, body: boardDataToUpdate });
 
     deleteCJob({ id: task?.id });
-
-    deleteJobDisclosure.onClose();
   };
-
-  console.log(column);
 
   return (
     <>

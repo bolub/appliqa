@@ -3,7 +3,7 @@ import Task from './Task';
 import { Droppable } from 'react-beautiful-dnd';
 import { useState } from 'react';
 
-const Column = ({ column, tasks }) => {
+const Column = ({ column, tasks, originalData }) => {
   const [draggingOver, setIsDraggingOver] = useState(false);
   return (
     <Box
@@ -63,6 +63,7 @@ const Column = ({ column, tasks }) => {
                     task={task}
                     index={index}
                     column={column}
+                    originalBoardData={originalData}
                   />
                 );
               })}

@@ -187,7 +187,12 @@ const Boards = () => {
               });
 
               return (
-                <Column key={column?.slug} column={column} tasks={ntasks} />
+                <Column
+                  key={column?.slug}
+                  column={column}
+                  tasks={ntasks}
+                  originalData={data}
+                />
               );
             })}{' '}
           </HStack>
