@@ -17,8 +17,8 @@ import { setCookies } from 'cookies-next';
 import { DASHBOARD_ROUTES } from '../utils/routes';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('abiol5202@gmail.com');
+  const [password, setPassword] = useState('password');
 
   const toast = useToast();
 
@@ -68,14 +68,22 @@ export default function Login() {
         Login
       </Heading>
 
+      <Text fontWeight={'semibold'} color='gray.800' fontSize={'lg'} mt={2}>
+        Nice to have you back 😇
+      </Text>
+
       <Text
         fontWeight={'semibold'}
         color='gray.800'
-        fontSize={'lg'}
-        mt={2}
+        fontSize={'sm'}
+        mt={6}
         mb={12}
+        p={4}
+        bg='gray.200'
+        borderRadius={'lg'}
+        textAlign='center'
       >
-        Nice to have you back 😇
+        Login with the default details for now
       </Text>
 
       <form
@@ -95,6 +103,7 @@ export default function Login() {
               onChange: (e) => {
                 setEmail(e.target.value);
               },
+              value: email,
             }}
             formControlProps={{
               isRequired: true,
@@ -110,6 +119,7 @@ export default function Login() {
               onChange: (e) => {
                 setPassword(e.target.value);
               },
+              value: password,
             }}
             formControlProps={{
               isRequired: true,
