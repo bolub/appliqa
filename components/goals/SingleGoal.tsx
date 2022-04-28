@@ -1,17 +1,53 @@
 import {
+  Button,
   Flex,
   Heading,
   HStack,
   IconButton,
   Text,
+  useDisclosure,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 import React, { FC } from 'react';
-import { HiOutlineDotsVertical } from 'react-icons/hi';
+import {
+  HiOutlineDotsVertical,
+  HiOutlineInformationCircle,
+  HiOutlineTrash,
+} from 'react-icons/hi';
+import { useMutation, useQueryClient } from 'react-query';
+import { deleteGoal } from '../../API/goals';
 import { GoalProps } from '../../pages/goals';
 import { getRange } from '../../utils/functions';
+import CustomMenu from '../UI/CustomMenu';
+import CustomModal from '../UI/CustomModal';
+import ToastBody from '../UI/ToastBody';
+import ViewEditGoal from './ViewEditGoal';
 
 const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
+  const viewGoalDisclosure = useDisclosure();
+  const deleteGoalDisclosure = useDisclosure();
+  const toast = useToast();
+
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteCGoal, isLoading } = useMutation(deleteGoal, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('board');
+      toast({
+        position: 'top-right',
+        render: () => (
+          <ToastBody
+            title='Success'
+            message='Job Deleted successfully'
+            status='success'
+          />
+        ),
+      });
+      deleteGoalDisclosure.onClose();
+    },
+  });
+
   return (
     <Flex
       flexDir={'column'}
@@ -23,7 +59,14 @@ const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
       pb={8}
     >
       <Flex>
-        <Heading as='h2' fontWeight='bold' fontSize={'md'} d='flex'>
+        <Heading
+          onClick={viewGoalDisclosure.onOpen}
+          cursor='pointer'
+          as='h2'
+          fontWeight='bold'
+          fontSize={'md'}
+          d='flex'
+        >
           <Text as='span' my='auto' mr={2}>
             🥅
           </Text>
@@ -32,19 +75,93 @@ const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
           </Text>
         </Heading>
 
-        <IconButton
-          ml='auto'
-          my='auto'
-          size='sm'
-          variant={'ghost'}
-          aria-label='More Options'
-          color='gray.500'
-          fontSize={'lg'}
-          icon={<HiOutlineDotsVertical />}
-        />
+        <CustomMenu
+          buttonProps={{
+            ml: 'auto',
+            color: 'gray.500',
+            fontSize: 'xl',
+          }}
+          items={[
+            {
+              title: (
+                <HStack>
+                  <Text fontSize={'lg'} color='gray.500'>
+                    <HiOutlineInformationCircle />
+                  </Text>
+                  <Text fontSize={'sm'} fontWeight='bold' color='gray.500'>
+                    View Info
+                  </Text>
+                </HStack>
+              ),
+              actions: {
+                onClick: () => {
+                  viewGoalDisclosure.onOpen();
+                },
+              },
+            },
+            {
+              title: (
+                <HStack>
+                  <Text fontSize={'md'} color='red.500'>
+                    <HiOutlineTrash />
+                  </Text>
+                  <Text fontSize={'sm'} fontWeight='bold' color='red.500'>
+                    Delete Goal
+                  </Text>
+                </HStack>
+              ),
+              actions: {
+                onClick: () => {
+                  deleteGoalDisclosure.onOpen();
+                },
+              },
+            },
+          ]}
+        >
+          <HiOutlineDotsVertical />
+        </CustomMenu>
+
+        <CustomModal
+          disclosure={viewGoalDisclosure}
+          title={`${data.attributes.level} ${data.attributes.role} Goal`}
+        >
+          <ViewEditGoal disclosure={viewGoalDisclosure} data={data} />
+        </CustomModal>
+
+        <CustomModal
+          disclosure={deleteGoalDisclosure}
+          title='Delete Job'
+          minW={{ base: 'auto', md: 'md' }}
+        >
+          <Text>Are you sure you want to delete this goal?</Text>
+
+          <HStack justifyContent={'end'} mt={8}>
+            <Button
+              onClick={deleteGoalDisclosure.onClose}
+              isDisabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                deleteCGoal({ id: data?.id });
+              }}
+              colorScheme='red'
+              isLoading={isLoading}
+            >
+              Delete
+            </Button>
+          </HStack>
+        </CustomModal>
       </Flex>
 
-      <VStack align={'start'} mt={4} spacing={1}>
+      <VStack
+        cursor={'pointer'}
+        onClick={viewGoalDisclosure.onOpen}
+        align={'start'}
+        mt={4}
+        spacing={1}
+      >
         <HStack fontSize={'sm'} fontWeight='semibold' color='gray.500'>
           <Text as='span'>💰</Text>
           <Text as='span'>

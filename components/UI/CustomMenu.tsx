@@ -16,9 +16,9 @@ interface itemProps {
 }
 
 interface Props {
-  buttonProps: MenuButtonProps;
-  listProps: MenuListProps;
-  items: itemProps[];
+  buttonProps?: MenuButtonProps;
+  listProps?: MenuListProps;
+  items?: itemProps[];
 }
 
 const CustomMenu: FC<Props> = ({ buttonProps, listProps, children, items }) => {

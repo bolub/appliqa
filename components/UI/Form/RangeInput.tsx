@@ -13,11 +13,18 @@ import CurrencyInput from './CurrencyInput';
 interface RangeInputProps {
   onChange?: any;
   getChosenCurrency?: any;
+  defaultFirstValue?: number;
+  defaultSecondValue?: number;
 }
 
-const RangeInput: FC<RangeInputProps> = ({ onChange, getChosenCurrency }) => {
-  const [firstValue, setFirstValue] = useState<number>(500);
-  const [secondValue, setSecondValue] = useState<number>(500000);
+const RangeInput: FC<RangeInputProps> = ({
+  onChange,
+  getChosenCurrency,
+  defaultFirstValue = 500,
+  defaultSecondValue = 500000,
+}) => {
+  const [firstValue, setFirstValue] = useState<number>(defaultFirstValue);
+  const [secondValue, setSecondValue] = useState<number>(defaultSecondValue);
   const [currencyValue, setCurrencyValue] = useState<string>('$');
 
   return (

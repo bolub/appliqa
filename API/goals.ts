@@ -16,3 +16,17 @@ export const createGoal = async (data: any) => {
 
   return response.data.data;
 };
+
+export const updateGoal = async (data: { id: string | number; body: any }) => {
+  const response = await API.put(`/goals/${data.id}`, {
+    data: { ...data.body },
+  });
+
+  return response.data.data;
+};
+
+export const deleteGoal = async (data: { id: string | number }) => {
+  const response = await API.delete(`/goals/${data.id}`);
+
+  return response.data.data;
+};
