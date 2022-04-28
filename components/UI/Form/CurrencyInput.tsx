@@ -15,7 +15,7 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 
 interface CurrencyInputProps {

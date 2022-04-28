@@ -14,7 +14,6 @@ import SingleGoal from '../components/goals/SingleGoal';
 import CustomModal from '../components/UI/CustomModal';
 import SearchInput from '../components/UI/Form/SearchInput';
 import Loader from '../components/UI/Loader';
-import ToastBody from '../components/UI/ToastBody';
 
 export interface GoalProps {
   id: string | number;
