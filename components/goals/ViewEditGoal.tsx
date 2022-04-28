@@ -23,7 +23,7 @@ const ViewEditGoal: FC<{ disclosure: any; data: GoalProps }> = ({
     role: '',
     job_type: '',
     country: '',
-    currency: '',
+    currency: data?.attributes?.currency,
   });
 
   const [initialData, setInitialData] = useState({
@@ -114,6 +114,7 @@ const ViewEditGoal: FC<{ disclosure: any; data: GoalProps }> = ({
           }}
           defaultFirstValue={Number(dataToSend?.minimum_salary_range)}
           defaultSecondValue={Number(dataToSend?.maximum_salary_range)}
+          defaultCurrencyValue={dataToSend?.currency}
         />
 
         <SimpleGrid columns={{ base: 1, md: 2 }} w='100%' spacing={8}>

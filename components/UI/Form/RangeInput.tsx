@@ -8,6 +8,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { FC, useState } from 'react';
+import { getCurrencySymbol } from '../../../utils/functions';
 import CurrencyInput from './CurrencyInput';
 
 interface RangeInputProps {
@@ -15,6 +16,7 @@ interface RangeInputProps {
   getChosenCurrency?: any;
   defaultFirstValue?: number;
   defaultSecondValue?: number;
+  defaultCurrencyValue?: string;
 }
 
 const RangeInput: FC<RangeInputProps> = ({
@@ -22,11 +24,13 @@ const RangeInput: FC<RangeInputProps> = ({
   getChosenCurrency,
   defaultFirstValue = 500,
   defaultSecondValue = 500000,
+  defaultCurrencyValue = '',
 }) => {
   const [firstValue, setFirstValue] = useState<number>(defaultFirstValue);
   const [secondValue, setSecondValue] = useState<number>(defaultSecondValue);
-  const [currencyValue, setCurrencyValue] = useState<string>('$');
-
+  const [currencyValue, setCurrencyValue] = useState<string | undefined>(
+    getCurrencySymbol(defaultCurrencyValue)
+  );
   return (
     <VStack w='full' align='start' spacing={2}>
       <FormLabel
@@ -86,11 +90,12 @@ const RangeInput: FC<RangeInputProps> = ({
             getChosenCurrency(value);
             setCurrencyValue(value);
           }}
+          setChosenCurrency={setCurrencyValue}
           currencyValue={currencyValue}
         />
 
         <CurrencyInput
-          for='min'
+          for='max'
           groupProps={{
             maxW: '150px',
             ml: 'auto',
@@ -106,6 +111,7 @@ const RangeInput: FC<RangeInputProps> = ({
             getChosenCurrency(value);
             setCurrencyValue(value);
           }}
+          setChosenCurrency={setCurrencyValue}
           currencyValue={currencyValue}
         />
       </Flex>
