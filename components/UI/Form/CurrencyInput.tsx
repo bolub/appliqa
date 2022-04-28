@@ -15,7 +15,7 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 
 interface CurrencyInputProps {
@@ -24,14 +24,15 @@ interface CurrencyInputProps {
   formControlProps?: FormControlProps;
   groupProps?: InputGroupProps;
   getChosenCurrency?: any;
+  setChosenCurrency?: any;
   currencyValue?: string;
   label?: string;
 }
 
 const CurrencyInput: FC<CurrencyInputProps> = (props) => {
-  const [chosenCurrency, setChosenCurrency] = useState<string | undefined>(
-    props.currencyValue
-  );
+  // const [chosenCurrency, setChosenCurrency] = useState<string | undefined>(
+  //   props.currencyValue
+  // );
 
   return (
     <FormControl {...props.formControlProps}>
@@ -62,7 +63,7 @@ const CurrencyInput: FC<CurrencyInputProps> = (props) => {
             >
               <Flex>
                 <Text my='auto' mr={1}>
-                  {chosenCurrency}
+                  {props?.currencyValue}
                 </Text>
 
                 <Text my='auto'>
@@ -73,7 +74,7 @@ const CurrencyInput: FC<CurrencyInputProps> = (props) => {
             <MenuList>
               <MenuItem
                 onClick={() => {
-                  setChosenCurrency('£');
+                  props.setChosenCurrency('£');
                   if (!props.getChosenCurrency) return;
                   props.getChosenCurrency('£');
                 }}
@@ -82,7 +83,7 @@ const CurrencyInput: FC<CurrencyInputProps> = (props) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  setChosenCurrency('$');
+                  props.setChosenCurrency('$');
                   if (!props.getChosenCurrency) return;
                   props.getChosenCurrency('$');
                 }}

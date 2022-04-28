@@ -38,6 +38,7 @@ const Goals = () => {
       setOriginalData(data);
     },
   });
+
   const createGoalDisclosure = useDisclosure();
 
   const searchGoals = (value: string) => {
