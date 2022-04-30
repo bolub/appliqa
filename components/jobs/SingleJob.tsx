@@ -13,19 +13,24 @@ import {
   Wrap,
   WrapItem,
   Link,
+  Tooltip,
 } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import {
   HiChevronDown,
   HiChevronUp,
   HiOutlineCalendar,
-  HiOutlineDotsVertical,
   HiOutlineTag,
+  HiPlus,
 } from 'react-icons/hi';
 import { formatDateAgo } from '../../utils/functions';
+import CustomModal from '../UI/CustomModal';
+import AddJobToBoard from './AddJobToBoard';
 
 const SingleJob: FC<{ job: any }> = ({ job }) => {
   const { isOpen, onToggle } = useDisclosure();
+
+  const addJobToBoardDisclosure = useDisclosure();
 
   const DateTags = () => (
     <>
@@ -114,6 +119,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
             bg: 'green.100',
           }}
           color='green.500'
+          onClick={addJobToBoardDisclosure.onOpen}
         >
           Apply
         </Button>
@@ -225,20 +231,32 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
           mt={{ base: 8, md: 0 }}
           w={{ base: '100%', md: '20%' }}
           justifyContent={{ md: 'end' }}
+          spacing={5}
         >
+          <Tooltip label='Add to board'>
+            <IconButton
+              onClick={addJobToBoardDisclosure.onOpen}
+              ml='auto'
+              my='auto'
+              size='sm'
+              aria-label='More Options'
+              bg='green.100'
+              borderColor='green.600'
+              borderWidth={'1px'}
+              color='green.600'
+              fontSize={'lg'}
+              icon={<HiPlus />}
+            />
+          </Tooltip>
+
           <Link href={job?.refs?.landing_page} isExternal>
-            <Button colorScheme={'green'}>Apply</Button>
+            <Button
+              colorScheme={'green'}
+              onClick={addJobToBoardDisclosure.onOpen}
+            >
+              Apply
+            </Button>
           </Link>
-          <IconButton
-            ml='auto'
-            my='auto'
-            size='sm'
-            variant={'ghost'}
-            aria-label='More Options'
-            color='gray.500'
-            fontSize={'lg'}
-            icon={<HiOutlineDotsVertical />}
-          />
         </HStack>
       </Flex>
 
@@ -310,6 +328,13 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
           </Button>
         </Flex>
       </Collapse>
+
+      <CustomModal
+        disclosure={addJobToBoardDisclosure}
+        title='Add Job to Board'
+      >
+        <AddJobToBoard disclosure={addJobToBoardDisclosure} jobData={job} />
+      </CustomModal>
     </Flex>
   );
 };

@@ -50,4 +50,37 @@ export const logout = () => {
 export const formatDateAgo = (date: Date) => {
   return dayjs(date).fromNow();
 };
+
+export const formatDataForBoard = (data: any) => {
+  const columnOrder =
+    data?.attributes?.stage_order?.data?.attributes?.order.split(',');
+
+  const columns = data?.attributes?.stages?.data
+    .map((cd: any) => {
+      return {
+        id: cd?.id,
+        slug: cd?.attributes?.slug,
+        title: cd?.attributes?.title,
+        taskIds: cd?.attributes?.job_ids
+          ? cd?.attributes?.job_ids?.split(',')
+          : [],
+      };
+    })
+    .reduce((obj: any, cur: any) => ({ ...obj, [cur?.slug]: cur }), {});
+
+  const tasks = data?.attributes?.jobs?.data
+    .map((cd: any) => {
+      return {
+        id: cd?.id,
+        ...cd.attributes,
+      };
+    })
+    .reduce((obj: any, cur: any) => ({ ...obj, [cur.slug]: cur }), {});
+
+  return {
+    columnOrder,
+    columns,
+    tasks,
+  };
+};
 // remote_fulltime;

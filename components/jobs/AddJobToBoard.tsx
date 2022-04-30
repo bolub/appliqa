@@ -3,31 +3,48 @@ import {
   Button,
   Flex,
   SimpleGrid,
+  UseDisclosureProps,
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import FormInput from '../UI/Form/FormInput';
 import SearchableSelect from '../UI/Form/SearchableSelect';
 import { Options } from './../../utils/GeneralProps';
 import { v4 as uuidv4 } from 'uuid';
-import { useMutation, useQueryClient } from 'react-query';
-import { createJob, updateBoard, updateStage } from '../../API/boards';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+  createJob,
+  fetchAllBoards,
+  updateBoard,
+  updateStage,
+} from '../../API/boards';
 import ToastBody from '../UI/ToastBody';
+import { formatDataForBoard } from '../../utils/functions';
 import { useRouter } from 'next/router';
 
-const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
+interface Props {
+  disclosure: UseDisclosureProps;
+  jobData: any;
+}
+
+const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
   const [dataToSend, setDataToSend] = useState({
-    post_url: '',
-    company_name: '',
-    level: '',
+    post_url: jobData?.refs?.landing_page,
+    company_name: jobData?.company?.name,
+    level: jobData?.levels[0]?.name,
     role: '',
     stage_id: '',
     stage_slug: '',
     board: '2',
     slug: uuidv4(),
   });
+  const [allBoards, setAllBoards] = useState([]);
+  const [boardId, setBoardId] = useState<string | number>('');
+  const [addOpen, setAddOpen] = useState(false);
+  // const [createdJobId, setCreatedJobId] = useState<string | number>('');
 
+  const router = useRouter();
   const setData = (label: string, value: string | number | undefined) => {
     setDataToSend((prev) => {
       return {
@@ -38,8 +55,15 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
   };
 
   const queryClient = useQueryClient();
-  const { query } = useRouter();
 
+  // Fetch all existing boards
+  useQuery('all-boards', fetchAllBoards, {
+    onSuccess: (data) => {
+      setAllBoards(data);
+    },
+  });
+
+  //
   const { mutate: updateCStage } = useMutation(updateStage, {
     onSuccess: () => {
       queryClient.invalidateQueries('board');
@@ -59,14 +83,22 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
           />
         ),
       });
-
-      disclosure.onClose();
+      if (addOpen) {
+        router.push(`/boards/${boardId}`);
+      } else {
+        disclosure.onClose && disclosure.onClose();
+      }
     },
   });
 
   const { mutate } = useMutation(createJob, {
     onSuccess: (data) => {
       const createdData = data;
+
+      const boardSelected: any = allBoards?.find(
+        (board: any) => board?.id === boardId
+      );
+      const boardData = formatDataForBoard(boardSelected);
 
       const columnToUpdate = {
         job_ids: [
@@ -75,30 +107,47 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
         ].toString(),
       };
 
-      const mappedJobIds = originalBoardData.attributes.jobs.data.map(
-        (jd: any) => {
-          return jd.id;
-        }
-      );
+      const mappedJobIds = boardSelected.attributes.jobs.data.map((jd: any) => {
+        return jd.id;
+      });
 
       const jobsToUpdate = {
         jobs: [createdData.id, ...mappedJobIds],
       };
 
+      // setCreatedJobId(createdData.id);
       updateCStage({ id: dataToSend.stage_id, body: columnToUpdate });
-      updateCBoard({ id: query?.id, body: jobsToUpdate });
+      updateCBoard({ id: boardId, body: jobsToUpdate });
     },
   });
+  //
 
   const toast = useToast();
 
-  const allStages = originalBoardData.attributes.stages.data.map((sd: any) => {
-    return {
-      label: sd.attributes.title,
-      value: sd.id,
-      slug: sd.attributes.slug,
-    };
-  });
+  const boardsToDisplay = useMemo(() => {
+    return allBoards?.map((bd: any) => {
+      return {
+        label: bd?.attributes?.title,
+        value: bd?.id,
+      };
+    });
+  }, [allBoards]);
+
+  const stagesToDisplay = useMemo(() => {
+    // get board
+    const boardSelected: any = allBoards?.find(
+      (board: any) => board?.id === boardId
+    );
+
+    // use board to disaply stage
+    return boardSelected?.attributes?.stages?.data?.map((sd: any) => {
+      return {
+        label: sd.attributes.title,
+        value: sd.id,
+        slug: sd.attributes.slug,
+      };
+    });
+  }, [boardId, allBoards]);
 
   return (
     <>
@@ -113,6 +162,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
               onChange: (e) => {
                 setData('post_url', e.target.value);
               },
+              value: dataToSend?.post_url,
             }}
           />
 
@@ -125,6 +175,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
               onChange: (e) => {
                 setData('company_name', e.target.value);
               },
+              value: dataToSend?.company_name,
             }}
           />
         </SimpleGrid>
@@ -139,6 +190,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
               onChange: (e) => {
                 setData('level', e.target.value);
               },
+              value: dataToSend?.level,
             }}
             listLabel='levels'
             listData={[
@@ -182,18 +234,19 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
             spacing={8}
           >
             <SearchableSelect
-              label='Stage'
-              options={allStages}
-              onChange={(value: any) => {
-                setData('stage_id', value.value);
-                setData('stage_slug', value.slug);
+              label='Board'
+              options={boardsToDisplay}
+              onChange={(value: Options) => {
+                setData('board', value.label);
+                setBoardId(value.value);
               }}
             />
             <SearchableSelect
-              label='Board'
-              options={[{ label: 'Job Search 2022', value: 'js2' }]}
-              onChange={(value: Options) => {
-                setData('board', value.label);
+              label='Stage'
+              options={stagesToDisplay}
+              onChange={(value: any) => {
+                setData('stage_id', value.value);
+                setData('stage_slug', value.slug);
               }}
             />
           </SimpleGrid>
@@ -201,10 +254,27 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
       </VStack>
 
       <Flex justifyContent={'end'} mt={16}>
-        <Button onClick={disclosure.onClose} variant={'ghost'}>
-          Cancel
-        </Button>
         <Button
+          isDisabled={!boardId || !dataToSend.stage_id}
+          onClick={() => {
+            setAddOpen(true);
+            mutate({
+              post_url: dataToSend.post_url,
+              company_name: dataToSend.company_name,
+              level: dataToSend.level,
+              role: dataToSend.role,
+              slug: uuidv4(),
+            });
+          }}
+          ml={2}
+          colorScheme={'green'}
+          variant='outline'
+        >
+          Add & Open
+        </Button>
+
+        <Button
+          isDisabled={!boardId || !dataToSend.stage_id}
           onClick={() => {
             mutate({
               post_url: dataToSend.post_url,
@@ -224,4 +294,4 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
   );
 };
 
-export default CreateJob;
+export default AddJobToBoard;

@@ -17,6 +17,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { fetchSingleBoard, updateStage } from '../../API/boards';
 import Loader from '../../components/UI/Loader';
 import { useRouter } from 'next/router';
+import { formatDataForBoard } from '../../utils/functions';
 
 const Boards = () => {
   const [boardData, setBoardData] = useState(initialData);
@@ -35,35 +36,8 @@ const Boards = () => {
   });
 
   useEffect(() => {
-    const columnOrder =
-      data?.attributes?.stage_order?.data?.attributes?.order.split(',');
-
-    const columns = data?.attributes?.stages?.data
-      .map((cd) => {
-        return {
-          id: cd?.id,
-          slug: cd?.attributes?.slug,
-          title: cd?.attributes?.title,
-          taskIds: cd?.attributes?.job_ids
-            ? cd?.attributes?.job_ids?.split(',')
-            : [],
-        };
-      })
-      .reduce((obj, cur) => ({ ...obj, [cur?.slug]: cur }), {});
-
-    const tasks = data?.attributes?.jobs?.data
-      .map((cd) => {
-        return {
-          id: cd?.id,
-          ...cd.attributes,
-        };
-      })
-      .reduce((obj, cur) => ({ ...obj, [cur.slug]: cur }), {});
-
     setBoardData({
-      tasks,
-      columns,
-      columnOrder,
+      ...formatDataForBoard(data),
     });
   }, [data]);
 
