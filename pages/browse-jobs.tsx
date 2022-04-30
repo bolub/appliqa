@@ -1,11 +1,4 @@
-import {
-  Button,
-  Container,
-  Flex,
-  Heading,
-  HStack,
-  VStack,
-} from '@chakra-ui/react';
+import { Container, Flex, Heading, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchAllJobs } from '../API/jobs';
