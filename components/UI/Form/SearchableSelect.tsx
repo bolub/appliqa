@@ -10,6 +10,7 @@ interface selectProps {
   onChange?: any;
   label?: string;
   onBlur?: () => void;
+  isFilter?: boolean;
 }
 
 const SearchableSelect = ({
@@ -21,11 +22,12 @@ const SearchableSelect = ({
   placeholder,
   label,
   onBlur = () => {},
+  isFilter = false,
 }: selectProps) => {
   const customStyles = {
     input: (provided: any) => ({
       ...provided,
-      height: '40px',
+      height: !isFilter ? '40px' : 'auto',
       fontWeight: 'semibold',
       width: '100%',
     }),
@@ -34,6 +36,7 @@ const SearchableSelect = ({
       ...provided,
       borderColor: '#D1D5DB',
       borderRadius: '0.375rem',
+      borderWidth: !isFilter ? '1px' : '0px',
       fontSize: '1rem',
       outline: 0,
       paddingLeft: '8px',

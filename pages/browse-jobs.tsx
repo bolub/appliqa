@@ -1,4 +1,18 @@
-import { Container, Flex, Heading, VStack } from '@chakra-ui/react';
+import {
+  Badge,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  HStack,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
+  VStack,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchAllJobs } from '../API/jobs';
@@ -15,6 +29,8 @@ import {
   PaginationPageGroup,
   PaginationSeparator,
 } from '@ajna/pagination';
+import { Options } from '../utils/GeneralProps';
+import { HiChevronDown } from 'react-icons/hi';
 
 export interface GoalProps {
   id: string | number;
@@ -34,18 +50,49 @@ const BrowseJobs = () => {
   const [originalData, setOriginalData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [isMoreLoading, setIsMoreLoading] = useState(false);
-
+  const [filters, setFilters] = useState({
+    posted_date: '',
+    categories: [],
+    experience: [],
+  });
   const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
     pagesCount: pageCount,
     limits: {
-      outer: 3,
-      inner: 5,
+      outer: 8,
+      inner: 8,
     },
     initialState: { currentPage: 1 },
   });
+
+  const updateFilters = (label: string, value: string | string[]) => {
+    setFilters((prev) => {
+      return {
+        ...prev,
+        [label]: value,
+      };
+    });
+  };
+  const combineFilters = () => {
+    const newCategories = filters?.categories?.map((cd: string, index) => {
+      const isLast = index === filters?.categories?.length - 1;
+
+      return `category=${cd}${!isLast ? '&' : ''}`;
+    });
+
+    const newLevels = filters?.experience?.map((cd: string, index) => {
+      const isLast = index === filters?.experience?.length - 1;
+
+      return `level=${cd}${!isLast ? '&' : ''}`;
+    });
+
+    return `posted_date=${filters?.posted_date}&${newCategories.join(
+      ''
+    )}&${newLevels.join('')}`;
+  };
+
   const { status } = useQuery(
-    ['jobs', currentPage],
-    () => fetchAllJobs(currentPage),
+    ['jobs', currentPage, filters],
+    () => fetchAllJobs(currentPage, combineFilters()),
     {
       keepPreviousData: true,
       onSuccess: (data) => {
@@ -78,6 +125,71 @@ const BrowseJobs = () => {
     setCurrentPage(nextPage);
   };
 
+  // const duration = [
+  //   {
+  //     label: 'Last 7 days',
+  //     value: 'Last 7 days',
+  //   },
+  //   {
+  //     label: 'Last 14 days',
+  //     value: 'last_14d',
+  //   },
+  //   {
+  //     label: 'Last 30 days',
+  //     value: 'last_30d',
+  //   },
+  // ];
+
+  const jobCategories = [
+    {
+      label: 'Design and UX',
+      value: 'Design and UX',
+    },
+    {
+      label: 'Data and Analytics',
+      value: 'Data and Analytics',
+    },
+    {
+      label: 'Software Engineering',
+      value: 'Software Engineering',
+    },
+    {
+      label: 'Computer and IT',
+      value: 'Computer and IT',
+    },
+    {
+      label: 'Product Management',
+      value: 'Product Management',
+    },
+    {
+      label: 'Project Management',
+      value: 'Project Management',
+    },
+  ];
+
+  const Experience = [
+    {
+      label: 'Internship',
+      value: 'Internship',
+    },
+    {
+      label: 'Entry Level (0-1 years)',
+      value: 'Entry Level',
+    },
+    {
+      label: 'Mid Level (1-5 years)',
+      value: 'Mid Level',
+    },
+    {
+      label: 'Senior (5-10 years)',
+      value: 'Senior Level',
+    },
+    {
+      label: 'Management',
+      value: 'management',
+    },
+  ];
+
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
@@ -95,6 +207,124 @@ const BrowseJobs = () => {
             },
           }}
         />
+
+        <HStack
+          flexDir={{ base: 'column', md: 'row' }}
+          ml={{ md: 'auto' }}
+          mt={{ base: '5', md: 0 }}
+          spacing={{ md: 2 }}
+        >
+          {/* duration */}
+          {/* <Menu closeOnSelect={false}>
+            <MenuButton
+              as={Button}
+              w='130px'
+              variant='ghost'
+              color='gray.500'
+              fontWeight={'bold'}
+              rightIcon={
+                <Icon as={HiChevronDown} fontSize='lg' color='gray.600' />
+              }
+            >
+              Duration
+            </MenuButton>
+            <MenuList>
+              <MenuOptionGroup
+                type='radio'
+                onChange={(value: string | string[]) => {
+                  updateFilters('posted_date', value);
+                  setIsMoreLoading(true);
+                }}
+              >
+                {duration?.map((d: Options) => {
+                  return (
+                    <MenuItemOption key={d.value} value={d.value}>
+                      {d.label}
+                    </MenuItemOption>
+                  );
+                })}
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu> */}
+
+          {/* Category */}
+          <Menu closeOnSelect={false}>
+            <MenuButton
+              as={Button}
+              w={{ base: 'full', md: '160px' }}
+              variant='ghost'
+              borderWidth={{ base: '1px', md: 0 }}
+              color='gray.500'
+              fontWeight={'bold'}
+              rightIcon={
+                <Icon as={HiChevronDown} fontSize='lg' color='gray.600' />
+              }
+            >
+              Category
+              {filters?.categories?.length > 0 && (
+                <Badge ml={2} fontWeight='bold' fontSize={'sm'}>
+                  {filters?.categories?.length}
+                </Badge>
+              )}
+            </MenuButton>
+            <MenuList>
+              <MenuOptionGroup
+                type='checkbox'
+                onChange={(value: string | string[]) => {
+                  updateFilters('categories', value);
+                  setIsMoreLoading(true);
+                }}
+              >
+                {jobCategories?.map((d: Options) => {
+                  return (
+                    <MenuItemOption key={d.value} value={d.value}>
+                      {d.label}
+                    </MenuItemOption>
+                  );
+                })}
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu>
+
+          {/* Experience */}
+          <Menu closeOnSelect={false}>
+            <MenuButton
+              as={Button}
+              w={{ base: 'full', md: '170px' }}
+              variant='ghost'
+              borderWidth={{ base: '1px', md: 0 }}
+              color='gray.500'
+              fontWeight={'bold'}
+              rightIcon={
+                <Icon as={HiChevronDown} fontSize='lg' color='gray.600' />
+              }
+            >
+              Experience
+              {filters?.experience?.length > 0 && (
+                <Badge ml={2} fontWeight='bold' fontSize={'sm'}>
+                  {filters?.experience?.length}
+                </Badge>
+              )}
+            </MenuButton>
+            <MenuList>
+              <MenuOptionGroup
+                type='checkbox'
+                onChange={(value: string | string[]) => {
+                  updateFilters('experience', value);
+                  setIsMoreLoading(true);
+                }}
+              >
+                {Experience?.map((d: Options) => {
+                  return (
+                    <MenuItemOption key={d.value} value={d.value}>
+                      {d.label}
+                    </MenuItemOption>
+                  );
+                })}
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu>
+        </HStack>
       </Flex>
       <Loader status={status} isLoading={isMoreLoading}>
         <VStack align={'start'} w='full' spacing={10} mt={10}>
@@ -107,12 +337,16 @@ const BrowseJobs = () => {
             currentPage={currentPage}
             onPageChange={handlePageChange}
           >
-            <PaginationContainer w='full' justifyContent={'space-between'}>
+            <PaginationContainer
+              w={{ base: 'auto', md: 'full' }}
+              justifyContent={'space-between'}
+            >
               <PaginationPrevious variant={'outline'}>
                 Previous
               </PaginationPrevious>
               <PaginationPageGroup
                 mx={3}
+                d={{ base: 'none', md: 'flex' }}
                 separator={
                   <PaginationSeparator
                     bg='gray.100'
