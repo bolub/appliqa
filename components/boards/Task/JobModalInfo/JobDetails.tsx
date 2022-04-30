@@ -52,6 +52,15 @@ const JobDetails: FC<any> = ({ data }) => {
     });
   };
 
+  const setCurrencyValue = (value: string) => {
+    setDataToSend((prev) => {
+      return {
+        ...prev,
+        currency: value,
+      };
+    });
+  };
+
   const toast = useToast();
 
   const queryClient = useQueryClient();
@@ -117,7 +126,6 @@ const JobDetails: FC<any> = ({ data }) => {
       },
     });
   };
-
   return (
     <VStack w='full' align='start' mt={8} spacing={10}>
       {/* Company Name, Level and Role */}
@@ -249,14 +257,12 @@ const JobDetails: FC<any> = ({ data }) => {
               onChange: (e) => {
                 setData('salary', e.target.value);
               },
-              // onBlur: () => {
-              //   setEditMode(false);
-              // },
             }}
             getChosenCurrency={(value: string) => {
               setData('currency', value);
             }}
             currencyValue={dataToSend?.currency}
+            setChosenCurrency={setCurrencyValue}
           />
         )}
       </SimpleGrid>
