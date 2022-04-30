@@ -8,24 +8,25 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import { loginOp } from '../API/auth';
+import { resetPasswordOp } from '../API/auth';
 import AuthLayout from '../components/auth/AuthLayout';
-import CustomLink from '../components/UI/CustomLink';
 import FormInput from '../components/UI/Form/FormInput';
 import ToastBody from '../components/UI/ToastBody';
 import { setCookies } from 'cookies-next';
 import { DASHBOARD_ROUTES } from '../utils/routes';
+import { useRouter } from 'next/router';
 
-export default function Login() {
-  const [email, setEmail] = useState('abiol5202@gmail.com');
-  const [password, setPassword] = useState('password');
+export default function ResetPassword() {
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const toast = useToast();
 
-  const { mutate, isLoading } = useMutation(loginOp, {
+  const { query } = useRouter();
+
+  const { mutate, isLoading } = useMutation(resetPasswordOp, {
     onSuccess: (data) => {
       const { user, jwt } = data;
-
       toast({
         position: 'top-right',
         render: () => (
@@ -65,54 +66,34 @@ export default function Login() {
         fontSize='4xl'
         color='gray.800'
       >
-        Login
+        Reset Password
       </Heading>
-
-      <Text fontWeight={'semibold'} color='gray.800' fontSize={'lg'} mt={2}>
-        Nice to have you back 😇
-      </Text>
 
       <Text
         fontWeight={'semibold'}
         color='gray.800'
-        fontSize={'sm'}
-        mt={6}
+        fontSize={'lg'}
+        mt={2}
         mb={12}
-        p={4}
-        bg='gray.200'
-        borderRadius={'lg'}
-        textAlign='center'
       >
-        Login with the default details for now
+        Set a new password
       </Text>
 
       <form
         onSubmit={(e) => {
           e.preventDefault();
 
-          mutate({ identifier: email, password });
+          mutate({
+            password,
+            code: query?.code,
+            passwordConfirmation: confirmPassword,
+          });
         }}
       >
         <VStack spacing={8}>
           <FormInput
-            type='email'
-            label='Email'
-            for='email'
-            inputProps={{
-              placeholder: 'temisan@email.com',
-              onChange: (e) => {
-                setEmail(e.target.value);
-              },
-              value: email,
-            }}
-            formControlProps={{
-              isRequired: true,
-            }}
-          />
-
-          <FormInput
             type='password'
-            label='Password'
+            label='New Password'
             for='password'
             inputProps={{
               placeholder: '*********',
@@ -125,41 +106,34 @@ export default function Login() {
               isRequired: true,
             }}
           />
+
+          <FormInput
+            type='password'
+            label='Confirm New Password'
+            for='password'
+            inputProps={{
+              placeholder: '*********',
+              onChange: (e) => {
+                setConfirmPassword(e.target.value);
+              },
+              value: confirmPassword,
+            }}
+            formControlProps={{
+              isRequired: true,
+            }}
+          />
         </VStack>
 
         <Flex mt={8} flexDir='column'>
-          <CustomLink
-            href='/forgot-password'
-            containerProps={{
-              fontSize: 'sm',
-              fontWeight: 'bold',
-              color: 'green.500',
-              ml: 'auto',
-              mb: 2,
-            }}
-          >
-            Forgot Password?
-          </CustomLink>
           <Button
+            isDisabled={password !== confirmPassword}
             isFullWidth
             colorScheme={'green'}
             type='submit'
             isLoading={isLoading}
           >
-            Login
+            Set New Password
           </Button>
-          <CustomLink
-            href='/signup'
-            containerProps={{
-              fontSize: 'sm',
-              fontWeight: 'bold',
-              color: 'green.500',
-              mt: 2,
-              mx: 'auto',
-            }}
-          >
-            Don&apos;t have an account?
-          </CustomLink>
         </Flex>
       </form>
     </AuthLayout>
