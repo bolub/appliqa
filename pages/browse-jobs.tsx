@@ -12,6 +12,16 @@ import { fetchAllJobs } from '../API/jobs';
 import SingleJob from '../components/jobs/SingleJob';
 import SearchInput from '../components/UI/Form/SearchInput';
 import Loader from '../components/UI/Loader';
+import {
+  Pagination,
+  usePagination,
+  PaginationNext,
+  PaginationPage,
+  PaginationPrevious,
+  PaginationContainer,
+  PaginationPageGroup,
+  PaginationSeparator,
+} from '@ajna/pagination';
 
 export interface GoalProps {
   id: string | number;
@@ -29,17 +39,26 @@ export interface GoalProps {
 const BrowseJobs = () => {
   const [allJobs, setAllJobs] = useState([]);
   const [originalData, setOriginalData] = useState([]);
+  const [pageCount, setPageCount] = useState(1);
 
-  const [page, setPage] = useState(1);
+  const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
+    pagesCount: pageCount,
+    limits: {
+      outer: 3,
+      inner: 5,
+    },
+    initialState: { currentPage: 1 },
+  });
 
-  const { status, isPreviousData } = useQuery(
-    ['jobs', page],
-    () => fetchAllJobs(page),
+  const { status } = useQuery(
+    ['jobs', currentPage],
+    () => fetchAllJobs(currentPage),
     {
       keepPreviousData: true,
       onSuccess: (data) => {
-        setAllJobs(data.results);
-        setOriginalData(data.results);
+        setAllJobs(data?.results);
+        setOriginalData(data?.results);
+        setPageCount(99);
       },
     }
   );
@@ -57,25 +76,12 @@ const BrowseJobs = () => {
     setAllJobs(filteredGoals);
   };
 
-  // function shuffle(array: []) {
-  //   let currentIndex = array.length,
-  //     randomIndex;
-
-  //   // While there remain elements to shuffle.
-  //   while (currentIndex != 0) {
-  //     // Pick a remaining element.
-  //     randomIndex = Math.floor(Math.random() * currentIndex);
-  //     currentIndex--;
-
-  //     // And swap it with the current element.
-  //     [array[currentIndex], array[randomIndex]] = [
-  //       array[randomIndex],
-  //       array[currentIndex],
-  //     ];
-  //   }
-
-  //   return array;
-  // }
+  const handlePageChange = (nextPage: number): void => {
+    window.scrollTo({
+      top: 0,
+    });
+    setCurrentPage(nextPage);
+  };
 
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
@@ -101,32 +107,51 @@ const BrowseJobs = () => {
             return <SingleJob key={index} job={job} />;
           })}
 
-          <HStack alignSelf={'end'} spacing={4}>
-            <Button
-              onClick={() => {
-                window.scrollTo({ top: 0 });
-                setPage((old) => Math.max(old - 1, 0));
-              }}
-              disabled={page === 1}
-              variant={'outline'}
-            >
-              Previous
-            </Button>
-
-            <Button
-              variant={'outline'}
-              onClick={() => {
-                window.scrollTo({ top: 0 });
-                if (!isPreviousData) {
-                  setPage((old) => old + 1);
+          <Pagination
+            pagesCount={pagesCount}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          >
+            <PaginationContainer w='full' justifyContent={'space-between'}>
+              <PaginationPrevious variant={'outline'}>
+                Previous
+              </PaginationPrevious>
+              <PaginationPageGroup
+                mx={3}
+                separator={
+                  <PaginationSeparator
+                    bg='gray.100'
+                    fontSize='sm'
+                    py={2}
+                    px={3}
+                    jumpSize={5}
+                  />
                 }
-              }}
-              // Disable the Next Page button until we know a next page is available
-              disabled={isPreviousData}
-            >
-              Next
-            </Button>
-          </HStack>
+              >
+                {pages.map((page: number) => (
+                  <PaginationPage
+                    _current={{
+                      bg: 'green.50',
+                      color: 'green.600',
+                      borderWidth: '1px',
+                      borderColor: 'green.600',
+                    }}
+                    _hover={{
+                      bg: 'green.50',
+                      color: 'green.600',
+                      borderWidth: '1px',
+                      borderColor: 'green.600',
+                    }}
+                    py={2}
+                    px={4}
+                    key={`pagination_page_${page}`}
+                    page={page}
+                  />
+                ))}
+              </PaginationPageGroup>
+              <PaginationNext variant={'outline'}>Next</PaginationNext>
+            </PaginationContainer>
+          </Pagination>
         </VStack>
       </Loader>
     </Container>
