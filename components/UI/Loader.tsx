@@ -5,23 +5,31 @@ const Loader: FC<{
   status: 'success' | 'loading' | 'error' | 'idle';
   loadingText?: string;
   errorText?: string;
+  isLoading?: boolean;
 }> = ({
   loadingText = 'Fetching data...',
   status,
   errorText = 'Something happened, Please try again',
   children,
+  isLoading = false,
 }) => {
+  const dataLoading = status === 'loading' || isLoading;
+
   return (
     <>
-      {status !== 'success' && (
+      {(!status || status === 'error') && (
         <Center flexDir={'column'} h='50vh'>
-          {status === 'loading' && <Text>{loadingText}</Text>}
-
-          {(!status || status === 'error') && <Text>{errorText}</Text>}
+          <Text>{errorText}</Text>
         </Center>
       )}
 
-      {status === 'success' && <>{children}</>}
+      {dataLoading && (
+        <Center flexDir={'column'} h='50vh'>
+          <Text>{loadingText}</Text>
+        </Center>
+      )}
+
+      {!dataLoading && status === 'success' && <>{children}</>}
     </>
   );
 };

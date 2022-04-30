@@ -33,6 +33,7 @@ const BrowseJobs = () => {
   const [allJobs, setAllJobs] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [pageCount, setPageCount] = useState(1);
+  const [isMoreLoading, setIsMoreLoading] = useState(false);
 
   const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
     pagesCount: pageCount,
@@ -42,7 +43,6 @@ const BrowseJobs = () => {
     },
     initialState: { currentPage: 1 },
   });
-
   const { status } = useQuery(
     ['jobs', currentPage],
     () => fetchAllJobs(currentPage),
@@ -52,6 +52,7 @@ const BrowseJobs = () => {
         setAllJobs(data?.results);
         setOriginalData(data?.results);
         setPageCount(99);
+        setIsMoreLoading(false);
       },
     }
   );
@@ -70,6 +71,7 @@ const BrowseJobs = () => {
   };
 
   const handlePageChange = (nextPage: number): void => {
+    setIsMoreLoading(true);
     window.scrollTo({
       top: 0,
     });
@@ -94,7 +96,7 @@ const BrowseJobs = () => {
           }}
         />
       </Flex>
-      <Loader status={status}>
+      <Loader status={status} isLoading={isMoreLoading}>
         <VStack align={'start'} w='full' spacing={10} mt={10}>
           {allJobs?.map((job: any, index) => {
             return <SingleJob key={index} job={job} />;
