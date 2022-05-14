@@ -2,8 +2,11 @@ import {
   Box,
   Button,
   HStack,
+  Icon,
+  Link,
   SimpleGrid,
   Text,
+  Tooltip,
   useToast,
   VStack,
 } from '@chakra-ui/react';
@@ -17,6 +20,7 @@ import CurrencyInput from '../../../UI/Form/CurrencyInput';
 import { useMutation, useQueryClient } from 'react-query';
 import { updateJob } from '../../../../API/boards';
 import ToastBody from '../../../UI/ToastBody';
+import { HiOutlineExternalLink } from 'react-icons/hi';
 
 const JobDetails: FC<any> = ({ data }) => {
   const [editMode, setEditMode] = useState(false);
@@ -214,6 +218,19 @@ const JobDetails: FC<any> = ({ data }) => {
       <SimpleGrid columns={{ base: 1, md: 2 }} w='100%' spacing={8}>
         <FormInput
           label='Post url'
+          labelIcon={
+            <Tooltip label='Visit url'>
+              <Link isExternal href={dataToSend?.post_url}>
+                <Icon
+                  w='18px'
+                  h='18px'
+                  color='green.500'
+                  as={HiOutlineExternalLink}
+                  cursor='pointer'
+                />
+              </Link>
+            </Tooltip>
+          }
           type='url'
           for='post_url'
           inputProps={{

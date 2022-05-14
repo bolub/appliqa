@@ -8,12 +8,15 @@ import {
   InputGroup,
   InputRightElement,
   Button,
+  Text,
+  Box,
 } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 
 interface FormInputProps {
   label: string;
+  labelIcon?: any;
   for: string;
   type: string;
   helperText?: string;
@@ -36,8 +39,15 @@ const FormInput: FC<FormInputProps> = (props) => {
         color='gray.500'
         htmlFor={props.for}
         mb={1}
+        d='flex'
       >
-        {props.label}
+        <Text as='span'>{props.label}</Text>
+
+        {props.labelIcon && (
+          <Box ml='auto' my='auto'>
+            {props.labelIcon}
+          </Box>
+        )}
       </FormLabel>
 
       <InputGroup size='md'>
