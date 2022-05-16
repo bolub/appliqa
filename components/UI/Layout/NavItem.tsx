@@ -23,9 +23,9 @@ const NavItem: FC<Props> = ({ href, label }) => {
         px: 4,
         py: 2,
         bg: isActive ? 'green.700' : '',
-        _focus: {
-          boxShadow: 'none',
-        },
+        // _focus: {
+        //   boxShadow: 'none',
+        // },
         _hover: {
           bg: 'green.700',
         },

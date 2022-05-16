@@ -1,10 +1,10 @@
 import {
+  Icon,
   Input,
   InputGroup,
   InputGroupProps,
   InputLeftElement,
   InputProps,
-  Text,
 } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import { HiOutlineSearch } from 'react-icons/hi';
@@ -26,9 +26,7 @@ const SearchInput: FC<Props> = ({
         pointerEvents='none'
         // eslint-disable-next-line
         children={
-          <Text color='gray.400' fontSize={'xl'} mt={1}>
-            <HiOutlineSearch />
-          </Text>
+          <Icon as={HiOutlineSearch} color='gray.400' fontSize={'xl'} mt={1} />
         }
       />
       <Input

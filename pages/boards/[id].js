@@ -2,25 +2,52 @@ import {
   Button,
   Container,
   Flex,
-  Heading,
   HStack,
+  Icon,
+  IconButton,
+  Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import SearchInput from '../../components/UI/Form/SearchInput';
 import { initialData } from '../../utils/board';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from '../../components/boards/Column';
+import BoardGoal from '../../components/boards/BoardGoal';
 import CustomModal from '../../components/UI/CustomModal';
 import CreateJob from '../../components/boards/CreateJob';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { fetchSingleBoard, updateStage } from '../../API/boards';
+import { fetchSingleBoard, updateBoard, updateStage } from '../../API/boards';
+import { fetchGoals } from '../../API/goals';
 import Loader from '../../components/UI/Loader';
 import { useRouter } from 'next/router';
 import { formatDataForBoard } from '../../utils/functions';
+import {
+  HiOutlineCheck,
+  HiOutlineInformationCircle,
+  HiOutlineX,
+} from 'react-icons/hi';
+import ToastBody from '../../components/UI/ToastBody';
 
 const Boards = () => {
   const [boardData, setBoardData] = useState(initialData);
+  const [unfilteredBoardData, setUnfilteredBoardData] = useState({});
+  const [allGoals, setAllGoals] = useState([]);
+  const [selectedGoal, setSelectedGoal] = useState({ label: '', value: '' });
+  const [boardTitle, setBoardTitle] = useState('');
+  const toast = useToast();
 
   const { query } = useRouter();
 
@@ -28,6 +55,11 @@ const Boards = () => {
   const { data, status } = useQuery(['board', query.id], () =>
     fetchSingleBoard(query.id)
   );
+  useQuery('goals', fetchGoals, {
+    onSuccess: (data) => {
+      setAllGoals(data);
+    },
+  });
 
   const { mutate: updateCStage } = useMutation(updateStage, {
     onSuccess: () => {
@@ -35,11 +67,40 @@ const Boards = () => {
     },
   });
 
+  const { mutate: updateCBoard, isLoading: isBoardUpdateLoading } = useMutation(
+    updateBoard,
+    {
+      onSuccess: () => {
+        toast({
+          position: 'top-right',
+          render: () => (
+            <ToastBody
+              title='Success'
+              message='Job updated successfully'
+              status='success'
+            />
+          ),
+        });
+        setHeaderUpdate(false);
+        queryClient.invalidateQueries('board');
+      },
+    }
+  );
+
   useEffect(() => {
     setBoardData({
       ...formatDataForBoard(data),
     });
+    setUnfilteredBoardData(data);
+    setBoardTitle(data?.attributes?.title);
   }, [data]);
+
+  useEffect(() => {
+    setSelectedGoal({
+      label: `${unfilteredBoardData?.attributes?.goal?.data?.attributes?.level} ${unfilteredBoardData?.attributes?.goal?.data?.attributes?.role}`,
+      value: unfilteredBoardData?.attributes?.goal?.data?.id,
+    });
+  }, [unfilteredBoardData]);
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -122,13 +183,138 @@ const Boards = () => {
 
   const jobDisclosure = useDisclosure();
 
-  return (
-    <Container maxW='7xl' pt={{ base: 12, md: 20 }}>
-      <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
-        Job Search 2022
-      </Heading>
+  const goalsToDisplay = useMemo(() => {
+    return allGoals?.map((bd) => {
+      return {
+        label: `${bd?.attributes?.level} ${bd?.attributes?.role}`,
+        value: bd?.id,
+      };
+    });
+  }, [allGoals]);
 
-      <Flex flexDir={{ base: 'column', md: 'row' }} mt={{ base: 5, md: 10 }}>
+  const [headerUpdate, setHeaderUpdate] = useState(false);
+
+  return (
+    <Container maxW='7xl' pt={{ base: 12, md: 16 }}>
+      <Flex>
+        <Input
+          variant={'unstyled'}
+          value={boardTitle}
+          fontWeight={'black'}
+          fontSize='2xl'
+          mb={3}
+          w='fit-content'
+          onFocus={() => setHeaderUpdate(true)}
+          onChange={(e) => {
+            setBoardTitle(e.target.value);
+          }}
+          pr={3}
+        />
+
+        {headerUpdate && (
+          <HStack ml={2}>
+            <IconButton
+              aria-label='Update title'
+              icon={<HiOutlineCheck />}
+              rounded='full'
+              colorScheme={'green'}
+              fontSize='lg'
+              size='sm'
+              isLoading={isBoardUpdateLoading}
+              isDisabled={!boardTitle}
+              onClick={() => {
+                updateCBoard({
+                  id: unfilteredBoardData.id,
+                  body: {
+                    title: boardTitle,
+                  },
+                });
+              }}
+            />
+            <IconButton
+              aria-label='Close'
+              icon={<HiOutlineX />}
+              rounded='full'
+              fontSize='lg'
+              size='sm'
+              isDisabled={isBoardUpdateLoading}
+              onClick={() => {
+                if (!boardTitle) {
+                  setBoardTitle(unfilteredBoardData.attributes.title);
+                }
+
+                setHeaderUpdate(false);
+              }}
+            />
+          </HStack>
+        )}
+      </Flex>
+
+      <Flex bg='gray.100' w='fit-content' rounded='lg' pr={4}>
+        <Menu autoSelect={false}>
+          <MenuButton as={Button} fontWeight={'bold'} variant='unstyled' pl={4}>
+            <Flex>
+              <Text as='span' my='auto' mr={3} fontSize='lg'>
+                🥅
+              </Text>
+
+              <Text as='span' mt={1} mr={3}>
+                {unfilteredBoardData?.attributes?.goal?.data
+                  ? selectedGoal?.label
+                  : 'Add goal'}
+              </Text>
+            </Flex>
+          </MenuButton>
+          <MenuList zIndex={3}>
+            {goalsToDisplay?.map((gd) => {
+              return (
+                <MenuItem
+                  zIndex={100}
+                  key={gd.value}
+                  onClick={() => {
+                    setSelectedGoal(gd);
+                    updateCBoard({
+                      id: unfilteredBoardData.id,
+                      body: {
+                        goal: gd.value,
+                      },
+                    });
+                  }}
+                >
+                  {gd.label}
+                </MenuItem>
+              );
+            })}
+          </MenuList>
+        </Menu>
+
+        {unfilteredBoardData?.attributes?.goal?.data && (
+          <Popover autoFocus={false}>
+            <PopoverTrigger>
+              <Text as='span' tabIndex={0} my='auto'>
+                <Icon
+                  as={HiOutlineInformationCircle}
+                  fontSize={'18px'}
+                  mt={2}
+                  cursor='pointer'
+                />
+              </Text>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+
+              <PopoverBody fontSize='sm'>
+                <BoardGoal
+                  data={unfilteredBoardData?.attributes?.goal?.data?.attributes}
+                />
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        )}
+      </Flex>
+
+      <Flex flexDir={{ base: 'column', md: 'row' }} mt={{ base: 5, md: 8 }}>
         <SearchInput
           containerProps={{
             maxW: '400px',
@@ -147,7 +333,6 @@ const Boards = () => {
           Add Job
         </Button>
       </Flex>
-
       <Loader status={status} loadingText='Fetching Board Data...'>
         <DragDropContext onDragEnd={onDragEnd}>
           <HStack align='start' spacing={6} mt={8} overflowX='scroll'>
