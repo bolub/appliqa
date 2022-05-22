@@ -14,6 +14,7 @@ import SingleGoal from '../components/goals/SingleGoal';
 import CustomModal from '../components/UI/CustomModal';
 import SearchInput from '../components/UI/Form/SearchInput';
 import Loader from '../components/UI/Loader';
+import { logout } from '../utils/functions';
 
 export interface GoalProps {
   id: string | number;
@@ -37,6 +38,12 @@ const Goals = () => {
       setAllGoals(data);
       setOriginalData(data);
     },
+    onError: (data: any) => {
+      const errors = { ...data };
+      if (!errors?.response) {
+        logout();
+      }
+    },
   });
 
   const createGoalDisclosure = useDisclosure();
@@ -53,6 +60,8 @@ const Goals = () => {
 
     setAllGoals(filteredGoals);
   };
+
+  console.log(status);
 
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
@@ -84,7 +93,11 @@ const Goals = () => {
         </Button>
       </Flex>
 
-      <Loader status={status}>
+      <Loader
+        status={status}
+        length={allGoals?.length}
+        emptyText='No goals created, create by clicking the button above'
+      >
         <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
           {allGoals?.map((goal: GoalProps) => {
             return <SingleGoal key={goal.id} data={goal} />;

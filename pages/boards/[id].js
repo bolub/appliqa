@@ -195,7 +195,7 @@ const Boards = () => {
   const [headerUpdate, setHeaderUpdate] = useState(false);
 
   return (
-    <Container maxW='7xl' pt={{ base: 12, md: 16 }}>
+    <Container maxW='7xl' pt={{ base: 12 }}>
       <Flex>
         <Input
           variant={'unstyled'}
@@ -300,11 +300,15 @@ const Boards = () => {
                 />
               </Text>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent
+              borderWidth='1px'
+              borderRadius={'xl'}
+              borderColor={'green.600'}
+            >
               <PopoverArrow />
               <PopoverCloseButton />
 
-              <PopoverBody fontSize='sm'>
+              <PopoverBody fontSize='sm' py={5} px={5}>
                 <BoardGoal
                   data={unfilteredBoardData?.attributes?.goal?.data?.attributes}
                 />

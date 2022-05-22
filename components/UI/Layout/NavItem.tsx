@@ -5,9 +5,10 @@ import CustomLink from '../CustomLink';
 interface Props {
   href: string;
   label: string;
+  className?: string;
 }
 
-const NavItem: FC<Props> = ({ href, label }) => {
+const NavItem: FC<Props> = ({ href, label, className }) => {
   const { pathname } = useRouter();
 
   const isActive = pathname === href;
@@ -29,6 +30,7 @@ const NavItem: FC<Props> = ({ href, label }) => {
         _hover: {
           bg: 'green.700',
         },
+        className: className,
       }}
     >
       {label}

@@ -58,8 +58,8 @@ const BrowseJobs = () => {
   const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
     pagesCount: pageCount,
     limits: {
-      outer: 8,
-      inner: 8,
+      outer: 3,
+      inner: 3,
     },
     initialState: { currentPage: 1 },
   });
@@ -98,7 +98,7 @@ const BrowseJobs = () => {
       onSuccess: (data) => {
         setAllJobs(data?.results);
         setOriginalData(data?.results);
-        setPageCount(99);
+        setPageCount(data?.page_count);
         setIsMoreLoading(false);
       },
     }

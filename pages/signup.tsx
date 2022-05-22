@@ -15,6 +15,7 @@ import FormInput from '../components/UI/Form/FormInput';
 import ToastBody from '../components/UI/ToastBody';
 import { DASHBOARD_ROUTES } from '../utils/routes';
 import { setCookies } from 'cookies-next';
+// import axios from 'axios';
 
 const Signup = () => {
   const [fullname, setFullname] = useState('');
@@ -24,8 +25,32 @@ const Signup = () => {
   const toast = useToast();
 
   const { mutate, isLoading } = useMutation(signupOp, {
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const { user, jwt } = data;
+
+      setCookies('USER_TOKEN', jwt, { maxAge: 604800 });
+      setCookies('USER_ID', user.id, { maxAge: 604800 });
+      setCookies('USER_AUTHENTICATED', 'true');
+
+      // const headers = {
+      //   headers: {
+      //     Authorization: `Bearer ${jwt}`,
+      //   },
+      // };
+      // console.log(jwt, user.id);
+
+      // await axios.post(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/boards`,
+      //   {
+      //     data: {
+      //       userId: user.id,
+      //       title: `Job Search ${new Date().getFullYear()}`,
+      //       stages: ['5', '7', '8', '9', '10'],
+      //       stageOrder: ['stage-1', 'stage-2', 'stage-3', 'stage-4', 'stage-5'],
+      //     },
+      //   },
+      //   headers
+      // );
 
       toast({
         position: 'top-right',
@@ -34,13 +59,7 @@ const Signup = () => {
         ),
       });
 
-      setCookies('USER_TOKEN', jwt, { maxAge: 604800 });
-      setCookies('USER_ID', user.id, { maxAge: 604800 });
-      setCookies('USER_AUTHENTICATED', 'true');
-
-      // setTimeout(() => {
-      window.location.href = `${DASHBOARD_ROUTES.ANALYTICS}?signup=true`;
-      // }, 2000);
+      window.location.href = `${DASHBOARD_ROUTES.BOARDS}?signup=true`;
     },
     onError: (data: any) => {
       const errors = { ...data };
@@ -61,7 +80,7 @@ const Signup = () => {
   });
 
   return (
-    <AuthLayout>
+    <AuthLayout imgSrc='signup.svg'>
       <Heading
         mt={16}
         as='h1'

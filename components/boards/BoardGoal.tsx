@@ -1,10 +1,10 @@
 import { Text } from '@chakra-ui/react';
 import React, { FC } from 'react';
-import { getCurrencySymbol } from '../../utils/functions';
+import { formatNumber } from '../../utils/functions';
 
 const BoardGoal: FC<{ data: any }> = ({ data }) => {
   return (
-    <>
+    <Text fontWeight={'medium'}>
       Your goal is to become a{' '}
       <Text
         as='span'
@@ -14,18 +14,25 @@ const BoardGoal: FC<{ data: any }> = ({ data }) => {
       >
         {`${data?.level} ${data?.role}`}({data?.job_type})
       </Text>{' '}
-      with a salary range of {''}
+      with a salary range between {''}
       <Text
         as='span'
         color='green.500'
         fontWeight={'semibold'}
         textDecor='underline'
       >
-        {getCurrencySymbol(data?.currency)}
-        {data?.minimum_salary_range} to {getCurrencySymbol(data?.currency)}
-        {data?.maximum_salary_range}
+        {formatNumber(data?.minimum_salary_range, data?.currency)}
+      </Text>{' '}
+      and{' '}
+      <Text
+        as='span'
+        color='green.500'
+        fontWeight={'semibold'}
+        textDecor='underline'
+      >
+        {formatNumber(data?.maximum_salary_range, data?.currency)}
       </Text>
-    </>
+    </Text>
   );
 };
 

@@ -58,7 +58,7 @@ export default function ResetPassword() {
     },
   });
   return (
-    <AuthLayout>
+    <AuthLayout imgSrc='password.svg'>
       <Heading
         mt={16}
         as='h1'

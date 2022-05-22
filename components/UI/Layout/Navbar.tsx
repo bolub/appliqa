@@ -26,11 +26,27 @@ const Navbar = () => {
         />
 
         <HStack spacing={4} d={{ base: 'none', md: 'flex' }}>
-          <NavItem label='Analytics' href={DASHBOARD_ROUTES.ANALYTICS} />
-          <NavItem label='Goals' href={DASHBOARD_ROUTES.GOALS} />
+          <NavItem
+            className='my-first-step'
+            label='Analytics'
+            href={DASHBOARD_ROUTES.ANALYTICS}
+          />
+          <NavItem
+            className='goals'
+            label='Goals'
+            href={DASHBOARD_ROUTES.GOALS}
+          />
           <AllBoards />
-          <NavItem label='Browse Jobs' href={DASHBOARD_ROUTES.JOBS} />
-          <NavItem label='Contacts' href={DASHBOARD_ROUTES.CONTACTS} />
+          <NavItem
+            className='browse-jobs'
+            label='Browse Jobs'
+            href={DASHBOARD_ROUTES.JOBS}
+          />
+          <NavItem
+            className='contacts'
+            label='Contacts'
+            href={DASHBOARD_ROUTES.CONTACTS}
+          />
         </HStack>
 
         <Menu autoSelect={false}>

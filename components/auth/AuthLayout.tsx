@@ -1,8 +1,12 @@
-import { Box, Center, Flex } from '@chakra-ui/react';
+import { Box, Center, Flex, Image } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import Logo from '../UI/Logo';
 
-const AuthLayout: FC = ({ children }) => {
+interface Props {
+  imgSrc?: string;
+}
+
+const AuthLayout: FC<Props> = ({ children, imgSrc }) => {
   return (
     <Flex h='100vh' overflowY={{ md: 'hidden' }}>
       <Center w={{ base: '100%', md: '50%' }} py={10} px={{ base: 10, md: 36 }}>
@@ -13,11 +17,15 @@ const AuthLayout: FC = ({ children }) => {
       </Center>
 
       <Box
-        d={{ base: 'none', md: 'block' }}
+        d={{ base: 'none', md: 'flex' }}
         w={{ base: '100%', md: '50%' }}
         bg='green.50'
         p={10}
-      ></Box>
+        justifyContent='center'
+        alignItems='center'
+      >
+        {imgSrc && <Image src={imgSrc} />}
+      </Box>
     </Flex>
   );
 };

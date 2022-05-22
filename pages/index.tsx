@@ -1,6 +1,6 @@
-import { Button, Center, HStack } from '@chakra-ui/react';
+import { Button, Center, HStack, Link } from '@chakra-ui/react';
 import type { NextPage } from 'next';
-import CustomLink from '../components/UI/CustomLink';
+// import CustomLink from '../components/UI/CustomLink';
 
 const Home: NextPage = () => {
   return (
@@ -8,13 +8,13 @@ const Home: NextPage = () => {
       <main>
         <Center h='100vh'>
           <HStack>
-            <CustomLink href='/login'>
+            <Link href='/login'>
               <Button colorScheme={'green'}>Go to login</Button>
-            </CustomLink>
+            </Link>
 
-            <CustomLink href='/goals'>
+            <Link href='/goals'>
               <Button colorScheme={'green'}>Go to dashboard</Button>
-            </CustomLink>
+            </Link>
           </HStack>
         </Center>
       </main>

@@ -35,6 +35,7 @@ const AllBoards = () => {
         _hover={{
           bg: 'green.700',
         }}
+        className='boards'
       >
         <HStack>
           <CustomLink href={data[0]?.id ? `/boards/${data[0]?.id}` : '/boards'}>

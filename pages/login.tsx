@@ -17,8 +17,8 @@ import { setCookies } from 'cookies-next';
 import { DASHBOARD_ROUTES } from '../utils/routes';
 
 export default function Login() {
-  const [email, setEmail] = useState('abiol5202@gmail.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const toast = useToast();
 
@@ -37,7 +37,7 @@ export default function Login() {
       setCookies('USER_ID', user.id, { maxAge: 604800 });
       setCookies('USER_AUTHENTICATED', 'true');
 
-      window.location.href = DASHBOARD_ROUTES.ANALYTICS;
+      window.location.href = DASHBOARD_ROUTES.GOALS;
     },
     onError: (data: any) => {
       const errors = { ...data };
@@ -57,7 +57,7 @@ export default function Login() {
     },
   });
   return (
-    <AuthLayout>
+    <AuthLayout imgSrc='login.svg'>
       <Heading
         mt={16}
         as='h1'
@@ -68,22 +68,14 @@ export default function Login() {
         Login
       </Heading>
 
-      <Text fontWeight={'semibold'} color='gray.800' fontSize={'lg'} mt={2}>
-        Nice to have you back 😇
-      </Text>
-
       <Text
         fontWeight={'semibold'}
         color='gray.800'
-        fontSize={'sm'}
-        mt={6}
+        fontSize={'lg'}
+        mt={2}
         mb={12}
-        p={4}
-        bg='gray.200'
-        borderRadius={'lg'}
-        textAlign='center'
       >
-        Login with the default details for now
+        Nice to have you back 😇
       </Text>
 
       <form

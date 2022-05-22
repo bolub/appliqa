@@ -68,16 +68,16 @@ const JobModalInfo: FC<any> = ({ data }) => {
           <JobDetails data={data} />
         </TabPanel>
         <TabPanel>
-          <Construction height='30vh' />
+          <Construction height='50vh' maxW='350px' />
         </TabPanel>
         <TabPanel>
-          <Construction height='30vh' />
+          <Construction height='50vh' maxW='350px' />
         </TabPanel>
         <TabPanel>
-          <Construction height='30vh' />
+          <Construction height='50vh' maxW='350px' />
         </TabPanel>
         <TabPanel>
-          <Construction height='30vh' />
+          <Construction height='50vh' maxW='350px' />
         </TabPanel>
       </TabPanels>
     </Tabs>
