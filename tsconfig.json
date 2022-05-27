@@ -23,7 +23,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/boards/boards.js"
+    "pages/boards/boards.js",
+    "components/UI/Form/CustomDateTimePicker.ts"
   ],
   "exclude": [
     "node_modules"

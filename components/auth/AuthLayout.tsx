@@ -24,7 +24,7 @@ const AuthLayout: FC<Props> = ({ children, imgSrc }) => {
         justifyContent='center'
         alignItems='center'
       >
-        {imgSrc && <Image src={imgSrc} />}
+        {imgSrc && <Image src={imgSrc} alt='layout illustration' />}
       </Box>
     </Flex>
   );

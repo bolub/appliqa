@@ -246,6 +246,7 @@ const JobDetails: FC<any> = ({ data }) => {
             onChange: (e) => {
               setData('post_url', e.target.value);
             },
+            color: editMode ? '' : 'rgb(0, 112, 251)',
           }}
         />
 

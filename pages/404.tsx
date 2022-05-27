@@ -4,7 +4,7 @@ import React from 'react';
 const Custom404 = () => {
   return (
     <Center flexDir={'column'} textAlign={'center'} h='100vh'>
-      <Image src='404.svg' maxW='600px' />
+      <Image src='404.svg' maxW='600px' alt='Not found' />
       <Text
         mt={3}
         fontWeight='bold'

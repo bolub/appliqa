@@ -61,8 +61,6 @@ const Goals = () => {
     setAllGoals(filteredGoals);
   };
 
-  console.log(status);
-
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>

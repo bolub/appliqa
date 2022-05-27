@@ -45,7 +45,7 @@ const Loader: FC<{
               mx='auto'
               textAlign={'center'}
             >
-              <Image src='NoData.svg' />
+              <Image src='NoData.svg' alt={emptyText} />
               <Text
                 mt={3}
                 fontWeight='bold'

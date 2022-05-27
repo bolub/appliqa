@@ -2,7 +2,9 @@ import {
   Button,
   Flex,
   HStack,
+  Image,
   Text,
+  Tooltip,
   useDisclosure,
   useToast,
   VStack,
@@ -103,32 +105,46 @@ const Task = ({ task, index, column, originalBoardData }) => {
             transition='border 0.2s ease'
           >
             <Flex align='start'>
-              <Text
-                onClick={viewJobDisclosure.onOpen}
-                as='span'
-                mr={4}
-                fontWeight='bold'
-                fontSize={'md'}
-              >
-                💼
-              </Text>
+              <Image
+                rounded='full'
+                objectFit={'cover'}
+                bg='green.500'
+                src={`https://logo.clearbit.com/${company}.com`}
+                alt={company}
+                boxSize='32px'
+                mr={2}
+              />
 
               <VStack
                 onClick={viewJobDisclosure.onOpen}
                 align='start'
                 spacing={0}
+                mr={4}
               >
-                <Text
-                  as='span'
-                  my='auto'
-                  fontWeight='extrabold'
-                  fontSize={'sm'}
-                >
-                  {title}
-                </Text>
-                <Text color='gray.500' fontSize={'sm'} fontWeight='semibold'>
-                  {company}
-                </Text>
+                <Tooltip label={title} openDelay={1000} closeDelay={500}>
+                  <Text
+                    as='span'
+                    my='auto'
+                    fontWeight='extrabold'
+                    fontSize={'sm'}
+                    isTruncated
+                    maxW='200px'
+                  >
+                    {title}
+                  </Text>
+                </Tooltip>
+
+                <Tooltip label={company} openDelay={1000} closeDelay={500}>
+                  <Text
+                    color='gray.500'
+                    fontSize={'sm'}
+                    fontWeight='semibold'
+                    maxW='200px'
+                    isTruncated
+                  >
+                    {company}
+                  </Text>
+                </Tooltip>
               </VStack>
 
               <CustomMenu
@@ -198,7 +214,11 @@ const Task = ({ task, index, column, originalBoardData }) => {
       <CustomModal
         disclosure={viewJobDisclosure}
         titleComponent={
-          <ModalTitleComponent title={title} company={task?.company_name} />
+          <ModalTitleComponent
+            title={title}
+            company={task?.company_name}
+            createdAt={task?.publishedAt}
+          />
         }
         minW={{ base: 'auto', md: '856px' }}
       >

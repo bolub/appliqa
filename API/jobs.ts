@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getCookie } from 'cookies-next';
 
 export const fetchAllJobs = async (page = 1, filters?: string) => {
   const response = await axios.get(

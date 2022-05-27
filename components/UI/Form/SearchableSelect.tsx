@@ -1,5 +1,10 @@
 import Select from 'react-select';
-import { FormLabel, VStack } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormControlProps,
+  FormLabel,
+  VStack,
+} from '@chakra-ui/react';
 
 interface selectProps {
   defaultValue?: string;
@@ -11,6 +16,7 @@ interface selectProps {
   label?: string;
   onBlur?: () => void;
   isFilter?: boolean;
+  formControlProps?: FormControlProps;
 }
 
 const SearchableSelect = ({
@@ -23,6 +29,7 @@ const SearchableSelect = ({
   label,
   onBlur = () => {},
   isFilter = false,
+  formControlProps,
 }: selectProps) => {
   const customStyles = {
     input: (provided: any) => ({
@@ -73,19 +80,21 @@ const SearchableSelect = ({
 
   return (
     <VStack align={'start'} w='100%' spacing={-1}>
-      <FormLabel fontWeight={'bold'} fontSize='sm' color='gray.500'>
-        {label}
-      </FormLabel>
-      <Select
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        options={options}
-        defaultValue={defaultValue}
-        styles={customStyles}
-        isMulti={isMulti}
-        onBlur={onBlur}
-      />
+      <FormControl {...formControlProps}>
+        <FormLabel fontWeight={'bold'} fontSize='sm' color='gray.500'>
+          {label}
+        </FormLabel>
+        <Select
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          options={options}
+          defaultValue={defaultValue}
+          styles={customStyles}
+          isMulti={isMulti}
+          onBlur={onBlur}
+        />
+      </FormControl>
     </VStack>
   );
 };

@@ -16,7 +16,7 @@ const Construction: FC<{ height?: string; maxW?: string }> = ({
     >
       {/* <Text fontSize='4xl'>🚧</Text>
        */}
-      <Image src='../building.svg' maxW={maxW} />
+      <Image src='../building.svg' alt='Under Construction' maxW={maxW} />
       <Text fontSize='lg'>Under construction</Text>
     </Center>
   );

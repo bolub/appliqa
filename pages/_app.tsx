@@ -1,4 +1,6 @@
 import '../styles/globals.css';
+import '../styles/datetimepicker.css';
+
 import type { AppProps } from 'next/app';
 import { ChakraProvider, Text } from '@chakra-ui/react';
 import { theme } from '../chakra/theme';

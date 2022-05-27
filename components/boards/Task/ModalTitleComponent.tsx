@@ -11,13 +11,15 @@ import {
 } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import { HiOutlineChevronDown } from 'react-icons/hi';
+import { formatDateAgo } from '../../../utils/functions';
 
 interface Props {
   title: string;
   company: string;
+  createdAt: Date;
 }
 
-const ModalTitleComponent: FC<Props> = ({ title, company }) => {
+const ModalTitleComponent: FC<Props> = ({ title, company, createdAt }) => {
   return (
     <Box>
       <ButtonGroup size='sm' isAttached mb={8}>
@@ -51,7 +53,7 @@ const ModalTitleComponent: FC<Props> = ({ title, company }) => {
             </Text>
 
             <Text my='auto' fontWeight='bold' color='gray.500' fontSize={'sm'}>
-              5 days ago
+              {formatDateAgo(createdAt)}
             </Text>
           </Flex>
         </VStack>

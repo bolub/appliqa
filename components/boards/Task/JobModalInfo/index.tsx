@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import Construction from '../../../UI/Construction';
 import JobDetails from './JobDetails';
+import Interview from './Interview/index';
 
 const JobModalInfo: FC<any> = ({ data }) => {
   const TabHeader = ({ emoji, title }: { emoji: string; title: string }) => {
@@ -22,7 +23,6 @@ const JobModalInfo: FC<any> = ({ data }) => {
       </HStack>
     );
   };
-
   return (
     <Tabs mt={6}>
       <TabList>
@@ -52,14 +52,14 @@ const JobModalInfo: FC<any> = ({ data }) => {
           _selected={{ color: 'green.500', borderColor: 'green.500' }}
           mr={5}
         >
-          <TabHeader emoji='🗒️' title='Note' />
+          <TabHeader emoji='🗒️' title='Notes' />
         </Tab>
         <Tab
           color='gray.800'
           _selected={{ color: 'green.500', borderColor: 'green.500' }}
           mr={5}
         >
-          <TabHeader emoji='🤝' title='Tasks' />
+          <TabHeader emoji='🤝' title='Contacts' />
         </Tab>
       </TabList>
 
@@ -68,7 +68,7 @@ const JobModalInfo: FC<any> = ({ data }) => {
           <JobDetails data={data} />
         </TabPanel>
         <TabPanel>
-          <Construction height='50vh' maxW='350px' />
+          <Interview jobId={data?.id} />
         </TabPanel>
         <TabPanel>
           <Construction height='50vh' maxW='350px' />

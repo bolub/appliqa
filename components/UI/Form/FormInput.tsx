@@ -10,6 +10,8 @@ import {
   Button,
   Text,
   Box,
+  TextareaProps,
+  Textarea,
 } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
@@ -21,10 +23,12 @@ interface FormInputProps {
   type: string;
   helperText?: string;
   inputProps?: InputProps;
+  textareaProps?: TextareaProps;
   formControlProps?: FormControlProps;
   rightElement?: any;
   listLabel?: string;
   listData?: string[];
+  ref?: any;
 }
 
 const FormInput: FC<FormInputProps> = (props) => {
@@ -51,18 +55,29 @@ const FormInput: FC<FormInputProps> = (props) => {
       </FormLabel>
 
       <InputGroup size='md'>
-        <Input
-          h='48px'
-          borderColor={'gray.300'}
-          fontWeight='semibold'
-          _placeholder={{
-            color: 'gray.400',
-          }}
-          id={props.for}
-          type={!show ? props.type : 'text'}
-          list={props.listLabel}
-          {...props.inputProps}
-        />
+        {props.type !== 'textarea' ? (
+          <Input
+            bg='white'
+            h='48px'
+            borderColor={'gray.300'}
+            fontWeight='semibold'
+            _placeholder={{
+              color: 'gray.400',
+            }}
+            id={props.for}
+            type={!show ? props.type : 'text'}
+            list={props.listLabel}
+            {...props.inputProps}
+            ref={props?.ref}
+          />
+        ) : (
+          <Textarea
+            pt={4}
+            bg='white'
+            {...props.textareaProps}
+            ref={props?.ref}
+          />
+        )}
         <datalist id={props.listLabel}>
           {props.listData?.map((value) => (
             <option key={value} value={value} />
