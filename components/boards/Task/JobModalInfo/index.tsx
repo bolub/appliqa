@@ -11,6 +11,8 @@ import {
 import Construction from '../../../UI/Construction';
 import JobDetails from './JobDetails';
 import Interview from './Interview/index';
+import Tasks from './Tasks';
+import Notes from './Notes';
 
 const JobModalInfo: FC<any> = ({ data }) => {
   const TabHeader = ({ emoji, title }: { emoji: string; title: string }) => {
@@ -71,10 +73,10 @@ const JobModalInfo: FC<any> = ({ data }) => {
           <Interview jobId={data?.id} />
         </TabPanel>
         <TabPanel>
-          <Construction height='50vh' maxW='350px' />
+          <Tasks jobId={data?.id} />
         </TabPanel>
         <TabPanel>
-          <Construction height='50vh' maxW='350px' />
+          <Notes jobId={data?.id} />
         </TabPanel>
         <TabPanel>
           <Construction height='50vh' maxW='350px' />

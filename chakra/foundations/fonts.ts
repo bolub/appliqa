@@ -1,6 +1,6 @@
 const fonts = {
-  heading: 'nunito, sans-serif',
-  body: 'nunito, sans-serif',
+  heading: 'Satoshi, sans-serif',
+  body: 'Satoshi, sans-serif',
 };
 
 const fontSizes = {
