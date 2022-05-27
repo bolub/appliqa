@@ -1,8 +1,8 @@
 import {
+  Avatar,
   Button,
   Flex,
   HStack,
-  Image,
   Text,
   Tooltip,
   useDisclosure,
@@ -105,7 +105,7 @@ const Task = ({ task, index, column, originalBoardData }) => {
             transition='border 0.2s ease'
           >
             <Flex align='start'>
-              <Image
+              <Avatar
                 rounded='full'
                 objectFit={'cover'}
                 bg='green.500'
