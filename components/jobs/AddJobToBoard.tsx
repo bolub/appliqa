@@ -282,6 +282,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               level: dataToSend.level,
               role: dataToSend.role,
               slug: uuidv4(),
+              stage: dataToSend?.stage_slug,
             });
           }}
           ml={2}

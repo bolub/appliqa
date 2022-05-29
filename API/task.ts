@@ -32,3 +32,13 @@ export const fetchTasks = async (jobId: string | number) => {
 
   return response.data.data;
 };
+
+export const fetchTasksForAnalytics = async (boardId: string | number) => {
+  const response = await API.get(
+    `/tasks?filters[$and][0][userId][$eq]=${getCookie(
+      'USER_ID'
+    )}&filters[$and][1][boardId][$eq]=${boardId}&populate=*`
+  );
+
+  return response.data.data;
+};

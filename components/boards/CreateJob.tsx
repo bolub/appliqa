@@ -212,6 +212,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
               level: dataToSend.level,
               role: dataToSend.role,
               slug: uuidv4(),
+              stage: dataToSend?.stage_slug,
             });
           }}
           ml={2}

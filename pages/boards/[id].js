@@ -248,74 +248,81 @@ const Boards = () => {
             />
           </HStack>
         )}
-      </Flex>
 
-      <Flex bg='gray.100' w='fit-content' rounded='lg' pr={4}>
-        <Menu autoSelect={false}>
-          <MenuButton as={Button} fontWeight={'bold'} variant='unstyled' pl={4}>
-            <Flex>
-              <Text as='span' my='auto' mr={3} fontSize='lg'>
-                🥅
-              </Text>
-
-              <Text as='span' mt={1} mr={3}>
-                {unfilteredBoardData?.attributes?.goal?.data
-                  ? selectedGoal?.label
-                  : 'Add goal'}
-              </Text>
-            </Flex>
-          </MenuButton>
-          <MenuList zIndex={3}>
-            {goalsToDisplay?.map((gd) => {
-              return (
-                <MenuItem
-                  zIndex={100}
-                  key={gd.value}
-                  onClick={() => {
-                    setSelectedGoal(gd);
-                    updateCBoard({
-                      id: unfilteredBoardData.id,
-                      body: {
-                        goal: gd.value,
-                      },
-                    });
-                  }}
-                >
-                  {gd.label}
-                </MenuItem>
-              );
-            })}
-          </MenuList>
-        </Menu>
-
-        {unfilteredBoardData?.attributes?.goal?.data && (
-          <Popover autoFocus={false}>
-            <PopoverTrigger>
-              <Text as='span' tabIndex={0} my='auto'>
-                <Icon
-                  as={HiOutlineInformationCircle}
-                  fontSize={'18px'}
-                  mt={2}
-                  cursor='pointer'
-                />
-              </Text>
-            </PopoverTrigger>
-            <PopoverContent
-              borderWidth='1px'
-              borderRadius={'xl'}
-              borderColor={'green.600'}
+        <Flex bg='gray.100' w='fit-content' rounded='lg' pr={4}>
+          <Menu autoSelect={false}>
+            <MenuButton
+              as={Button}
+              fontWeight={'bold'}
+              variant='unstyled'
+              pl={4}
             >
-              <PopoverArrow />
-              <PopoverCloseButton />
+              <Flex>
+                <Text as='span' my='auto' mr={3} fontSize='lg'>
+                  🥅
+                </Text>
 
-              <PopoverBody fontSize='sm' py={5} px={5}>
-                <BoardGoal
-                  data={unfilteredBoardData?.attributes?.goal?.data?.attributes}
-                />
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-        )}
+                <Text as='span' mt={1} mr={3}>
+                  {unfilteredBoardData?.attributes?.goal?.data
+                    ? selectedGoal?.label
+                    : 'Add goal'}
+                </Text>
+              </Flex>
+            </MenuButton>
+            <MenuList zIndex={3}>
+              {goalsToDisplay?.map((gd) => {
+                return (
+                  <MenuItem
+                    zIndex={100}
+                    key={gd.value}
+                    onClick={() => {
+                      setSelectedGoal(gd);
+                      updateCBoard({
+                        id: unfilteredBoardData.id,
+                        body: {
+                          goal: gd.value,
+                        },
+                      });
+                    }}
+                  >
+                    {gd.label}
+                  </MenuItem>
+                );
+              })}
+            </MenuList>
+          </Menu>
+
+          {unfilteredBoardData?.attributes?.goal?.data && (
+            <Popover autoFocus={false}>
+              <PopoverTrigger>
+                <Text as='span' tabIndex={0} my='auto'>
+                  <Icon
+                    as={HiOutlineInformationCircle}
+                    fontSize={'18px'}
+                    mt={2}
+                    cursor='pointer'
+                  />
+                </Text>
+              </PopoverTrigger>
+              <PopoverContent
+                borderWidth='1px'
+                borderRadius={'xl'}
+                borderColor={'green.600'}
+              >
+                <PopoverArrow />
+                <PopoverCloseButton />
+
+                <PopoverBody fontSize='sm' py={5} px={5}>
+                  <BoardGoal
+                    data={
+                      unfilteredBoardData?.attributes?.goal?.data?.attributes
+                    }
+                  />
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          )}
+        </Flex>
       </Flex>
 
       <Flex flexDir={{ base: 'column', md: 'row' }} mt={{ base: 5, md: 8 }}>

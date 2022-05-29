@@ -110,7 +110,6 @@ const Task = ({ task, index, column, originalBoardData }) => {
                 objectFit={'cover'}
                 bg='green.500'
                 src={`https://logo.clearbit.com/${company}.com`}
-                alt={company}
                 boxSize='32px'
                 mr={2}
               />

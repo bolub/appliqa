@@ -35,3 +35,13 @@ export const fetchInterviews = async (jobId: string | number) => {
 
   return response.data.data;
 };
+
+export const fetchInterviewsForAnalytics = async (boardId: string | number) => {
+  const response = await API.get(
+    `/interviews?filters[$and][0][userId][$eq]=${getCookie(
+      'USER_ID'
+    )}&filters[$and][1][boardId][$eq]=${boardId}&populate=*`
+  );
+
+  return response.data.data;
+};

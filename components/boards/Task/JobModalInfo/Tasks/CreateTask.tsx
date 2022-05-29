@@ -11,6 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 import React, { FC, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { createTask } from '../../../../../API/task';
@@ -88,6 +89,7 @@ const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
   });
 
   const toast = useToast();
+  const { query } = useRouter();
 
   return (
     <Box p={8} bg='gray.100'>
@@ -203,7 +205,13 @@ const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
           isDisabled={!data.title || !data.start}
           isLoading={status === 'loading'}
           onClick={() => {
-            mutate({ ...data, userId: getCookie('USER_ID'), jobId });
+            mutate({
+              ...data,
+              userId: getCookie('USER_ID'),
+              jobId,
+              job: jobId,
+              boardId: query.id,
+            });
           }}
         >
           Create Task
