@@ -1,23 +1,22 @@
-import { Button, Center, HStack, Link } from '@chakra-ui/react';
 import type { NextPage } from 'next';
-// import CustomLink from '../components/UI/CustomLink';
+import CallToAction from '../components/landing/CallToAction';
+import DiscoverJobs from '../components/landing/DiscoverJobs';
+import Footer from '../components/landing/Footer';
+import LandingHeader from '../components/landing/LandingHeader';
+import LandingNavbar from '../components/landing/LandingNavbar';
+import ManageProcess from '../components/landing/ManageProcess';
 
 const Home: NextPage = () => {
   return (
     <>
+      <LandingNavbar />
+      <LandingHeader />
       <main>
-        <Center h='100vh'>
-          <HStack>
-            <Link href='/login'>
-              <Button colorScheme={'green'}>Go to login</Button>
-            </Link>
-
-            <Link href='/goals'>
-              <Button colorScheme={'green'}>Go to dashboard</Button>
-            </Link>
-          </HStack>
-        </Center>
+        <ManageProcess />
+        <DiscoverJobs />
+        <CallToAction />
       </main>
+      <Footer />
     </>
   );
 };
