@@ -7,8 +7,13 @@ import {
   Image,
   Text,
   VStack,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from '@chakra-ui/react';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 const ManageProcess = () => {
   const Data: FC<{ emoji: string; title: string; description: string }> = ({
@@ -16,34 +21,28 @@ const ManageProcess = () => {
     title,
     description,
   }) => {
-    const [show, setShow] = useState(false);
-
     return (
-      <VStack
-        pb={8}
-        align='start'
-        borderBottomWidth='1px'
-        onClick={() => {
-          setShow(!show);
-        }}
-        w='full'
-        cursor='pointer'
-      >
-        <HStack fontSize={{ base: 'md', md: 'lg' }}>
-          <Text>{emoji}</Text>
-          <Text fontWeight={'bold'} color={show ? 'green.500' : ''}>
-            {title}
-          </Text>
-        </HStack>
-
-        <Text
-          d={show ? 'block' : 'none'}
-          fontSize={{ base: 'sm', md: 'md' }}
-          fontWeight={'medium'}
-        >
-          {description}
-        </Text>
-      </VStack>
+      <AccordionItem mb={8} borderTop={0} borderBottomWidth='1px'>
+        {({ isExpanded }) => (
+          <>
+            <h2>
+              <AccordionButton pl={0} pb={!isExpanded ? 8 : 4}>
+                <HStack fontSize={{ base: 'md', md: 'lg' }} flex={1}>
+                  <Text>{emoji}</Text>
+                  <Text
+                    fontWeight={'bold'}
+                    color={isExpanded ? 'green.500' : ''}
+                  >
+                    {title}
+                  </Text>
+                </HStack>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>{description}</AccordionPanel>
+          </>
+        )}
+      </AccordionItem>
     );
   };
 
@@ -70,29 +69,25 @@ const ManageProcess = () => {
           mb='auto'
           mt={{ base: 16, md: 'auto' }}
         >
-          <Data
-            emoji='ℹ️'
-            title='Mange Job Information'
-            description='Posts come alive on Circle. Easily add rich formatting, media, emojis, and embed your favorite 3rd-party tools.'
-          />
+          <Accordion w='full' allowMultiple defaultIndex={0}>
+            <Data
+              emoji='ℹ️'
+              title='Mange Job Information'
+              description='Easily manage your job application information, Company information, salary and more in one central location'
+            />
 
-          <Data
-            emoji='📋'
-            title='Log Interviews'
-            description='Posts come alive on Circle. Easily add rich formatting, media, emojis, and embed your favorite 3rd-party tools.'
-          />
+            <Data
+              emoji='📋'
+              title='Log Interviews'
+              description='Easily add and manage your upcoming job interviews. Add the date, time, type of interview and write a description/note..'
+            />
 
-          <Data
-            emoji='🗒️'
-            title='Create Tasks'
-            description='Posts come alive on Circle. Easily add rich formatting, media, emojis, and embed your favorite 3rd-party tools.'
-          />
-
-          <Data
-            emoji='🗒️'
-            title='Add Notes'
-            description='Posts come alive on Circle. Easily add rich formatting, media, emojis, and embed your favorite 3rd-party tools.'
-          />
+            <Data
+              emoji='🗒️'
+              title='Create Tasks'
+              description='Create task lists for job applications, using a simple and intuitive UI.'
+            />
+          </Accordion>
         </VStack>
       </Flex>
     </Container>

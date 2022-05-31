@@ -15,7 +15,7 @@ import { AUTH_ROUTES } from '../../utils/routes';
 const LandingHeader = () => {
   return (
     <Container maxW='7xl' mt={{ md: 16 }}>
-      <Center flexDir={'column'} textAlign='center' maxW='600px' mx='auto'>
+      <Center flexDir={'column'} textAlign='center' maxW='700px' mx='auto'>
         <chakra.h1
           lineHeight={{ md: '57px' }}
           fontWeight={'black'}
@@ -29,7 +29,9 @@ const LandingHeader = () => {
           fontWeight={'medium'}
           mt={5}
         >
-          Discover and track new job applicatons easily
+          Track your application process with the Appliqa App. Log your
+          interviews and tasks, make notes, stay organized and be prepared for
+          future opportunities.
         </chakra.p>
 
         <Link href={AUTH_ROUTES.SIGNUP} isExternal>

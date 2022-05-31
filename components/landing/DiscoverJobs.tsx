@@ -14,7 +14,7 @@ const DiscoverJobs = () => {
     <Container maxW='7xl' mt={{ md: 24 }} mb={10}>
       <Flex mt={16} flexDir={{ base: 'column', md: 'row' }}>
         {/* 1 */}
-        <Box w={{ base: '100%', md: '40%' }} my='auto'>
+        <Box w={{ base: '100%', md: '40%' }} my='auto' pr={{ md: 10 }}>
           <chakra.h2 fontSize={{ base: '2xl', md: '4xl' }} fontWeight='black'>
             Discover Jobs
           </chakra.h2>
@@ -23,8 +23,8 @@ const DiscoverJobs = () => {
             fontWeight='medium'
             fontSize={{ base: 'sm', md: 'md' }}
           >
-            Discover new job opportunities with our in-house tool and also
-            suggestions on popular job sites
+            Discover new job postings, get links to popular job sites, and
+            explore more opportunities.
           </chakra.p>
 
           <Link href={AUTH_ROUTES.SIGNUP} isExternal>
