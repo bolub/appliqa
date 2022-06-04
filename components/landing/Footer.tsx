@@ -4,7 +4,7 @@ import { FaEnvelope, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <chakra.footer id='footer' bg='white' py={20}>
+    <chakra.footer id='footer' bg='white' py={16}>
       <Center flexDir={'column'} textAlign='center' maxW='300px' mx='auto'>
         {/* Made by */}
         <HStack fontSize={'sm'} fontWeight='medium'>

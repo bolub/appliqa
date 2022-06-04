@@ -6,13 +6,18 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import FormInput from '../UI/Form/FormInput';
 import SearchableSelect from '../UI/Form/SearchableSelect';
 import { Options } from './../../utils/GeneralProps';
 import { v4 as uuidv4 } from 'uuid';
-import { useMutation, useQueryClient } from 'react-query';
-import { createJob, updateBoard, updateStage } from '../../API/boards';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+  createJob,
+  fetchAllBoards,
+  updateBoard,
+  updateStage,
+} from '../../API/boards';
 import ToastBody from '../UI/ToastBody';
 import { useRouter } from 'next/router';
 
@@ -24,9 +29,12 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
     role: '',
     stage_id: '',
     stage_slug: '',
-    board: '2',
+    board: '',
     slug: uuidv4(),
   });
+  const [allBoards, setAllBoards] = useState([]);
+  const [boardId, setBoardId] = useState<string | number>('');
+  const [newJobId, setNewJobId] = useState('');
 
   const setData = (label: string, value: string | number | undefined) => {
     setDataToSend((prev) => {
@@ -38,7 +46,14 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
   };
 
   const queryClient = useQueryClient();
-  const { query } = useRouter();
+  const router = useRouter();
+
+  // Fetch all existing boards
+  useQuery('all-boards', fetchAllBoards, {
+    onSuccess: (data) => {
+      setAllBoards(data);
+    },
+  });
 
   const { mutate: updateCStage } = useMutation(updateStage, {
     onSuccess: () => {
@@ -60,13 +75,18 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
         ),
       });
 
-      disclosure.onClose();
+      if (addOpen) {
+        router.push(`/boards/${boardId}?jobId=${newJobId}`);
+      } else {
+        disclosure.onClose && disclosure.onClose();
+      }
     },
   });
 
   const { mutate } = useMutation(createJob, {
     onSuccess: (data) => {
       const createdData = data;
+      setNewJobId(createdData.id);
 
       const columnToUpdate = {
         job_ids: [
@@ -86,7 +106,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
       };
 
       updateCStage({ id: dataToSend.stage_id, body: columnToUpdate });
-      updateCBoard({ id: query?.id, body: jobsToUpdate });
+      updateCBoard({ id: router?.query?.id, body: jobsToUpdate });
     },
   });
 
@@ -99,6 +119,16 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
       slug: sd.attributes.slug,
     };
   });
+
+  const [addOpen, setAddOpen] = useState(false);
+  const boardsToDisplay = useMemo(() => {
+    return allBoards?.map((bd: any) => {
+      return {
+        label: bd?.attributes?.title,
+        value: bd?.id,
+      };
+    });
+  }, [allBoards]);
 
   return (
     <>
@@ -191,9 +221,10 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
             />
             <SearchableSelect
               label='Board'
-              options={[{ label: 'Job Search 2022', value: 'js2' }]}
+              options={boardsToDisplay}
               onChange={(value: Options) => {
                 setData('board', value.label);
+                setBoardId(value.value);
               }}
             />
           </SimpleGrid>
@@ -201,8 +232,27 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
       </VStack>
 
       <Flex justifyContent={'end'} mt={16}>
-        <Button onClick={disclosure.onClose} variant={'ghost'}>
+        {/* <Button onClick={disclosure.onClose} variant={'ghost'}>
           Cancel
+        </Button> */}
+        <Button
+          isDisabled={!dataToSend.board || !dataToSend.stage_id}
+          onClick={() => {
+            setAddOpen(true);
+            mutate({
+              post_url: dataToSend.post_url,
+              company_name: dataToSend.company_name,
+              level: dataToSend.level,
+              role: dataToSend.role,
+              slug: uuidv4(),
+              stage: dataToSend?.stage_slug,
+            });
+          }}
+          mr={2}
+          colorScheme={'green'}
+          variant='outline'
+        >
+          Add & Open
         </Button>
         <Button
           onClick={() => {

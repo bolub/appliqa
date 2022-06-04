@@ -41,6 +41,7 @@ const LandingHeader = () => {
         </Link>
       </Center>
 
+      {/* <motion */}
       <Image mt={20} src='/landing/header.svg' alt='Appliqa' />
 
       <Flex

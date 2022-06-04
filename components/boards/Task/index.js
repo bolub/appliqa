@@ -9,7 +9,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import CustomModal from '../../UI/CustomModal';
 import ModalTitleComponent from './ModalTitleComponent';
@@ -36,6 +36,7 @@ const Task = ({ task, index, column, originalBoardData }) => {
 
   const queryClient = useQueryClient();
   const { query } = useRouter();
+  const router = useRouter();
 
   const { mutate: updateCStage } = useMutation(updateStage);
 
@@ -84,6 +85,12 @@ const Task = ({ task, index, column, originalBoardData }) => {
     deleteCJob({ id: task?.id });
   };
 
+  useEffect(() => {
+    if (Number(task?.id) === Number(query?.jobId)) {
+      viewJobDisclosure.onOpen();
+    }
+  }, [query?.jobId, task?.id, viewJobDisclosure]);
+
   return (
     <>
       <Draggable draggableId={task?.slug} index={index}>
@@ -115,7 +122,9 @@ const Task = ({ task, index, column, originalBoardData }) => {
               />
 
               <VStack
-                onClick={viewJobDisclosure.onOpen}
+                onClick={() => {
+                  router.push(`/boards/${query.id}?jobId=${task.id}`);
+                }}
                 align='start'
                 spacing={0}
                 mr={4}

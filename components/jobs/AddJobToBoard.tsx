@@ -53,6 +53,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
       };
     });
   };
+  const [newJobId, setNewJobId] = useState('');
 
   const queryClient = useQueryClient();
 
@@ -84,7 +85,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
         ),
       });
       if (addOpen) {
-        router.push(`/boards/${boardId}`);
+        router.push(`/boards/${boardId}?jobId=${newJobId}`);
       } else {
         disclosure.onClose && disclosure.onClose();
       }
@@ -94,6 +95,8 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
   const { mutate } = useMutation(createJob, {
     onSuccess: (data) => {
       const createdData = data;
+
+      setNewJobId(createdData.id);
 
       const boardSelected: any = allBoards?.find(
         (board: any) => board?.id === boardId

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import {
   Tabs,
   TabList,
@@ -13,6 +13,7 @@ import JobDetails from './JobDetails';
 import Interview from './Interview/index';
 import Tasks from './Tasks';
 import Notes from './Notes';
+import { useRouter } from 'next/router';
 
 const JobModalInfo: FC<any> = ({ data }) => {
   const TabHeader = ({ emoji, title }: { emoji: string; title: string }) => {
@@ -25,8 +26,29 @@ const JobModalInfo: FC<any> = ({ data }) => {
       </HStack>
     );
   };
+
+  const { query } = useRouter();
+
+  const [defaultTabIndex, setDefaultTabIndex] = React.useState(0);
+
+  useEffect(() => {
+    if (query?.tab === 'task') {
+      setDefaultTabIndex(2);
+    }
+
+    if (query?.tab === 'interview') {
+      setDefaultTabIndex(1);
+    }
+  }, [query?.tab]);
+
   return (
-    <Tabs mt={6}>
+    <Tabs
+      mt={6}
+      index={defaultTabIndex}
+      onChange={(index) => {
+        setDefaultTabIndex(Number(index));
+      }}
+    >
       <TabList>
         <Tab
           color='gray.800'

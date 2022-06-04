@@ -18,6 +18,7 @@ import { useQuery } from 'react-query';
 import { fetchInterviewsForAnalytics } from '../../API/interview';
 import { logout } from '../../utils/functions';
 import { fetchTasksForAnalytics } from '../../API/task';
+import Link from 'next/link';
 // import advancedFormat from 'dayjs/plugin/advancedFormat';
 
 const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
@@ -104,7 +105,6 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
         <VStack mt={8} spacing={10} align={'start'}>
           {allData?.map((data: any) => {
             const job = data?.job?.data?.attributes;
-
             return (
               <Flex key={data?.id} w='100%'>
                 {/* 1 */}
@@ -173,16 +173,21 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
                 </Box>
 
                 <Center ml='auto' w='10%'>
-                  <Button
-                    colorScheme={'green'}
-                    variant='ghost'
-                    bg='green.50'
-                    rounded='full'
-                    size='sm'
-                    fontSize={'13px'}
+                  <Link
+                    passHref
+                    href={`/boards/2?jobId=${data?.jobId}&tab=${data?.type}`}
                   >
-                    View
-                  </Button>
+                    <Button
+                      colorScheme={'green'}
+                      variant='ghost'
+                      bg='green.50'
+                      rounded='full'
+                      size='sm'
+                      fontSize={'13px'}
+                    >
+                      View
+                    </Button>
+                  </Link>
                 </Center>
               </Flex>
             );
