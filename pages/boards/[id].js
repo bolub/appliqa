@@ -45,7 +45,7 @@ const Boards = () => {
   const [boardData, setBoardData] = useState(initialData);
   const [unfilteredBoardData, setUnfilteredBoardData] = useState({});
   const [allGoals, setAllGoals] = useState([]);
-  const [selectedGoal, setSelectedGoal] = useState({ label: '', value: '' });
+  // const [selectedGoal, setSelectedGoal] = useState({ label: '', value: '' });
   const [boardTitle, setBoardTitle] = useState('');
   const toast = useToast();
 
@@ -95,12 +95,12 @@ const Boards = () => {
     setBoardTitle(data?.attributes?.title);
   }, [data]);
 
-  useEffect(() => {
-    setSelectedGoal({
-      label: `${unfilteredBoardData?.attributes?.goal?.data?.attributes?.level} ${unfilteredBoardData?.attributes?.goal?.data?.attributes?.role}`,
-      value: unfilteredBoardData?.attributes?.goal?.data?.id,
-    });
-  }, [unfilteredBoardData]);
+  // useEffect(() => {
+  //   setSelectedGoal({
+  //     label: `${unfilteredBoardData?.attributes?.goal?.data?.attributes?.level} ${unfilteredBoardData?.attributes?.goal?.data?.attributes?.role}`,
+  //     value: unfilteredBoardData?.attributes?.goal?.data?.id,
+  //   });
+  // }, [unfilteredBoardData]);
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -278,7 +278,7 @@ const Boards = () => {
                     zIndex={100}
                     key={gd.value}
                     onClick={() => {
-                      setSelectedGoal(gd);
+                      // setSelectedGoal(gd);
                       updateCBoard({
                         id: unfilteredBoardData.id,
                         body: {
@@ -316,9 +316,9 @@ const Boards = () => {
               <PopoverBody fontSize='sm' py={5} px={5}>
                 {unfilteredBoardData?.attributes?.goal?.data && (
                   <BoardGoal
-                  // data={
-                  //   unfilteredBoardData?.attributes?.goal?.data?.attributes
-                  // }
+                    data={
+                      unfilteredBoardData?.attributes?.goal?.data?.attributes
+                    }
                   />
                 )}
               </PopoverBody>
