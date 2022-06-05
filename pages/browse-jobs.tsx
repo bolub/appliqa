@@ -11,6 +11,7 @@ import {
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  SimpleGrid,
   VStack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
@@ -31,6 +32,8 @@ import {
 } from '@ajna/pagination';
 import { Options } from '../utils/GeneralProps';
 import { HiChevronDown } from 'react-icons/hi';
+import JobSites from '../components/jobs/JobSites';
+import JobInterviewTips from '../components/jobs/JobInterviewTips';
 
 export interface GoalProps {
   id: string | number;
@@ -98,7 +101,7 @@ const BrowseJobs = () => {
       onSuccess: (data) => {
         setAllJobs(data?.results);
         setOriginalData(data?.results);
-        setPageCount(data?.page_count);
+        setPageCount(data?.page_count >= 99 ? 99 : data?.page_count);
         setIsMoreLoading(false);
       },
     }
@@ -326,6 +329,13 @@ const BrowseJobs = () => {
           </Menu>
         </HStack>
       </Flex>
+
+      <SimpleGrid columns={2} spacing={10} mt={6}>
+        <JobSites />
+
+        <JobInterviewTips />
+      </SimpleGrid>
+
       <Loader status={status} isLoading={isMoreLoading}>
         <VStack align={'start'} w='full' spacing={10} mt={10}>
           {allJobs?.map((job: any, index) => {

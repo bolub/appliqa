@@ -39,7 +39,7 @@ const Navbar = () => {
           <AllBoards />
           <NavItem
             className='browse-jobs'
-            label='Browse Jobs'
+            label='Browse Jobs (beta)'
             href={DASHBOARD_ROUTES.JOBS}
           />
           <NavItem
