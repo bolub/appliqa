@@ -88,6 +88,8 @@ const Task = ({ task, index, column, originalBoardData }) => {
   useEffect(() => {
     if (Number(task?.id) === Number(query?.jobId)) {
       viewJobDisclosure.onOpen();
+    } else {
+      viewJobDisclosure.onClose();
     }
   }, [query?.jobId, task?.id, viewJobDisclosure]);
 
@@ -229,6 +231,9 @@ const Task = ({ task, index, column, originalBoardData }) => {
           />
         }
         minW={{ base: 'auto', md: '856px' }}
+        onClickCloseIcon={() => {
+          router.push(`/boards/${query.id}`);
+        }}
       >
         <JobModalInfo data={task} />
       </CustomModal>

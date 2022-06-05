@@ -15,6 +15,7 @@ interface Props {
   title?: string;
   titleComponent?: any;
   minW?: string | object;
+  onClickCloseIcon?: () => void;
 }
 
 const CustomModal: FC<Props> = ({
@@ -23,12 +24,14 @@ const CustomModal: FC<Props> = ({
   title,
   titleComponent,
   minW = { md: '620px' },
+  onClickCloseIcon = () => {},
 }) => {
   const { isOpen, onClose } = disclosure;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
+
       <ModalContent minW={minW} borderRadius={'20px'} pt={6} pb={4}>
         <ModalHeader px={8}>
           <Text as='span' fontWeight={'black'} fontSize='xl'>
@@ -37,7 +40,12 @@ const CustomModal: FC<Props> = ({
           {titleComponent}
         </ModalHeader>
 
-        <ModalCloseButton color='gray.400' />
+        <ModalCloseButton
+          color='gray.400'
+          onClick={() => {
+            onClickCloseIcon();
+          }}
+        />
         <ModalBody px={8}>{children}</ModalBody>
       </ModalContent>
     </Modal>
