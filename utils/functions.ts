@@ -69,13 +69,13 @@ export const formatDataForBoard = (data: any) => {
     .reduce((obj: any, cur: any) => ({ ...obj, [cur?.slug]: cur }), {});
 
   const tasks = data?.attributes?.jobs?.data
-    .map((cd: any) => {
+    ?.map((cd: any) => {
       return {
         id: cd?.id,
         ...cd.attributes,
       };
     })
-    .reduce((obj: any, cur: any) => ({ ...obj, [cur.slug]: cur }), {});
+    ?.reduce((obj: any, cur: any) => ({ ...obj, [cur.slug]: cur }), {});
 
   return {
     columnOrder,

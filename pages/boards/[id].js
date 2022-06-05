@@ -188,6 +188,55 @@ const Boards = () => {
 
   const [headerUpdate, setHeaderUpdate] = useState(false);
 
+  const searchJobs = (value) => {
+    if (!value || value === '') {
+      setBoardData({
+        ...formatDataForBoard(data),
+      });
+      return;
+    }
+
+    const copiedJobs = [...data.attributes.jobs.data];
+
+    const filteredJobs = copiedJobs.filter((job) => {
+      return `${job.attributes.level.toLowerCase()} ${job.attributes.role.toLowerCase()}`.includes(
+        value.toLowerCase()
+      );
+    });
+
+    const filteredStages = data?.attributes?.stages?.data?.map((stage) => {
+      const CopiedJobIds = stage?.attributes?.job_ids?.split(',');
+
+      let JobIds = [];
+
+      CopiedJobIds.forEach((jobId, index) => {
+        if (jobId === filteredJobs[index]?.attributes?.slug) {
+          JobIds.push(jobId);
+        }
+      });
+
+      return {
+        ...stage,
+        attributes: {
+          ...stage.attributes,
+          job_ids: JobIds?.toString() || '',
+        },
+      };
+    });
+
+    const newBoardData = {
+      ...data,
+      attributes: {
+        ...data.attributes,
+        jobs: { data: [...filteredJobs] },
+        stages: { data: [...filteredStages] },
+      },
+    };
+
+    setBoardData({
+      ...formatDataForBoard(newBoardData),
+    });
+  };
   return (
     <Container maxW='7xl' pt={{ base: 12 }}>
       {/* Header title and goal */}
@@ -317,6 +366,11 @@ const Boards = () => {
           containerProps={{
             maxW: '400px',
             my: 'auto',
+          }}
+          inputProps={{
+            onChange: (e) => {
+              searchJobs(e.target.value);
+            },
           }}
         />
 

@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 const Column = ({ column, tasks, originalData }) => {
   const [draggingOver, setIsDraggingOver] = useState(false);
-  console.log(originalData);
   return (
     <Box
       borderWidth={!draggingOver ? '1px' : '2px'}
