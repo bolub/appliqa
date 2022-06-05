@@ -30,7 +30,11 @@ const CustomModal: FC<Props> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
+      <ModalOverlay
+        onClick={() => {
+          onClickCloseIcon();
+        }}
+      />
 
       <ModalContent minW={minW} borderRadius={'20px'} pt={6} pb={4}>
         <ModalHeader px={8}>

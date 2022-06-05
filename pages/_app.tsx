@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { AUTH_ROUTES, DASHBOARD_ROUTES } from '../utils/routes';
 import Navbar from '../components/UI/Layout/Navbar';
 import Joyride from 'react-joyride';
+import { RecoilRoot } from 'recoil';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -85,38 +86,40 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <Head>
-          <title>Appliqa</title>
-          <meta
-            name='description'
-            content='Track your job applications with ease'
-          />
-          <link
-            href='https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap'
-            rel='stylesheet'
-          />
-          <link rel='icon' href='/Logo.svg' />
-        </Head>
+        <RecoilRoot>
+          <Head>
+            <title>Appliqa</title>
+            <meta
+              name='description'
+              content='Track your job applications with ease'
+            />
+            <link
+              href='https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap'
+              rel='stylesheet'
+            />
+            <link rel='icon' href='/Logo.svg' />
+          </Head>
 
-        {isDashboardRoute && !isAuthRoute && <Navbar />}
-        {query?.signup === 'true' && (
-          <Joyride
-            continuous={true}
-            run={run}
-            scrollToFirstStep={true}
-            // showProgress={true}
-            showSkipButton={true}
-            steps={steps}
-            styles={{
-              options: {
-                zIndex: 10000,
-                primaryColor: '#16a34a',
-              },
-            }}
-          />
-        )}
+          {isDashboardRoute && !isAuthRoute && <Navbar />}
+          {query?.signup === 'true' && (
+            <Joyride
+              continuous={true}
+              run={run}
+              scrollToFirstStep={true}
+              // showProgress={true}
+              showSkipButton={true}
+              steps={steps}
+              styles={{
+                options: {
+                  zIndex: 10000,
+                  primaryColor: '#16a34a',
+                },
+              }}
+            />
+          )}
 
-        <Component {...pageProps} />
+          <Component {...pageProps} />
+        </RecoilRoot>
       </QueryClientProvider>
     </ChakraProvider>
   );

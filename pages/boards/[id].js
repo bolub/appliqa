@@ -40,12 +40,13 @@ import {
   HiOutlineX,
 } from 'react-icons/hi';
 import ToastBody from '../../components/UI/ToastBody';
+import { useSetRecoilState } from 'recoil';
+import { boardState } from './../../recoil/board';
 
 const Boards = () => {
   const [boardData, setBoardData] = useState(initialData);
-  const [unfilteredBoardData, setUnfilteredBoardData] = useState({});
+  const setUnfilteredBoardData = useSetRecoilState(boardState);
   const [allGoals, setAllGoals] = useState([]);
-  // const [selectedGoal, setSelectedGoal] = useState({ label: '', value: '' });
   const [boardTitle, setBoardTitle] = useState('');
   const toast = useToast();
 
@@ -93,19 +94,12 @@ const Boards = () => {
     });
     setUnfilteredBoardData(data);
     setBoardTitle(data?.attributes?.title);
-  }, [data]);
-
-  // useEffect(() => {
-  //   setSelectedGoal({
-  //     label: `${unfilteredBoardData?.attributes?.goal?.data?.attributes?.level} ${unfilteredBoardData?.attributes?.goal?.data?.attributes?.role}`,
-  //     value: unfilteredBoardData?.attributes?.goal?.data?.id,
-  //   });
-  // }, [unfilteredBoardData]);
+  }, [data, setUnfilteredBoardData]);
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
 
-    // if the content was dropped outsied the dragdrop container
+    // if the content was dropped outside the dragdrop container
     if (!destination) return;
 
     // If the user drops the content back where it started from
@@ -225,7 +219,7 @@ const Boards = () => {
               isDisabled={!boardTitle}
               onClick={() => {
                 updateCBoard({
-                  id: unfilteredBoardData.id,
+                  id: data.id,
                   body: {
                     title: boardTitle,
                   },
@@ -241,7 +235,7 @@ const Boards = () => {
               isDisabled={isBoardUpdateLoading}
               onClick={() => {
                 if (!boardTitle) {
-                  setBoardTitle(unfilteredBoardData.attributes.title);
+                  setBoardTitle(data.attributes.title);
                 }
 
                 setHeaderUpdate(false);
@@ -263,12 +257,6 @@ const Boards = () => {
                 <Text as='span' my='auto' mr={3} fontSize='lg'>
                   🥅
                 </Text>
-
-                {/* <Text as='span' mt={1} mr={3}>
-                  {unfilteredBoardData?.attributes?.goal?.data
-                    ? selectedGoal?.label
-                    : 'Add goal'}
-                </Text> */}
               </Flex>
             </MenuButton>
             <MenuList zIndex={3}>
@@ -280,7 +268,7 @@ const Boards = () => {
                     onClick={() => {
                       // setSelectedGoal(gd);
                       updateCBoard({
-                        id: unfilteredBoardData.id,
+                        id: data.id,
                         body: {
                           goal: gd.value,
                         },
@@ -314,12 +302,8 @@ const Boards = () => {
               <PopoverCloseButton />
 
               <PopoverBody fontSize='sm' py={5} px={5}>
-                {unfilteredBoardData?.attributes?.goal?.data && (
-                  <BoardGoal
-                    data={
-                      unfilteredBoardData?.attributes?.goal?.data?.attributes
-                    }
-                  />
+                {data?.attributes?.goal?.data && (
+                  <BoardGoal data={data?.attributes?.goal?.data?.attributes} />
                 )}
               </PopoverBody>
             </PopoverContent>

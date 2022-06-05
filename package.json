@@ -33,6 +33,7 @@
     "react-lodash": "^0.1.2",
     "react-query": "^3.34.18",
     "react-select": "^5.3.0",
+    "recoil": "^0.7.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

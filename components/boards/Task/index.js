@@ -223,13 +223,7 @@ const Task = ({ task, index, column, originalBoardData }) => {
 
       <CustomModal
         disclosure={viewJobDisclosure}
-        titleComponent={
-          <ModalTitleComponent
-            title={title}
-            company={task?.company_name}
-            createdAt={task?.publishedAt}
-          />
-        }
+        titleComponent={<ModalTitleComponent data={task} stage={column} />}
         minW={{ base: 'auto', md: '856px' }}
         onClickCloseIcon={() => {
           router.push(`/boards/${query.id}`);
