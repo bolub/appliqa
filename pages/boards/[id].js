@@ -196,23 +196,24 @@ const Boards = () => {
 
   return (
     <Container maxW='7xl' pt={{ base: 12 }}>
+      {/* Header title and goal */}
       <Flex>
         <Input
           variant={'unstyled'}
           value={boardTitle}
           fontWeight={'black'}
           fontSize='2xl'
-          mb={3}
           w='fit-content'
           onFocus={() => setHeaderUpdate(true)}
           onChange={(e) => {
             setBoardTitle(e.target.value);
           }}
           pr={3}
+          my='auto'
         />
 
         {headerUpdate && (
-          <HStack ml={2}>
+          <HStack ml={2} mr={10} my='auto'>
             <IconButton
               aria-label='Update title'
               icon={<HiOutlineCheck />}
@@ -249,6 +250,7 @@ const Boards = () => {
           </HStack>
         )}
 
+        {/* Goal */}
         <Flex bg='gray.100' w='fit-content' rounded='lg' pr={4}>
           <Menu autoSelect={false}>
             <MenuButton
@@ -262,11 +264,11 @@ const Boards = () => {
                   🥅
                 </Text>
 
-                <Text as='span' mt={1} mr={3}>
+                {/* <Text as='span' mt={1} mr={3}>
                   {unfilteredBoardData?.attributes?.goal?.data
                     ? selectedGoal?.label
                     : 'Add goal'}
-                </Text>
+                </Text> */}
               </Flex>
             </MenuButton>
             <MenuList zIndex={3}>
@@ -292,39 +294,40 @@ const Boards = () => {
             </MenuList>
           </Menu>
 
-          {unfilteredBoardData?.attributes?.goal?.data && (
-            <Popover autoFocus={false}>
-              <PopoverTrigger>
-                <Text as='span' tabIndex={0} my='auto'>
-                  <Icon
-                    as={HiOutlineInformationCircle}
-                    fontSize={'18px'}
-                    mt={2}
-                    cursor='pointer'
-                  />
-                </Text>
-              </PopoverTrigger>
-              <PopoverContent
-                borderWidth='1px'
-                borderRadius={'xl'}
-                borderColor={'green.600'}
-              >
-                <PopoverArrow />
-                <PopoverCloseButton />
+          <Popover autoFocus={false}>
+            <PopoverTrigger>
+              <Text as='span' tabIndex={0} my='auto'>
+                <Icon
+                  as={HiOutlineInformationCircle}
+                  fontSize={'18px'}
+                  mt={2}
+                  cursor='pointer'
+                />
+              </Text>
+            </PopoverTrigger>
+            <PopoverContent
+              borderWidth='1px'
+              borderRadius={'xl'}
+              borderColor={'green.600'}
+            >
+              <PopoverArrow />
+              <PopoverCloseButton />
 
-                <PopoverBody fontSize='sm' py={5} px={5}>
+              <PopoverBody fontSize='sm' py={5} px={5}>
+                {unfilteredBoardData?.attributes?.goal?.data && (
                   <BoardGoal
-                    data={
-                      unfilteredBoardData?.attributes?.goal?.data?.attributes
-                    }
+                  // data={
+                  //   unfilteredBoardData?.attributes?.goal?.data?.attributes
+                  // }
                   />
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
-          )}
+                )}
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
         </Flex>
       </Flex>
 
+      {/* Search Input and "Add Job" button */}
       <Flex flexDir={{ base: 'column', md: 'row' }} mt={{ base: 5, md: 8 }}>
         <SearchInput
           containerProps={{
