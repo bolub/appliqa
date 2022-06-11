@@ -14,6 +14,7 @@ import { AUTH_ROUTES, DASHBOARD_ROUTES } from '../utils/routes';
 import Navbar from '../components/UI/Layout/Navbar';
 import Joyride from 'react-joyride';
 import { RecoilRoot } from 'recoil';
+import Script from 'next/script';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -99,6 +100,24 @@ function MyApp({ Component, pageProps }: AppProps) {
             />
             <link rel='icon' href='/Logo.svg' />
           </Head>
+
+          <Script
+            id='tawk'
+            strategy='lazyOnload'
+            dangerouslySetInnerHTML={{
+              __html: `
+              var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+              (function(){
+              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+              s1.async=true;
+              s1.src='https://embed.tawk.to/6037a272385de4075719f7a6/1g59spt2b';
+              s1.charset='UTF-8';
+              s1.setAttribute('crossorigin','*');
+              s0.parentNode.insertBefore(s1,s0);
+              })();
+          `,
+            }}
+          />
 
           {isDashboardRoute && !isAuthRoute && <Navbar />}
           {query?.signup === 'true' && (
