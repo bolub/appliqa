@@ -80,6 +80,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
       queryClient.invalidateQueries('board');
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             title='Success'

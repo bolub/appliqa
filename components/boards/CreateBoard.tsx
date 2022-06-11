@@ -31,6 +31,7 @@ const CreateBoard: FC<any> = ({ disclosure }) => {
       queryClient.invalidateQueries('all-boards');
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             title='Success'

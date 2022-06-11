@@ -35,6 +35,7 @@ const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
       queryClient.invalidateQueries('board');
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             title='Success'

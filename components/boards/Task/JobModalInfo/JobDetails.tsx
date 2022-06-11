@@ -73,6 +73,7 @@ const JobDetails: FC<any> = ({ data }) => {
       queryClient.invalidateQueries('board');
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody title='Success' message='Job Updated successfully' />
         ),
@@ -84,6 +85,7 @@ const JobDetails: FC<any> = ({ data }) => {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'

@@ -41,6 +41,7 @@ const CreateNote: FC<logInterviewProps> = ({ onClose, jobId }) => {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody title='Success' message='Note created successfully' />
         ),
@@ -51,6 +52,7 @@ const CreateNote: FC<logInterviewProps> = ({ onClose, jobId }) => {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'

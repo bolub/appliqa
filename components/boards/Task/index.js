@@ -47,6 +47,7 @@ const Task = ({ task, index, column, originalBoardData }) => {
       queryClient.invalidateQueries('board');
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             title='Success'
@@ -183,7 +184,7 @@ const Task = ({ task, index, column, originalBoardData }) => {
                     ),
                     actions: {
                       onClick: () => {
-                        viewJobDisclosure.onOpen();
+                        router.push(`/boards/${query.id}?jobId=${task.id}`);
                       },
                     },
                   },

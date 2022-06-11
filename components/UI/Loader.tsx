@@ -50,7 +50,7 @@ const Loader: FC<{
           {length > 0 ? (
             children
           ) : (
-            <Center h='65vh' w='full'>
+            <Center h='58vh' w='full' my={6}>
               <Center
                 flexDir={'column'}
                 mt={16}

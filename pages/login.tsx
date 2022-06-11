@@ -28,6 +28,7 @@ export default function Login() {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody title='Success' message='Logged in successfully' />
         ),
@@ -44,6 +45,7 @@ export default function Login() {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'

@@ -29,6 +29,7 @@ export default function ResetPassword() {
       const { user, jwt } = data;
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody title='Success' message='Logged in successfully' />
         ),
@@ -45,6 +46,7 @@ export default function ResetPassword() {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'

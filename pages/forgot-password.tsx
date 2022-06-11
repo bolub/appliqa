@@ -26,6 +26,7 @@ export default function ForgotPassword() {
     onSuccess: () => {
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             title='Success'
@@ -40,6 +41,7 @@ export default function ForgotPassword() {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'

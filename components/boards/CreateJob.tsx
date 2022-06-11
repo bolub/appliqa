@@ -72,6 +72,7 @@ const CreateJob: FC = ({
       queryClient.invalidateQueries('board');
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             title='Success'

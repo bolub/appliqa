@@ -78,6 +78,7 @@ const Boards = () => {
       onSuccess: () => {
         toast({
           position: 'top-right',
+          isClosable: true,
           render: () => (
             <ToastBody
               title='Success'
@@ -403,7 +404,7 @@ const Boards = () => {
       </Flex>
       <Loader loader={<BoardLoader />} status={status}>
         <DragDropContext onDragEnd={onDragEnd}>
-          <HStack align='start' spacing={6} mt={8} overflowX='scroll'>
+          <HStack align='start' spacing={6} mt={8} overflowX='scroll' h='63vh'>
             {boardData?.columnOrder?.map((columnId) => {
               // get columnData based on the current columId
               const column = boardData?.columns[columnId];

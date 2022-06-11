@@ -75,6 +75,7 @@ const ViewEditGoal: FC<{ disclosure: any; data: GoalProps }> = ({
       queryClient.invalidateQueries('goals');
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody title='Success' message='Goal updated successfully' />
         ),
@@ -87,6 +88,7 @@ const ViewEditGoal: FC<{ disclosure: any; data: GoalProps }> = ({
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'

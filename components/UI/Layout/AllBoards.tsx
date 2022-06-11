@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useQuery } from 'react-query';
 import { fetchAllBoards } from '../../../API/boards';
 import {
@@ -16,25 +16,24 @@ import { DASHBOARD_ROUTES } from '../../../utils/routes';
 import CustomLink from '../CustomLink';
 import { useRouter } from 'next/router';
 
-const AllBoards = () => {
+const AllBoards: FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
   const { pathname } = useRouter();
 
   const isActive = pathname.includes('board');
   const { data = [] } = useQuery('all-boards', fetchAllBoards);
 
+  const isDesktopActive = !isMobile && isActive;
+
   return (
     <Menu autoSelect={false}>
       <Box
         fontWeight='extrabold'
-        color='white'
+        color={isMobile ? '' : 'white'}
         fontSize='sm'
         borderRadius='4px'
-        px={4}
-        py={2}
-        bg={isActive ? 'green.700' : ''}
-        _hover={{
-          bg: 'green.700',
-        }}
+        px={isMobile ? 0 : 4}
+        py={isMobile ? 0 : 2}
+        bg={isDesktopActive ? 'green.700' : ''}
         className='boards'
       >
         <HStack>

@@ -51,6 +51,7 @@ const SingleNote: FC<any> = ({ interviewData, id }) => {
       queryClient.invalidateQueries(`${id} notess`);
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             title='Success'
@@ -70,6 +71,7 @@ const SingleNote: FC<any> = ({ interviewData, id }) => {
         queryClient.invalidateQueries(`${id} notes`);
         toast({
           position: 'top-right',
+          isClosable: true,
           render: () => (
             <ToastBody
               title='Success'

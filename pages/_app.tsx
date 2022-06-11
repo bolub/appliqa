@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AUTH_ROUTES, DASHBOARD_ROUTES } from '../utils/routes';
 import Navbar from '../components/UI/Layout/Navbar';
-import Joyride from 'react-joyride';
+import Joyride, { STATUS } from 'react-joyride';
 import { RecoilRoot } from 'recoil';
 import Script from 'next/script';
 
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [isAuthRoute, setIsAuthRoute] = useState<boolean>(false);
   const [isDashboardRoute, setIsDashboardRoute] = useState<boolean>(false);
 
-  const { pathname, query } = useRouter();
+  const { pathname, query, push } = useRouter();
 
   useEffect(() => {
     for (const key in AUTH_ROUTES) {
@@ -81,7 +81,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (query?.signup === 'true') {
       setRun(true);
     }
-  }, [query?.signup]);
+  }, [query?.signup, setRun]);
+
+  useEffect(() => {
+    if (query?.tour === 'true') {
+      setRun(true);
+    }
+  }, [query?.tour, setRun]);
+
+  const handleJoyrideCallback = (data: any) => {
+    const { status } = data;
+
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      push(pathname);
+    }
+  };
 
   return (
     <ChakraProvider theme={theme}>
@@ -120,7 +134,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
 
           {isDashboardRoute && !isAuthRoute && <Navbar />}
-          {query?.signup === 'true' && (
+          {(query?.signup === 'true' || query?.tour === 'true') && (
             <Joyride
               continuous={true}
               run={run}
@@ -134,6 +148,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   primaryColor: '#16a34a',
                 },
               }}
+              callback={handleJoyrideCallback}
             />
           )}
 

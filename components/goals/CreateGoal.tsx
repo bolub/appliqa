@@ -38,6 +38,7 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
       queryClient.invalidateQueries('goals');
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody title='Success' message='Goal created successfully' />
         ),
@@ -50,6 +51,7 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'

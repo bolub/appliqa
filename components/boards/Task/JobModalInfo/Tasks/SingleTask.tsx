@@ -92,6 +92,7 @@ const Singleinterview: FC<any> = ({ interviewData, id }) => {
       queryClient.invalidateQueries(`${id} tasks`);
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             title='Success'
@@ -111,6 +112,7 @@ const Singleinterview: FC<any> = ({ interviewData, id }) => {
         queryClient.invalidateQueries(`${id} tasks`);
         toast({
           position: 'top-right',
+          isClosable: true,
           render: () => (
             <ToastBody
               title='Success'

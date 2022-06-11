@@ -1,4 +1,11 @@
-import { Box, HStack, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  CloseButton,
+  HStack,
+  Text,
+  useToast,
+  VStack,
+} from '@chakra-ui/react';
 import React, { FC } from 'react';
 
 interface Props {
@@ -28,6 +35,8 @@ const ToastBody: FC<Props> = ({ title, message, status = 'success' }) => {
     return emojis[stat] || emojis['default'];
   };
 
+  const toast = useToast();
+
   return (
     <Box
       py={5}
@@ -40,6 +49,14 @@ const ToastBody: FC<Props> = ({ title, message, status = 'success' }) => {
       minW={{ base: 'auto', md: '360px' }}
     >
       <HStack align={'start'} spacing={3}>
+        <CloseButton
+          onClick={() => {
+            toast.closeAll();
+          }}
+          pos='absolute'
+          right={5}
+          top={5}
+        />
         <Text color={getColor(status)} fontSize={'19px'}>
           {getEmoji(status)}
         </Text>

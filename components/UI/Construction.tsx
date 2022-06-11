@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 const Construction: FC<{ height?: string; maxW?: string }> = ({
   height = '80vh',
-  maxW = '500px',
+  maxW = { base: '300px', md: '500px' },
 }) => {
   return (
     <Center

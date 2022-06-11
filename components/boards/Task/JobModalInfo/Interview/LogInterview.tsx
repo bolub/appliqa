@@ -73,6 +73,7 @@ const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody title='Success' message='Interview logged successfully' />
         ),
@@ -83,6 +84,7 @@ const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'

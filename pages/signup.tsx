@@ -54,6 +54,7 @@ const Signup = () => {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody title='Success' message='Signed up successfully' />
         ),
@@ -66,6 +67,7 @@ const Signup = () => {
 
       toast({
         position: 'top-right',
+        isClosable: true,
         render: () => (
           <ToastBody
             status='error'
