@@ -8,8 +8,9 @@ import {
   Link,
   SimpleGrid,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { useQuery } from 'react-query';
 import { fetchAllBoards } from '../../API/boards';
@@ -17,6 +18,10 @@ import SearchInput from '../../components/UI/Form/SearchInput';
 import Loader from '../../components/UI/Loader';
 import NextLink from 'next/link';
 import { DASHBOARD_ROUTES } from '../../utils/routes';
+import CustomModal from '../../components/UI/CustomModal';
+import CreateBoard from '../../components/boards/CreateBoard';
+import AllBoardsLoader from '../../components/UI/Loaders/AllBoardsLoader';
+import { useRouter } from 'next/router';
 
 const AllBoards = () => {
   const [allBoards, setAllBoards] = useState([]);
@@ -26,6 +31,16 @@ const AllBoards = () => {
       setAllBoards(data);
     },
   });
+
+  const boardDisclosure = useDisclosure();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router?.query?.new === 'true') {
+      boardDisclosure.onOpen();
+    }
+  }, [router?.query?.new, boardDisclosure]);
 
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
@@ -49,12 +64,21 @@ const AllBoards = () => {
           mt={{ base: 3, md: 'auto' }}
           mb={{ md: 'auto' }}
           colorScheme={'green'}
+          onClick={boardDisclosure.onOpen}
         >
           Create Board
         </Button>
       </Flex>
 
-      <Loader status={status}>
+      <Loader
+        length={allBoards?.length}
+        loader={<AllBoardsLoader />}
+        status={status}
+        emptyTextTitle='No boards found'
+        emptyText='Get started by creating your first job board'
+        emptyActionText='Create Board'
+        emptyAction={boardDisclosure.onOpen}
+      >
         <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
           {allBoards?.map((board: any) => {
             return (
@@ -96,6 +120,10 @@ const AllBoards = () => {
           })}
         </SimpleGrid>
       </Loader>
+
+      <CustomModal disclosure={boardDisclosure} title='Create Board'>
+        <CreateBoard disclosure={boardDisclosure} />
+      </CustomModal>
     </Container>
   );
 };

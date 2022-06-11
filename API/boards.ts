@@ -10,7 +10,17 @@ export const fetchAllBoards = async () => {
 };
 
 export const fetchSingleBoard = async (id: string | number) => {
-  const response = await API.get(`/boards/${id}?populate=*`);
+  const response = await API.get(
+    `/boards/${id}?filters[userId][$eq]=${getCookie('USER_ID')}&populate=*`
+  );
+
+  return response.data.data;
+};
+
+export const createBoard = async (data: any) => {
+  const response = await API.post(`/boards`, {
+    data: { ...data },
+  });
 
   return response.data.data;
 };

@@ -102,7 +102,7 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
           Upcoming Tasks and Interviews
         </Text>
 
-        <VStack mt={8} spacing={10} align={'start'}>
+        <VStack mt={8} spacing={8} align={'start'}>
           {allData?.map((data: any) => {
             const job = data?.job?.data?.attributes;
             return (
@@ -192,6 +192,15 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
               </Flex>
             );
           })}
+
+          {allData?.length === 0 && (
+            <Center w='100%' textAlign={'center'} h='250px' flexDir={'column'}>
+              <Text fontSize={'2xl'}>🥲</Text>
+              <Text fontSize={'sm'} color='gray.500'>
+                No Upcoming tasks or Interviews
+              </Text>
+            </Center>
+          )}
         </VStack>
       </Box>
     </>

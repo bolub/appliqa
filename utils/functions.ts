@@ -51,7 +51,7 @@ export const formatDateAgo = (date: Date) => {
   return dayjs(date).fromNow();
 };
 
-export const formatDataForBoard = (data: any) => {
+export const formatDataForBoard = (data: any, boardId?: string | number) => {
   const columnOrder =
     data?.attributes?.stage_order?.data?.attributes?.order.split(',');
 
@@ -70,12 +70,22 @@ export const formatDataForBoard = (data: any) => {
 
   const tasks = data?.attributes?.jobs?.data
     ?.map((cd: any) => {
-      return {
-        id: cd?.id,
-        ...cd.attributes,
-      };
+      if (
+        Number(boardId) &&
+        Number(cd?.attributes?.boardId) === Number(boardId)
+      ) {
+        return {
+          id: cd?.id,
+          ...cd.attributes,
+        };
+      } else {
+        return {
+          id: cd?.id,
+          ...cd.attributes,
+        };
+      }
     })
-    ?.reduce((obj: any, cur: any) => ({ ...obj, [cur.slug]: cur }), {});
+    ?.reduce((obj: any, cur: any) => ({ ...obj, [cur?.slug]: cur }), {});
 
   return {
     columnOrder,

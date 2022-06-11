@@ -20,16 +20,22 @@ import {
 } from '../../API/boards';
 import ToastBody from '../UI/ToastBody';
 import { useRouter } from 'next/router';
+import { getCookie } from 'cookies-next';
 
-const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
+const CreateJob: FC = ({
+  boardData,
+  originalBoardData,
+  disclosure,
+  currentStage,
+}: any) => {
   const [dataToSend, setDataToSend] = useState({
     post_url: '',
     company_name: '',
     level: '',
     role: '',
-    stage_id: '',
-    stage_slug: '',
-    board: '',
+    stage_id: currentStage?.id,
+    stage_slug: currentStage?.slug,
+    board: originalBoardData?.id,
     slug: uuidv4(),
   });
   const [allBoards, setAllBoards] = useState([]);
@@ -129,7 +135,6 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
       };
     });
   }, [allBoards]);
-
   return (
     <>
       <VStack align='start' w='100%' spacing={6}>
@@ -155,6 +160,9 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
               onChange: (e) => {
                 setData('company_name', e.target.value);
               },
+            }}
+            formControlProps={{
+              isRequired: true,
             }}
           />
         </SimpleGrid>
@@ -192,6 +200,9 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
                 setData('role', e.target.value);
               },
             }}
+            formControlProps={{
+              isRequired: true,
+            }}
             listLabel='roles'
             listData={[
               'Marketer',
@@ -218,6 +229,12 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
                 setData('stage_id', value.value);
                 setData('stage_slug', value.slug);
               }}
+              value={allStages?.filter((option: Options) => {
+                return option?.value === currentStage?.id;
+              })}
+              formControlProps={{
+                isRequired: true,
+              }}
             />
             <SearchableSelect
               label='Board'
@@ -225,6 +242,12 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
               onChange={(value: Options) => {
                 setData('board', value.label);
                 setBoardId(value.value);
+              }}
+              value={boardsToDisplay?.filter((option: Options) => {
+                return option?.value === originalBoardData?.id;
+              })}
+              formControlProps={{
+                isRequired: true,
               }}
             />
           </SimpleGrid>
@@ -236,7 +259,12 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
           Cancel
         </Button> */}
         <Button
-          isDisabled={!dataToSend.board || !dataToSend.stage_id}
+          isDisabled={
+            !dataToSend.board ||
+            !dataToSend.stage_id ||
+            !dataToSend.role ||
+            !dataToSend.company_name
+          }
           onClick={() => {
             setAddOpen(true);
             mutate({
@@ -246,6 +274,7 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
               role: dataToSend.role,
               slug: uuidv4(),
               stage: dataToSend?.stage_slug,
+              userId: getCookie('USER_ID'),
             });
           }}
           mr={2}
@@ -255,6 +284,12 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
           Add & Open
         </Button>
         <Button
+          isDisabled={
+            !dataToSend.board ||
+            !dataToSend.stage_id ||
+            !dataToSend.role ||
+            !dataToSend.company_name
+          }
           onClick={() => {
             mutate({
               post_url: dataToSend.post_url,
@@ -263,6 +298,8 @@ const CreateJob: FC = ({ boardData, originalBoardData, disclosure }: any) => {
               role: dataToSend.role,
               slug: uuidv4(),
               stage: dataToSend?.stage_slug,
+              userId: getCookie('USER_ID'),
+              boardId: boardId.toString(),
             });
           }}
           ml={2}

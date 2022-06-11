@@ -34,6 +34,7 @@ import { Options } from '../utils/GeneralProps';
 import { HiChevronDown } from 'react-icons/hi';
 import JobSites from '../components/jobs/JobSites';
 import JobInterviewTips from '../components/jobs/JobInterviewTips';
+import BrowseJobsLoader from '../components/UI/Loaders/BrowseJobsLoader';
 
 export interface GoalProps {
   id: string | number;
@@ -336,7 +337,12 @@ const BrowseJobs = () => {
         <JobInterviewTips />
       </SimpleGrid>
 
-      <Loader status={status} isLoading={isMoreLoading}>
+      <Loader
+        status={status}
+        isLoading={isMoreLoading}
+        loader={<BrowseJobsLoader />}
+        length={allJobs?.length}
+      >
         <VStack align={'start'} w='full' spacing={10} mt={10}>
           {allJobs?.map((job: any, index) => {
             return <SingleJob key={index} job={job} />;

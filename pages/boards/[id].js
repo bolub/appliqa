@@ -1,5 +1,6 @@
 import {
   Button,
+  Center,
   Container,
   Flex,
   HStack,
@@ -42,6 +43,8 @@ import {
 import ToastBody from '../../components/UI/ToastBody';
 import { useSetRecoilState } from 'recoil';
 import { boardState } from './../../recoil/board';
+import { getCookie } from 'cookies-next';
+import BoardLoader from './../../components/UI/Loaders/BoardLoader';
 
 const Boards = () => {
   const [boardData, setBoardData] = useState(initialData);
@@ -49,6 +52,7 @@ const Boards = () => {
   const [allGoals, setAllGoals] = useState([]);
   const [boardTitle, setBoardTitle] = useState('');
   const toast = useToast();
+  const [currentStage, setCurrentStage] = useState({});
 
   const { query } = useRouter();
 
@@ -237,6 +241,19 @@ const Boards = () => {
       ...formatDataForBoard(newBoardData),
     });
   };
+
+  if (
+    status === 'success' &&
+    data?.attributes?.userId !== getCookie('USER_ID')
+  ) {
+    return (
+      <Center w='100%' h='90vh'>
+        <Text fontSize={'xl'} fontWeight='bold'>
+          Board not available{' '}
+        </Text>
+      </Center>
+    );
+  }
   return (
     <Container maxW='7xl' pt={{ base: 12 }}>
       {/* Header title and goal */}
@@ -359,7 +376,6 @@ const Boards = () => {
           </Popover>
         </Flex>
       </Flex>
-
       {/* Search Input and "Add Job" button */}
       <Flex flexDir={{ base: 'column', md: 'row' }} mt={{ base: 5, md: 8 }}>
         <SearchInput
@@ -385,7 +401,7 @@ const Boards = () => {
           Add Job
         </Button>
       </Flex>
-      <Loader status={status} loadingText='Fetching Board Data...'>
+      <Loader loader={<BoardLoader />} status={status}>
         <DragDropContext onDragEnd={onDragEnd}>
           <HStack align='start' spacing={6} mt={8} overflowX='scroll'>
             {boardData?.columnOrder?.map((columnId) => {
@@ -403,6 +419,8 @@ const Boards = () => {
                   column={column}
                   tasks={ntasks}
                   originalData={data}
+                  AddJobHandler={jobDisclosure.onOpen}
+                  setCurrentStage={setCurrentStage}
                 />
               );
             })}{' '}
@@ -414,6 +432,7 @@ const Boards = () => {
             boardData={boardData}
             originalBoardData={data}
             disclosure={jobDisclosure}
+            currentStage={currentStage}
           />
         </CustomModal>
       </Loader>

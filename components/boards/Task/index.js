@@ -93,6 +93,8 @@ const Task = ({ task, index, column, originalBoardData }) => {
     }
   }, [query?.jobId, task?.id, viewJobDisclosure]);
 
+  if (!task) return null;
+
   return (
     <>
       <Draggable draggableId={task?.slug} index={index}>

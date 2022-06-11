@@ -22,6 +22,7 @@ import {
 import ToastBody from '../UI/ToastBody';
 import { formatDataForBoard } from '../../utils/functions';
 import { useRouter } from 'next/router';
+import { getCookie } from 'cookies-next';
 
 interface Props {
   disclosure: UseDisclosureProps;
@@ -36,13 +37,12 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
     role: '',
     stage_id: '',
     stage_slug: '',
-    board: '2',
+    board: '',
     slug: uuidv4(),
   });
   const [allBoards, setAllBoards] = useState([]);
   const [boardId, setBoardId] = useState<string | number>('');
   const [addOpen, setAddOpen] = useState(false);
-  // const [createdJobId, setCreatedJobId] = useState<string | number>('');
 
   const router = useRouter();
   const setData = (label: string, value: string | number | undefined) => {
@@ -61,6 +61,10 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
   useQuery('all-boards', fetchAllBoards, {
     onSuccess: (data) => {
       setAllBoards(data);
+      if (data.length > 0) {
+        setBoardId(data[0].id);
+        setData('board', data[0].id);
+      }
     },
   });
 
@@ -180,6 +184,9 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               },
               value: dataToSend?.company_name,
             }}
+            formControlProps={{
+              isRequired: true,
+            }}
           />
         </SimpleGrid>
 
@@ -224,6 +231,9 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               'Frontend Developer',
               'Backend Developer',
             ]}
+            formControlProps={{
+              isRequired: true,
+            }}
           />
         </SimpleGrid>
 
@@ -239,9 +249,13 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
             <SearchableSelect
               label='Board'
               options={boardsToDisplay}
+              value={boardsToDisplay[0]}
               onChange={(value: Options) => {
                 setData('board', value.label);
                 setBoardId(value.value);
+              }}
+              formControlProps={{
+                isRequired: true,
               }}
             />
             <SearchableSelect
@@ -251,6 +265,9 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
                 setData('stage_id', value.value);
                 setData('stage_slug', value.slug);
               }}
+              formControlProps={{
+                isRequired: true,
+              }}
             />
           </SimpleGrid>
         </Box>
@@ -258,7 +275,12 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
 
       <Flex justifyContent={'end'} mt={16}>
         <Button
-          isDisabled={!boardId || !dataToSend.stage_id}
+          isDisabled={
+            !dataToSend.board ||
+            !dataToSend.stage_id ||
+            !dataToSend.role ||
+            !dataToSend.company_name
+          }
           onClick={() => {
             setAddOpen(true);
             mutate({
@@ -267,6 +289,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               level: dataToSend.level,
               role: dataToSend.role,
               slug: uuidv4(),
+              userId: getCookie('USER_ID'),
             });
           }}
           ml={2}
@@ -277,7 +300,12 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
         </Button>
 
         <Button
-          isDisabled={!boardId || !dataToSend.stage_id}
+          isDisabled={
+            !dataToSend.board ||
+            !dataToSend.stage_id ||
+            !dataToSend.role ||
+            !dataToSend.company_name
+          }
           onClick={() => {
             mutate({
               post_url: dataToSend.post_url,
@@ -286,6 +314,8 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               role: dataToSend.role,
               slug: uuidv4(),
               stage: dataToSend?.stage_slug,
+              userId: getCookie('USER_ID'),
+              boardId: boardId.toString(),
             });
           }}
           ml={2}

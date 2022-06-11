@@ -1,10 +1,27 @@
-import { Badge, Box, Heading, HStack, VStack } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Icon,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import Task from './Task';
 import { Droppable } from 'react-beautiful-dnd';
 import { useState } from 'react';
+import { HiOutlinePlus } from 'react-icons/hi';
 
-const Column = ({ column, tasks, originalData }) => {
+const Column = ({
+  column,
+  tasks,
+  originalData,
+  AddJobHandler,
+  setCurrentStage,
+}) => {
   const [draggingOver, setIsDraggingOver] = useState(false);
+
   return (
     <Box
       borderWidth={!draggingOver ? '1px' : '2px'}
@@ -14,11 +31,11 @@ const Column = ({ column, tasks, originalData }) => {
       minW='380px'
       px={6}
       pt={6}
-      pb={8}
+      pb={4}
       maxH='63vh'
       overflowY='auto'
       transition='all 0.2s ease'
-      minH='200px'
+      // minH='200px'
     >
       <HStack>
         <Heading
@@ -40,7 +57,7 @@ const Column = ({ column, tasks, originalData }) => {
           fontWeight='bold'
           fontSize={'md'}
         >
-          {tasks?.length || 0}
+          {tasks?.length && tasks[0] ? tasks?.length : 0}
         </Badge>
       </HStack>
 
@@ -72,6 +89,30 @@ const Column = ({ column, tasks, originalData }) => {
           );
         }}
       </Droppable>
+
+      <Button
+        w='100%'
+        mt={2}
+        variant='unstyled'
+        textAlign='left'
+        onClick={() => {
+          AddJobHandler();
+          setCurrentStage(column);
+        }}
+        py={2}
+        color='gray.500'
+        _hover={{
+          bg: 'gray.200',
+        }}
+        borderRadius='md'
+      >
+        <HStack px={3}>
+          <Icon as={HiOutlinePlus} />
+          <Text fontSize={'sm'} as='span'>
+            Add Job
+          </Text>
+        </HStack>
+      </Button>
     </Box>
   );
 };

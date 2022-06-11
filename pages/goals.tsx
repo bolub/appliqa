@@ -14,6 +14,7 @@ import SingleGoal from '../components/goals/SingleGoal';
 import CustomModal from '../components/UI/CustomModal';
 import SearchInput from '../components/UI/Form/SearchInput';
 import Loader from '../components/UI/Loader';
+import GoalsLoader from '../components/UI/Loaders/GoalsLoader';
 import { logout } from '../utils/functions';
 
 export interface GoalProps {
@@ -94,7 +95,11 @@ const Goals = () => {
       <Loader
         status={status}
         length={allGoals?.length}
-        emptyText='No goals created, create by clicking the button above'
+        emptyTextTitle='No goals found'
+        emptyText='Get started by creating your first goal'
+        loader={<GoalsLoader />}
+        emptyAction={createGoalDisclosure.onOpen}
+        emptyActionText='Create Goal'
       >
         <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
           {allGoals?.map((goal: GoalProps) => {
