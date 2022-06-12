@@ -9,6 +9,7 @@ export interface DashProps {
   JOBS: string;
   BOARDS: string;
   CONTACTS: string;
+  PROFILE: string;
 }
 
 export const DASHBOARD_ROUTES: DashProps = {
@@ -17,6 +18,7 @@ export const DASHBOARD_ROUTES: DashProps = {
   BOARDS: '/boards',
   JOBS: '/browse-jobs',
   CONTACTS: '/contacts',
+  PROFILE: '/profile',
 };
 
 export const AUTH_ROUTES: AuthProps = {
