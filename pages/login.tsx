@@ -15,12 +15,15 @@ import FormInput from '../components/UI/Form/FormInput';
 import ToastBody from '../components/UI/ToastBody';
 import { setCookies } from 'cookies-next';
 import { DASHBOARD_ROUTES } from '../utils/routes';
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const toast = useToast();
+
+  const router = useRouter();
 
   const { mutate, isLoading } = useMutation(loginOp, {
     onSuccess: (data) => {
@@ -38,7 +41,11 @@ export default function Login() {
       setCookies('USER_ID', user.id, { maxAge: 604800 });
       setCookies('USER_AUTHENTICATED', 'true');
 
-      window.location.href = DASHBOARD_ROUTES.GOALS;
+      if (router?.query?.onboard === 'true') {
+        window.location.href = `${DASHBOARD_ROUTES.BOARDS}?onboard=true`;
+      } else {
+        window.location.href = DASHBOARD_ROUTES.ANALYTICS;
+      }
     },
     onError: (data: any) => {
       const errors = { ...data };

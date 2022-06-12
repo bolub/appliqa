@@ -14,7 +14,7 @@ const DiscoverJobs = () => {
     <Container maxW='7xl' mt={{ md: 24 }} mb={10}>
       <Flex mt={16} flexDir={{ base: 'column', md: 'row' }}>
         {/* 1 */}
-        <Box w={{ base: '100%', md: '40%' }} my='auto' pr={{ md: 10 }}>
+        <Box w={{ base: '100%', md: '32%' }} my='auto' pr={{ md: 10 }}>
           <chakra.h2 fontSize={{ base: '2xl', md: '4xl' }} fontWeight='black'>
             Discover Jobs
           </chakra.h2>
@@ -36,11 +36,11 @@ const DiscoverJobs = () => {
 
         {/* 2 */}
         <Box
-          w={{ base: '100%', md: '60%' }}
+          w={{ base: '100%', md: '68%' }}
           mb='auto'
           mt={{ base: 12, md: 'auto' }}
         >
-          <Image src='/landing/Discover.svg' alt='Discover' />
+          <Image src='/landing/DiscoverH.png' alt='Discover' />
         </Box>
       </Flex>
     </Container>

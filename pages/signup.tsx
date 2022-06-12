@@ -1,5 +1,6 @@
 import {
   Button,
+  Center,
   Flex,
   Heading,
   Text,
@@ -8,14 +9,11 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-import { signupOp } from '../API/auth';
+import { reSendEmailConfirmation, signupOp } from '../API/auth';
 import AuthLayout from '../components/auth/AuthLayout';
 import CustomLink from '../components/UI/CustomLink';
 import FormInput from '../components/UI/Form/FormInput';
 import ToastBody from '../components/UI/ToastBody';
-import { DASHBOARD_ROUTES } from '../utils/routes';
-import { setCookies } from 'cookies-next';
-// import axios from 'axios';
 
 const Signup = () => {
   const [fullname, setFullname] = useState('');
@@ -23,34 +21,22 @@ const Signup = () => {
   const [password, setPassword] = useState('');
 
   const toast = useToast();
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  const [resendDisabled, setResendDisabled] = useState(true);
+  // const [resendCounter, setResendCounter] = useState<number>(30);
+
+  const startResendTimer = () => {
+    setTimeout(() => {
+      setResendDisabled(false);
+    }, 30000);
+  };
 
   const { mutate, isLoading } = useMutation(signupOp, {
-    onSuccess: async (data) => {
-      const { user, jwt } = data;
+    onSuccess: () => {
+      setIsRegistered(true);
 
-      setCookies('USER_TOKEN', jwt, { maxAge: 604800 });
-      setCookies('USER_ID', user.id, { maxAge: 604800 });
-      setCookies('USER_AUTHENTICATED', 'true');
-
-      // const headers = {
-      //   headers: {
-      //     Authorization: `Bearer ${jwt}`,
-      //   },
-      // };
-      // console.log(jwt, user.id);
-
-      // await axios.post(
-      //   `${process.env.NEXT_PUBLIC_API_URL}/boards`,
-      //   {
-      //     data: {
-      //       userId: user.id,
-      //       title: `Job Search ${new Date().getFullYear()}`,
-      //       stages: ['5', '7', '8', '9', '10'],
-      //       stageOrder: ['stage-1', 'stage-2', 'stage-3', 'stage-4', 'stage-5'],
-      //     },
-      //   },
-      //   headers
-      // );
+      startResendTimer();
 
       toast({
         position: 'top-right',
@@ -59,8 +45,6 @@ const Signup = () => {
           <ToastBody title='Success' message='Signed up successfully' />
         ),
       });
-
-      window.location.href = `${DASHBOARD_ROUTES.BOARDS}?signup=true`;
     },
     onError: (data: any) => {
       const errors = { ...data };
@@ -81,6 +65,42 @@ const Signup = () => {
     },
   });
 
+  const { mutate: resendConfirmation, isLoading: resendLoading } = useMutation(
+    reSendEmailConfirmation,
+    {
+      onSuccess: () => {
+        startResendTimer();
+        toast({
+          position: 'top-right',
+          isClosable: true,
+          render: () => (
+            <ToastBody
+              title='Success'
+              message='Confirmation email resent successfully'
+            />
+          ),
+        });
+      },
+      onError: (data: any) => {
+        const errors = { ...data };
+
+        toast({
+          position: 'top-right',
+          isClosable: true,
+          render: () => (
+            <ToastBody
+              status='error'
+              title={errors?.response?.data?.error?.name || 'Error'}
+              message={
+                errors?.response?.data?.error?.message || 'Something happened'
+              }
+            />
+          ),
+        });
+      },
+    }
+  );
+
   return (
     <AuthLayout imgSrc='signup.svg'>
       <Heading
@@ -97,83 +117,122 @@ const Signup = () => {
         This won&apos;t take long i promise 🙃
       </Text>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
+      {!isRegistered ? (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
 
-          mutate({ email, password, fullname, username: fullname });
-        }}
-      >
-        <VStack spacing={8}>
-          <FormInput
-            type='text'
-            label='Fullname'
-            for='fullname'
-            inputProps={{
-              placeholder: 'Temisan Omatsola',
-              onChange: (e) => {
-                setFullname(e.target.value);
-              },
-            }}
-            formControlProps={{
-              isRequired: true,
-            }}
-          />
+            mutate({ email, password, fullname, username: fullname });
+          }}
+        >
+          <VStack spacing={8}>
+            <FormInput
+              type='text'
+              label='Fullname'
+              for='fullname'
+              inputProps={{
+                placeholder: 'Temisan Omatsola',
+                onChange: (e) => {
+                  setFullname(e.target.value);
+                },
+              }}
+              formControlProps={{
+                isRequired: true,
+              }}
+            />
 
-          <FormInput
-            type='email'
-            label='Email'
-            for='email'
-            inputProps={{
-              placeholder: 'temisan@email.com',
-              onChange: (e) => {
-                setEmail(e.target.value);
-              },
-            }}
-            formControlProps={{
-              isRequired: true,
-            }}
-          />
+            <FormInput
+              type='email'
+              label='Email'
+              for='email'
+              inputProps={{
+                placeholder: 'temisan@email.com',
+                onChange: (e) => {
+                  setEmail(e.target.value);
+                },
+              }}
+              formControlProps={{
+                isRequired: true,
+              }}
+            />
 
-          <FormInput
-            type='password'
-            label='Password'
-            for='password'
-            inputProps={{
-              placeholder: '*********',
-              onChange: (e) => {
-                setPassword(e.target.value);
-              },
-            }}
-            formControlProps={{
-              isRequired: true,
-            }}
-          />
-        </VStack>
+            <FormInput
+              type='password'
+              label='Password'
+              for='password'
+              inputProps={{
+                placeholder: '*********',
+                onChange: (e) => {
+                  setPassword(e.target.value);
+                },
+              }}
+              formControlProps={{
+                isRequired: true,
+              }}
+            />
+          </VStack>
 
-        <Flex mt={12} flexDir='column'>
+          <Flex mt={12} flexDir='column'>
+            <Button
+              type='submit'
+              isLoading={isLoading}
+              isFullWidth
+              colorScheme={'green'}
+            >
+              Signup
+            </Button>
+            <CustomLink
+              href='/login'
+              containerProps={{
+                fontSize: 'sm',
+                fontWeight: 'bold',
+                color: 'green.500',
+                mt: 2,
+                mx: 'auto',
+              }}
+            >
+              Already have an account?
+            </CustomLink>
+          </Flex>
+        </form>
+      ) : (
+        <Center
+          flexDir={'column'}
+          py={12}
+          borderRadius='xl'
+          borderWidth={'1px'}
+          borderColor='green.600'
+          bg='green.50'
+          px={{ base: 2, md: 10 }}
+          textAlign='center'
+        >
+          <Text fontSize={'4xl'}> ✅</Text>
+          <Text fontSize={'xl'} fontWeight={'black'}>
+            Registration successful
+          </Text>
+          <Text mt={0} fontWeight={'medium'}>
+            Check your email verify your account (Might be in spam).
+          </Text>
+
           <Button
-            type='submit'
-            isLoading={isLoading}
-            isFullWidth
-            colorScheme={'green'}
-          >
-            Signup
-          </Button>
-          <CustomLink
-            href='/login'
-            containerProps={{
-              fontSize: 'sm',
-              fontWeight: 'bold',
-              color: 'green.500',
-              mt: 2,
-              mx: 'auto',
+            textAlign={'center'}
+            isDisabled={resendDisabled}
+            bg='none'
+            isLoading={resendLoading}
+            fontSize={'sm'}
+            fontWeight={'bold'}
+            color={'green.500'}
+            mt={4}
+            mx={'auto'}
+            px={3}
+            onClick={() => {
+              resendConfirmation({ email });
             }}
           >
-            Already have an account?
-          </CustomLink>
-        </Flex>
-      </form>
+            Resend Verification link in 30s
+          </Button>
+        </Center>
+      )}
     </AuthLayout>
   );
 };

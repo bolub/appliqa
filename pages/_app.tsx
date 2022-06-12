@@ -77,11 +77,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   ];
   const [run, setRun] = useState(false);
 
-  useEffect(() => {
-    if (query?.signup === 'true') {
-      setRun(true);
-    }
-  }, [query?.signup, setRun]);
+  // useEffect(() => {
+  //   if (query?.signup === 'true') {
+  //     setRun(true);
+  //   }
+  // }, [query?.signup, setRun]);
 
   useEffect(() => {
     if (query?.tour === 'true') {
@@ -134,7 +134,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
 
           {isDashboardRoute && !isAuthRoute && <Navbar />}
-          {(query?.signup === 'true' || query?.tour === 'true') && (
+          {query?.tour === 'true' && (
             <Joyride
               continuous={true}
               run={run}

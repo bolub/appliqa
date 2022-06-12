@@ -14,12 +14,13 @@ import { AUTH_ROUTES } from '../../utils/routes';
 
 const LandingHeader = () => {
   return (
-    <Container maxW='7xl' mt={{ md: 16 }}>
+    <Container maxW='7xl' mt={{ base: 6, md: 16 }}>
       <Center flexDir={'column'} textAlign='center' maxW='700px' mx='auto'>
         <chakra.h1
           lineHeight={{ md: '57px' }}
           fontWeight={'black'}
           fontSize={{ base: '3xl', md: '5xl' }}
+          maxW={{ base: '300px', md: 'full' }}
         >
           Manage your{' '}
           <chakra.span color='green.500'>job search process</chakra.span>
@@ -42,7 +43,7 @@ const LandingHeader = () => {
       </Center>
 
       {/* <motion */}
-      <Image mt={20} src='/landing/header.svg' alt='Appliqa' />
+      <Image mt={20} src='/landing/headerF.png' alt='Appliqa' />
 
       <Flex
         bg='green.100'

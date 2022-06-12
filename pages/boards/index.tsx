@@ -37,10 +37,14 @@ const AllBoards = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (router?.query?.new === 'true') {
+    if (!router.query.new || !router.query.onboard) {
+      boardDisclosure.onClose();
+    }
+
+    if (router?.query?.new === 'true' || router?.query?.onboard === 'true') {
       boardDisclosure.onOpen();
     }
-  }, [router?.query?.new, boardDisclosure]);
+  }, [router?.query?.new, boardDisclosure, router?.query?.onboard]);
 
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
@@ -64,7 +68,9 @@ const AllBoards = () => {
           mt={{ base: 3, md: 'auto' }}
           mb={{ md: 'auto' }}
           colorScheme={'green'}
-          onClick={boardDisclosure.onOpen}
+          onClick={() => {
+            router.push('/boards?new=true');
+          }}
         >
           Create Board
         </Button>
@@ -77,7 +83,9 @@ const AllBoards = () => {
         emptyTextTitle='No boards found'
         emptyText='Get started by creating your first job board'
         emptyActionText='Create Board'
-        emptyAction={boardDisclosure.onOpen}
+        emptyAction={() => {
+          router.push('/boards?new=true');
+        }}
       >
         <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
           {allBoards?.map((board: any) => {
@@ -122,7 +130,7 @@ const AllBoards = () => {
       </Loader>
 
       <CustomModal disclosure={boardDisclosure} title='Create Board'>
-        <CreateBoard disclosure={boardDisclosure} />
+        <CreateBoard />
       </CustomModal>
     </Container>
   );

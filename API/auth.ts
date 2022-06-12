@@ -10,6 +10,11 @@ export const signupOp = async (data: any) => {
   return response.data;
 };
 
+export const reSendEmailConfirmation = async (data: any) => {
+  const response = await API.post(`/auth/send-email-confirmation`, { ...data });
+  return response.data;
+};
+
 export const forgotPasswordOp = async (data: any) => {
   const response = await API.post(`/auth/forgot-password`, { ...data });
   return response.data;
