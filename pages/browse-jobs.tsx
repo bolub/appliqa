@@ -4,7 +4,6 @@ import {
   Container,
   Flex,
   Heading,
-  HStack,
   Icon,
   Menu,
   MenuButton,
@@ -12,6 +11,7 @@ import {
   MenuList,
   MenuOptionGroup,
   SimpleGrid,
+  Stack,
   VStack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
@@ -212,11 +212,11 @@ const BrowseJobs = () => {
           }}
         />
 
-        <HStack
-          flexDir={{ base: 'column', md: 'row' }}
+        <Stack
+          direction={{ base: 'column', md: 'row' }}
           ml={{ md: 'auto' }}
           mt={{ base: '5', md: 0 }}
-          spacing={{ md: 2 }}
+          spacing={{ base: 1, md: 2 }}
         >
           {/* duration */}
           {/* <Menu closeOnSelect={false}>
@@ -328,10 +328,14 @@ const BrowseJobs = () => {
               </MenuOptionGroup>
             </MenuList>
           </Menu>
-        </HStack>
+        </Stack>
       </Flex>
 
-      <SimpleGrid columns={2} spacing={10} mt={6}>
+      <SimpleGrid
+        columns={{ base: 1, md: 2 }}
+        spacing={{ base: 1, md: 10 }}
+        mt={6}
+      >
         <JobSites />
 
         <JobInterviewTips />

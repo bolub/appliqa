@@ -90,7 +90,7 @@ const Profile = () => {
             Update Information
           </Heading>
 
-          <HStack mt={8} spacing={5}>
+          <HStack flexDir={{ base: 'column', md: 'row' }} mt={8} spacing={5}>
             <Avatar
               size='xl'
               p='4'
@@ -100,6 +100,7 @@ const Profile = () => {
               src={`https://avatars.dicebear.com/api/bottts/${getCookie(
                 'USER_NAME'
               )}.svg`}
+              mb={{ base: 6, md: 0 }}
             />
 
             <form
@@ -113,7 +114,7 @@ const Profile = () => {
                 });
               }}
             >
-              <Flex>
+              <Flex flexDir={{ base: 'column', md: 'row' }}>
                 <FormInput
                   type='text'
                   label='Fullname'
@@ -132,8 +133,8 @@ const Profile = () => {
                 />
 
                 <Button
-                  mt={6}
-                  ml={3}
+                  mt={{ base: 4, md: 6 }}
+                  ml={{ md: 3 }}
                   type='submit'
                   isLoading={isLoading}
                   isFullWidth
