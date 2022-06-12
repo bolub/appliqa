@@ -7,7 +7,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import FormInput from '../UI/Form/FormInput';
 import SearchableSelect from '../UI/Form/SearchableSelect';
 import { Options } from './../../utils/GeneralProps';
@@ -157,6 +157,12 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
     });
   }, [boardId, allBoards]);
 
+  useEffect(() => {
+    if (boardsToDisplay?.length > 0) {
+      setBoardId(boardsToDisplay[0]?.value);
+    }
+  }, [boardsToDisplay]);
+
   return (
     <>
       <VStack align='start' w='100%' spacing={6}>
@@ -290,7 +296,9 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               level: dataToSend.level,
               role: dataToSend.role,
               slug: uuidv4(),
+              stage: dataToSend?.stage_slug,
               userId: getCookie('USER_ID'),
+              boardId: boardId.toString(),
             });
           }}
           ml={2}

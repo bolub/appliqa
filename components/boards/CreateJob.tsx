@@ -39,8 +39,12 @@ const CreateJob: FC = ({
     slug: uuidv4(),
   });
   const [allBoards, setAllBoards] = useState([]);
-  const [boardId, setBoardId] = useState<string | number>('');
+  const [boardId, setBoardId] = useState<string | number>(
+    originalBoardData?.id
+  );
   const [newJobId, setNewJobId] = useState('');
+
+  console.log(originalBoardData);
 
   const setData = (label: string, value: string | number | undefined) => {
     setDataToSend((prev) => {
@@ -83,7 +87,8 @@ const CreateJob: FC = ({
       });
 
       if (addOpen) {
-        router.push(`/boards/${boardId}?jobId=${newJobId}`);
+        // router.push(`/boards/${boardId}?jobId=${newJobId}`);
+        window.location.href = `/boards/${boardId}?jobId=${newJobId}`;
       } else {
         disclosure.onClose && disclosure.onClose();
       }
@@ -136,6 +141,7 @@ const CreateJob: FC = ({
       };
     });
   }, [allBoards]);
+
   return (
     <>
       <VStack align='start' w='100%' spacing={6}>
@@ -276,6 +282,7 @@ const CreateJob: FC = ({
               slug: uuidv4(),
               stage: dataToSend?.stage_slug,
               userId: getCookie('USER_ID'),
+              boardId: boardId.toString(),
             });
           }}
           mr={2}
