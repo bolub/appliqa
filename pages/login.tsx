@@ -40,6 +40,7 @@ export default function Login() {
       setCookies('USER_TOKEN', jwt, { maxAge: 604800 });
       setCookies('USER_ID', user.id, { maxAge: 604800 });
       setCookies('USER_AUTHENTICATED', 'true');
+      setCookies('USER_NAME', user.username, { maxAge: 604800 });
 
       if (router?.query?.onboard === 'true') {
         window.location.href = `${DASHBOARD_ROUTES.BOARDS}?onboard=true`;

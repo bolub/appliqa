@@ -16,9 +16,13 @@ import {
   VStack,
   Button,
   Text,
+  Avatar,
 } from '@chakra-ui/react';
+import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
-import { HiOutlineMenu, HiUserCircle } from 'react-icons/hi';
+import { HiOutlineMenu } from 'react-icons/hi';
+import { useRecoilValue } from 'recoil';
+import { profileState } from '../../../recoil/profile';
 import { logout } from '../../../utils/functions';
 import { AUTH_ROUTES, DASHBOARD_ROUTES } from '../../../utils/routes';
 import CustomLink from '../CustomLink';
@@ -31,6 +35,8 @@ const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const router = useRouter();
+
+  const username = useRecoilValue(profileState)?.username;
 
   return (
     <chakra.nav bg='green.500' h='68px' d='flex' alignItems={'center'}>
@@ -138,15 +144,23 @@ const Navbar = () => {
           </Button>
 
           <Menu autoSelect={false}>
-            <MenuButton
-              pl={{ md: 5 }}
-              fontSize={'3xl'}
-              aria-label='profile'
-              color='white'
-            >
-              <HiUserCircle />
+            <MenuButton pl={{ md: 5 }} aria-label='profile' color='white'>
+              {/* <HiUserCircle /> */}
+
+              <Avatar
+                w='36px'
+                h='36px'
+                p='1'
+                bg='white'
+                src={`https://avatars.dicebear.com/api/bottts/${
+                  username || getCookie('USER_NAME')
+                }.svg`}
+              />
             </MenuButton>
             <MenuList>
+              <CustomLink href={DASHBOARD_ROUTES.PROFILE}>
+                <MenuItem>My Profile</MenuItem>
+              </CustomLink>
               <CustomLink href={AUTH_ROUTES.LOGIN}>
                 <MenuItem onClick={logout}>Logout</MenuItem>
               </CustomLink>
