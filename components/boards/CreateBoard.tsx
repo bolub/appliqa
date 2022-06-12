@@ -90,27 +90,27 @@ const CreateBoard: FC<any> = () => {
   const prodStagesToDisplay = [
     {
       label: 'Wishlist',
-      value: 5,
+      value: 1,
       slug: 'stage-1',
     },
     {
       label: 'Applied',
-      value: 7,
+      value: 2,
       slug: 'stage-2',
     },
     {
       label: 'Interview',
-      value: 8,
+      value: 3,
       slug: 'stage-3',
     },
     {
       label: 'Offer',
-      value: 9,
+      value: 4,
       slug: 'stage-4',
     },
     {
       label: 'Rejected',
-      value: 10,
+      value: 5,
       slug: 'stage-5',
     },
   ];
