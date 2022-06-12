@@ -175,7 +175,7 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
                 <Center ml='auto' w='10%'>
                   <Link
                     passHref
-                    href={`/boards/2?jobId=${data?.jobId}&tab=${data?.type}`}
+                    href={`/boards/${boardId}?jobId=${data?.jobId}&tab=${data?.type}`}
                   >
                     <Button
                       colorScheme={'green'}
