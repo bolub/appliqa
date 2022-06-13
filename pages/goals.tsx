@@ -7,7 +7,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { fetchGoals } from '../API/goals';
 import CreateGoal from '../components/goals/CreateGoal';
 import SingleGoal from '../components/goals/SingleGoal';
@@ -30,7 +30,7 @@ export interface GoalProps {
   };
 }
 
-const Goals = () => {
+export default function Goals() {
   const [allGoals, setAllGoals] = useState([]);
   const [originalData, setOriginalData] = useState([]);
 
@@ -113,6 +113,16 @@ const Goals = () => {
       </CustomModal>
     </Container>
   );
-};
+}
 
-export default Goals;
+export async function getStaticProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery('goals', fetchGoals);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}

@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app';
 import { ChakraProvider, Text } from '@chakra-ui/react';
 import { theme } from '../chakra/theme';
 
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
@@ -17,7 +17,13 @@ import { RecoilRoot } from 'recoil';
 import Script from 'next/script';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
 
   const [isAuthRoute, setIsAuthRoute] = useState<boolean>(false);
   const [isDashboardRoute, setIsDashboardRoute] = useState<boolean>(false);
@@ -100,26 +106,27 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <RecoilRoot>
-          <Head>
-            <title>Appliqa</title>
-            <meta
-              name='description'
-              content='Track your job applications with ease'
-            />
-            <link
-              href='https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap'
-              rel='stylesheet'
-            />
-            <link rel='icon' href='/Logo.svg' />
-          </Head>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <RecoilRoot>
+            <Head>
+              <title>Appliqa</title>
+              <meta
+                name='description'
+                content='Track your job applications with ease'
+              />
+              <link
+                href='https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap'
+                rel='stylesheet'
+              />
+              <link rel='icon' href='/Logo.svg' />
+            </Head>
 
-          <Script
-            id='tawk'
-            strategy='lazyOnload'
-            dangerouslySetInnerHTML={{
-              __html: `
+            <Script
+              id='tawk'
+              strategy='lazyOnload'
+              dangerouslySetInnerHTML={{
+                __html: `
               var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
               (function(){
               var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -130,30 +137,31 @@ function MyApp({ Component, pageProps }: AppProps) {
               s0.parentNode.insertBefore(s1,s0);
               })();
           `,
-            }}
-          />
-
-          {isDashboardRoute && !isAuthRoute && <Navbar />}
-          {query?.tour === 'true' && (
-            <Joyride
-              continuous={true}
-              run={run}
-              scrollToFirstStep={true}
-              // showProgress={true}
-              showSkipButton={true}
-              steps={steps}
-              styles={{
-                options: {
-                  zIndex: 10000,
-                  primaryColor: '#16a34a',
-                },
               }}
-              callback={handleJoyrideCallback}
             />
-          )}
 
-          <Component {...pageProps} />
-        </RecoilRoot>
+            {isDashboardRoute && !isAuthRoute && <Navbar />}
+            {query?.tour === 'true' && (
+              <Joyride
+                continuous={true}
+                run={run}
+                scrollToFirstStep={true}
+                // showProgress={true}
+                showSkipButton={true}
+                steps={steps}
+                styles={{
+                  options: {
+                    zIndex: 10000,
+                    primaryColor: '#16a34a',
+                  },
+                }}
+                callback={handleJoyrideCallback}
+              />
+            )}
+
+            <Component {...pageProps} />
+          </RecoilRoot>
+        </Hydrate>
       </QueryClientProvider>
     </ChakraProvider>
   );

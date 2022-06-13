@@ -22,6 +22,10 @@ const Column = ({
 }) => {
   const [draggingOver, setIsDraggingOver] = useState(false);
 
+  const filteredTasks = tasks?.filter((element) => {
+    return element !== undefined;
+  });
+
   return (
     <Box
       borderWidth={!draggingOver ? '1px' : '2px'}
@@ -57,7 +61,8 @@ const Column = ({
           fontWeight='bold'
           fontSize={'md'}
         >
-          {tasks?.length && tasks[0] ? tasks?.length : 0}
+          {filteredTasks?.length}
+          {/* {tasks?.length && tasks[0] ? tasks?.length : 0} */}
         </Badge>
       </HStack>
 
