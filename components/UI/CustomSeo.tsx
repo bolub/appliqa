@@ -14,9 +14,9 @@ const CustomSeo: FC<Props> = ({
     <NextSeo
       title={title}
       description={description}
-      canonical='https://www.canonical.ie/'
+      canonical='https://appliqa.net'
       openGraph={{
-        url: 'https://www.url.ie/a',
+        url: 'https://appliqa.net',
         title: title,
         description: description,
         images: [
@@ -27,8 +27,15 @@ const CustomSeo: FC<Props> = ({
             alt: 'Appliqa',
             type: 'image/jpeg',
           },
+          {
+            url: 'https://res.cloudinary.com/bolub/image/upload/v1655155925/appliqa/MetaImagep.png',
+            width: 900,
+            height: 800,
+            alt: 'Og Image Alt Second',
+            type: 'image/jpeg',
+          },
         ],
-        site_name: 'SiteName',
+        site_name: 'Appliqa',
       }}
       // twitter={{
       //   handle: '@handle',
