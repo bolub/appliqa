@@ -21,7 +21,7 @@ const CustomSeo: FC<Props> = ({
         description: description,
         images: [
           {
-            url: 'https://res.cloudinary.com/bolub/image/upload/v1655154693/appliqa/MetaImage.svg',
+            url: 'https://res.cloudinary.com/bolub/image/upload/v1655155925/appliqa/MetaImagep.png',
             width: 800,
             height: 600,
             alt: 'Appliqa',
