@@ -21,14 +21,14 @@ const CustomSeo: FC<Props> = ({
         description: description,
         images: [
           {
-            url: 'https://res.cloudinary.com/bolub/image/upload/v1655155925/appliqa/MetaImagep.png',
+            url: 'https://res.cloudinary.com/bolub/image/upload/v1655156820/appliqa/MetaImagep.png',
             width: 800,
             height: 600,
             alt: 'Appliqa',
             type: 'image/jpeg',
           },
           {
-            url: 'https://res.cloudinary.com/bolub/image/upload/v1655155925/appliqa/MetaImagep.png',
+            url: 'https://res.cloudinary.com/bolub/image/upload/v1655156820/appliqa/MetaImagep.png',
             width: 900,
             height: 800,
             alt: 'Og Image Alt Second',
