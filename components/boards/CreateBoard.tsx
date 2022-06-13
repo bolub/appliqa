@@ -52,7 +52,7 @@ const CreateBoard: FC<any> = () => {
       if (addOpen) {
         window.location.href = `/boards/${response?.id}`;
       } else {
-        router.push(DASHBOARD_ROUTES.BOARDS);
+        window.location.href = DASHBOARD_ROUTES.BOARDS;
       }
     },
   });

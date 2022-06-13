@@ -33,7 +33,7 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
 
   const queryClient = useQueryClient();
 
-  const { mutate, status } = useMutation(createGoal, {
+  const { mutate, isLoading } = useMutation(createGoal, {
     onSuccess: () => {
       queryClient.invalidateQueries('goals');
       toast({
@@ -119,6 +119,13 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
               'Fullstack Developer',
               'Frontend Developer',
               'Backend Developer',
+              'Mobile Developer',
+              'UI/UX Designer',
+              'Data Scientist',
+              'Data Engineer',
+              'Data Analyst',
+              'Devops Engineer',
+              '',
             ]}
           />
         </SimpleGrid>
@@ -139,8 +146,10 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
               'Remote',
               'Remote Full-Time',
               'Remote Part-Time',
-              'Fulltime',
-              'PartTime',
+              'Full-Time',
+              'Full-Time (Relocation)',
+              'Part-Time(Relocation)',
+              'Part-Time',
             ]}
           />
 
@@ -157,13 +166,13 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
       <Flex justifyContent={'end'} mt={16}>
         <Button
           onClick={disclosure.onClose}
-          isDisabled={status === 'loading'}
+          isLoading={isLoading}
           variant={'ghost'}
         >
           Cancel
         </Button>
         <Button
-          isDisabled={status === 'loading'}
+          isLoading={isLoading}
           onClick={() => {
             mutate({ ...dataToSend, userId: getCookie('USER_ID') });
           }}

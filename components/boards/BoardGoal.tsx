@@ -39,8 +39,11 @@ const BoardGoal: FC<{ data: any }> = ({ data }) => {
         </Text>
       ) : (
         <Link href={DASHBOARD_ROUTES.GOALS} passHref>
-          <ChakraLink fontWeight={'medium'}>
-            Create and add a goal to this board
+          <ChakraLink fontWeight={'medium'} textAlign='center'>
+            <Text as={'span'} fontSize='lg' mt={2} mr={1}>
+              🙂
+            </Text>{' '}
+            Add a goal to this board
           </ChakraLink>
         </Link>
       )}

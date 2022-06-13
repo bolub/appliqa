@@ -187,22 +187,26 @@ const Navbar = () => {
                   className='my-first-step'
                   label='Analytics'
                   href={DASHBOARD_ROUTES.ANALYTICS}
+                  close={onClose}
                 />
                 <SideNavItem
                   className='goals'
                   label='Goals'
                   href={DASHBOARD_ROUTES.GOALS}
+                  close={onClose}
                 />
                 <AllBoards isMobile />
                 <SideNavItem
                   className='browse-jobs'
                   label='Browse Jobs (beta)'
                   href={DASHBOARD_ROUTES.JOBS}
+                  close={onClose}
                 />
                 <SideNavItem
                   className='contacts'
                   label='Contacts'
                   href={DASHBOARD_ROUTES.CONTACTS}
+                  close={onClose}
                 />
               </VStack>
             </DrawerBody>

@@ -79,7 +79,7 @@ export const COUNTRIES: Options[] = [
     value: 'az',
   },
   {
-    label: 'Bahamas (the)',
+    label: 'Bahamas ',
     value: 'bs',
   },
   {
@@ -143,7 +143,7 @@ export const COUNTRIES: Options[] = [
     value: 'br',
   },
   {
-    label: 'British Indian Ocean Territory (the)',
+    label: 'British Indian Ocean Territory ',
     value: 'io',
   },
   {
@@ -179,11 +179,11 @@ export const COUNTRIES: Options[] = [
     value: 'ca',
   },
   {
-    label: 'Cayman Islands (the)',
+    label: 'Cayman Islands ',
     value: 'ky',
   },
   {
-    label: 'Central African Republic (the)',
+    label: 'Central African Republic ',
     value: 'cf',
   },
   {
@@ -203,7 +203,7 @@ export const COUNTRIES: Options[] = [
     value: 'cx',
   },
   {
-    label: 'Cocos (Keeling) Islands (the)',
+    label: 'Cocos (Keeling) Islands ',
     value: 'cc',
   },
   {
@@ -211,19 +211,16 @@ export const COUNTRIES: Options[] = [
     value: 'co',
   },
   {
-    label: 'Comoros (the)',
+    label: 'Comoros ',
     value: 'km',
   },
   {
-    label: 'Congo (the Democratic Republic of the)',
+    label: 'Congo (the Democratic Republic of the Congo)',
     value: 'cd',
   },
+
   {
-    label: 'Congo (the)',
-    value: 'cg',
-  },
-  {
-    label: 'Cook Islands (the)',
+    label: 'Cook Islands',
     value: 'ck',
   },
   {
@@ -267,7 +264,7 @@ export const COUNTRIES: Options[] = [
     value: 'dm',
   },
   {
-    label: 'Dominican Republic (the)',
+    label: 'Dominican Republic',
     value: 'do',
   },
   {
@@ -303,11 +300,11 @@ export const COUNTRIES: Options[] = [
     value: 'et',
   },
   {
-    label: 'Falkland Islands (the) [Malvinas]',
+    label: 'Falkland Islands [Malvinas]',
     value: 'fk',
   },
   {
-    label: 'Faroe Islands (the)',
+    label: 'Faroe Islands ',
     value: 'fo',
   },
   {
@@ -331,7 +328,7 @@ export const COUNTRIES: Options[] = [
     value: 'pf',
   },
   {
-    label: 'French Southern Territories (the)',
+    label: 'French Southern Territories ',
     value: 'tf',
   },
   {
@@ -339,7 +336,7 @@ export const COUNTRIES: Options[] = [
     value: 'ga',
   },
   {
-    label: 'Gambia (the)',
+    label: 'Gambia ',
     value: 'gm',
   },
   {
@@ -407,7 +404,7 @@ export const COUNTRIES: Options[] = [
     value: 'hm',
   },
   {
-    label: 'Holy See (the)',
+    label: 'Holy See ',
     value: 'va',
   },
   {
@@ -487,11 +484,11 @@ export const COUNTRIES: Options[] = [
     value: 'ki',
   },
   {
-    label: "Korea (the Democratic People's Republic of)",
+    label: "Korea (the Democratic People's Republic of Korea)",
     value: 'kp',
   },
   {
-    label: 'Korea (the Republic of)',
+    label: 'Korea (the Republic of Korea)',
     value: 'kr',
   },
   {
@@ -503,7 +500,7 @@ export const COUNTRIES: Options[] = [
     value: 'kg',
   },
   {
-    label: "Lao People's Democratic Republic (the)",
+    label: "Lao People's Democratic Republic ",
     value: 'la',
   },
   {
@@ -567,7 +564,7 @@ export const COUNTRIES: Options[] = [
     value: 'mt',
   },
   {
-    label: 'Marshall Islands (the)',
+    label: 'Marshall Islands ',
     value: 'mh',
   },
   {
@@ -639,7 +636,7 @@ export const COUNTRIES: Options[] = [
     value: 'np',
   },
   {
-    label: 'Netherlands (the)',
+    label: 'Netherlands ',
     value: 'nl',
   },
   {
@@ -655,7 +652,7 @@ export const COUNTRIES: Options[] = [
     value: 'ni',
   },
   {
-    label: 'Niger (the)',
+    label: 'Niger ',
     value: 'ne',
   },
   {
@@ -671,7 +668,7 @@ export const COUNTRIES: Options[] = [
     value: 'nf',
   },
   {
-    label: 'Northern Mariana Islands (the)',
+    label: 'Northern Mariana Islands ',
     value: 'mp',
   },
   {
@@ -691,7 +688,7 @@ export const COUNTRIES: Options[] = [
     value: 'pw',
   },
   {
-    label: 'Palestine, State of',
+    label: 'Palestine, State of Palestine',
     value: 'ps',
   },
   {
@@ -711,7 +708,7 @@ export const COUNTRIES: Options[] = [
     value: 'pe',
   },
   {
-    label: 'Philippines (the)',
+    label: 'Philippines ',
     value: 'ph',
   },
   {
@@ -743,7 +740,7 @@ export const COUNTRIES: Options[] = [
     value: 'ro',
   },
   {
-    label: 'Russian Federation (the)',
+    label: 'Russian Federation ',
     value: 'ru',
   },
   {
@@ -859,7 +856,7 @@ export const COUNTRIES: Options[] = [
     value: 'lk',
   },
   {
-    label: 'Sudan (the)',
+    label: 'Sudan ',
     value: 'sd',
   },
   {
@@ -891,7 +888,7 @@ export const COUNTRIES: Options[] = [
     value: 'tj',
   },
   {
-    label: 'Tanzania, United Republic of',
+    label: 'Tanzania, United Republic of Tanzania',
     value: 'tz',
   },
   {
@@ -931,7 +928,7 @@ export const COUNTRIES: Options[] = [
     value: 'tm',
   },
   {
-    label: 'Turks and Caicos Islands (the)',
+    label: 'Turks and Caicos Islands ',
     value: 'tc',
   },
   {
@@ -947,19 +944,19 @@ export const COUNTRIES: Options[] = [
     value: 'ua',
   },
   {
-    label: 'United Arab Emirates (the)',
+    label: 'United Arab Emirates ',
     value: 'ae',
   },
   {
-    label: 'United Kingdom of Great Britain and Northern Ireland (the)',
+    label: 'United Kingdom of Great Britain and Northern Ireland ',
     value: 'gb',
   },
   {
-    label: 'United States Minor Outlying Islands (the)',
+    label: 'United States Minor Outlying Islands ',
     value: 'um',
   },
   {
-    label: 'United States of America (the)',
+    label: 'United States of America ',
     value: 'us',
   },
   {
@@ -975,7 +972,7 @@ export const COUNTRIES: Options[] = [
     value: 'vu',
   },
   {
-    label: 'Venezuela (Bolivarian Republic of)',
+    label: 'Venezuela',
     value: 've',
   },
   {

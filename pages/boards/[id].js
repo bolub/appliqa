@@ -369,9 +369,9 @@ const Boards = () => {
               <PopoverCloseButton />
 
               <PopoverBody fontSize='sm' py={5} px={5}>
-                {data?.attributes?.goal?.data && (
-                  <BoardGoal data={data?.attributes?.goal?.data?.attributes} />
-                )}
+                {/* {data?.attributes?.goal?.data && ( */}
+                <BoardGoal data={data?.attributes?.goal?.data?.attributes} />
+                {/* )} */}
               </PopoverBody>
             </PopoverContent>
           </Popover>

@@ -6,9 +6,10 @@ interface Props {
   href: string;
   label: string;
   className?: string;
+  close: () => void;
 }
 
-const SideNavItem: FC<Props> = ({ href, label, className }) => {
+const SideNavItem: FC<Props> = ({ href, label, className, close }) => {
   const { pathname } = useRouter();
 
   const isActive = pathname === href;
@@ -23,6 +24,7 @@ const SideNavItem: FC<Props> = ({ href, label, className }) => {
         borderRadius: '4px',
         py: 2,
         className: className,
+        onClick: close,
       }}
     >
       {label}
