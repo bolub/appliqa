@@ -47,7 +47,7 @@ const ManageProcess = () => {
   };
 
   return (
-    <Container maxW='7xl' mt={{ base: 24 }} mb={10}>
+    <Container maxW='7xl' mt={{ base: 24, md: 32 }} mb={10}>
       <chakra.h2 fontSize={{ base: '2xl', md: '4xl' }} fontWeight='black'>
         Manage your process
       </chakra.h2>

@@ -45,7 +45,7 @@ const LandingHeader = () => {
       {/* <motion */}
       <Image mt={20} src='/landing/headerF.png' alt='Appliqa' />
 
-      <Flex
+      {/* <Flex
         bg='green.100'
         pt={{ base: 16, md: 40 }}
         pb={{ base: 16, md: 32 }}
@@ -101,7 +101,7 @@ const LandingHeader = () => {
             </Text>
           </Text>
         </HStack>
-      </Flex>
+      </Flex> */}
     </Container>
   );
 };
