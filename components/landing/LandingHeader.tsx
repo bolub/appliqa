@@ -1,13 +1,9 @@
 import {
-  Avatar,
   Button,
   Center,
   chakra,
   Container,
-  Flex,
-  HStack,
   Image,
-  Text,
   Link,
 } from '@chakra-ui/react';
 import { AUTH_ROUTES } from '../../utils/routes';
