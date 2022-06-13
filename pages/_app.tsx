@@ -15,6 +15,7 @@ import Navbar from '../components/UI/Layout/Navbar';
 import Joyride, { STATUS } from 'react-joyride';
 import { RecoilRoot } from 'recoil';
 import Script from 'next/script';
+import CustomSeo from '../components/UI/CustomSeo';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -110,17 +111,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           <ReactQueryDevtools initialIsOpen={false} />
           <RecoilRoot>
             <Head>
-              <title>Appliqa</title>
-              <meta
-                name='description'
-                content='Track your job applications with ease'
-              />
               <link
                 href='https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap'
                 rel='stylesheet'
               />
               <link rel='icon' href='/Logo.svg' />
             </Head>
+
+            <CustomSeo />
 
             <Script
               id='tawk'

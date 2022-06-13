@@ -17,6 +17,7 @@ import { fetchAllBoards } from '../API/boards';
 import AnalyticsCard from '../components/analytics/AnalyticsCard';
 import OverviewDuration from '../components/analytics/OverviewDuration';
 import UpcomingTasksAndInterviews from '../components/analytics/UpcomingTasksAndInterviews';
+import CustomSeo from '../components/UI/CustomSeo';
 import Loader from '../components/UI/Loader';
 import AnalyticsLoader from '../components/UI/Loaders/AnalyticsLoader';
 
@@ -56,6 +57,8 @@ const Analytics = () => {
 
   return (
     <Container maxW='7xl' pt={{ base: 12 }}>
+      <CustomSeo title='Analytics' />
+
       <HStack>
         <Heading as='h1' flex={1} fontWeight={'black'} fontSize='2xl'>
           Analytics

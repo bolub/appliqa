@@ -35,6 +35,7 @@ import { HiChevronDown } from 'react-icons/hi';
 import JobSites from '../components/jobs/JobSites';
 import JobInterviewTips from '../components/jobs/JobInterviewTips';
 import BrowseJobsLoader from '../components/UI/Loaders/BrowseJobsLoader';
+import CustomSeo from '../components/UI/CustomSeo';
 
 export interface GoalProps {
   id: string | number;
@@ -196,6 +197,8 @@ const BrowseJobs = () => {
 
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
+      <CustomSeo title='Browse Jobs' />
+
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
         Browse Jobs
       </Heading>

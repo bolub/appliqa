@@ -12,6 +12,7 @@ import { fetchGoals } from '../API/goals';
 import CreateGoal from '../components/goals/CreateGoal';
 import SingleGoal from '../components/goals/SingleGoal';
 import CustomModal from '../components/UI/CustomModal';
+import CustomSeo from '../components/UI/CustomSeo';
 import SearchInput from '../components/UI/Form/SearchInput';
 import Loader from '../components/UI/Loader';
 import GoalsLoader from '../components/UI/Loaders/GoalsLoader';
@@ -64,6 +65,8 @@ export default function Goals() {
 
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
+      <CustomSeo title='Goals' />
+
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
         Goals
       </Heading>

@@ -45,6 +45,7 @@ import { useSetRecoilState } from 'recoil';
 import { boardState } from './../../recoil/board';
 import { getCookie } from 'cookies-next';
 import BoardLoader from './../../components/UI/Loaders/BoardLoader';
+import CustomSeo from '../../components/UI/CustomSeo';
 
 const Boards = () => {
   const [boardData, setBoardData] = useState(initialData);
@@ -257,6 +258,8 @@ const Boards = () => {
   }
   return (
     <Container maxW='7xl' pt={{ base: 12 }}>
+      <CustomSeo title={boardTitle ?? 'Board'} />
+
       {/* Header title and goal */}
       <Flex>
         <Input

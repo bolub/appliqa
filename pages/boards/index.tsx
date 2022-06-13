@@ -22,6 +22,7 @@ import CustomModal from '../../components/UI/CustomModal';
 import CreateBoard from '../../components/boards/CreateBoard';
 import AllBoardsLoader from '../../components/UI/Loaders/AllBoardsLoader';
 import { useRouter } from 'next/router';
+import CustomSeo from '../../components/UI/CustomSeo';
 
 const AllBoards = () => {
   const { data, status } = useQuery('all-boards', fetchAllBoards);
@@ -42,6 +43,8 @@ const AllBoards = () => {
 
   return (
     <Container maxW='7xl' py={{ base: 12, md: 20 }}>
+      <CustomSeo title='Boards' />
+
       <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
         Boards
       </Heading>
