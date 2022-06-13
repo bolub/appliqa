@@ -32,14 +32,15 @@ const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
 
   const { mutate: deleteCGoal, isLoading } = useMutation(deleteGoal, {
     onSuccess: () => {
-      queryClient.invalidateQueries('board');
+      queryClient.invalidateQueries('goals');
+
       toast({
         position: 'top-right',
         isClosable: true,
         render: () => (
           <ToastBody
             title='Success'
-            message='Job Deleted successfully'
+            message='Goal Deleted successfully'
             status='success'
           />
         ),

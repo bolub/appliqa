@@ -7,7 +7,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { fetchGoals } from '../API/goals';
 import CreateGoal from '../components/goals/CreateGoal';
 import SingleGoal from '../components/goals/SingleGoal';
@@ -115,14 +115,14 @@ export default function Goals() {
   );
 }
 
-export async function getStaticProps() {
-  const queryClient = new QueryClient();
+// export async function getStaticProps() {
+//   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery('goals', fetchGoals);
+//   await queryClient.prefetchQuery('goals', fetchGoals);
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-}
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// }

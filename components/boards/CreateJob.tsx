@@ -65,37 +65,43 @@ const CreateJob: FC = ({
     },
   });
 
-  const { mutate: updateCStage } = useMutation(updateStage, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('board');
-    },
-  });
+  const { mutate: updateCStage, isLoading: stageLoading } = useMutation(
+    updateStage,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('board');
+      },
+    }
+  );
 
-  const { mutate: updateCBoard } = useMutation(updateBoard, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('board');
-      toast({
-        position: 'top-right',
-        isClosable: true,
-        render: () => (
-          <ToastBody
-            title='Success'
-            message='Job Added successfully'
-            status='success'
-          />
-        ),
-      });
+  const { mutate: updateCBoard, isLoading: boardLoading } = useMutation(
+    updateBoard,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('board');
+        toast({
+          position: 'top-right',
+          isClosable: true,
+          render: () => (
+            <ToastBody
+              title='Success'
+              message='Job Added successfully'
+              status='success'
+            />
+          ),
+        });
 
-      if (addOpen) {
-        // router.push(`/boards/${boardId}?jobId=${newJobId}`);
-        window.location.href = `/boards/${boardId}?jobId=${newJobId}`;
-      } else {
-        disclosure.onClose && disclosure.onClose();
-      }
-    },
-  });
+        if (addOpen) {
+          // router.push(`/boards/${boardId}?jobId=${newJobId}`);
+          window.location.href = `/boards/${boardId}?jobId=${newJobId}`;
+        } else {
+          disclosure.onClose && disclosure.onClose();
+        }
+      },
+    }
+  );
 
-  const { mutate } = useMutation(createJob, {
+  const { mutate, isLoading: jobLoading } = useMutation(createJob, {
     onSuccess: (data) => {
       const createdData = data;
       setNewJobId(createdData.id);
@@ -237,7 +243,7 @@ const CreateJob: FC = ({
                 setData('stage_slug', value.slug);
               }}
               value={allStages?.filter((option: Options) => {
-                return option?.value === currentStage?.id;
+                return option?.value === dataToSend?.stage_id;
               })}
               formControlProps={{
                 isRequired: true,
@@ -272,6 +278,7 @@ const CreateJob: FC = ({
             !dataToSend.role ||
             !dataToSend.company_name
           }
+          isLoading={jobLoading || stageLoading || boardLoading}
           onClick={() => {
             setAddOpen(true);
             mutate({
@@ -298,6 +305,7 @@ const CreateJob: FC = ({
             !dataToSend.role ||
             !dataToSend.company_name
           }
+          isLoading={jobLoading || stageLoading || boardLoading}
           onClick={() => {
             mutate({
               post_url: dataToSend.post_url,

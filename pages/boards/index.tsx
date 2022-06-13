@@ -10,7 +10,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { useQuery } from 'react-query';
 import { fetchAllBoards } from '../../API/boards';
@@ -24,13 +24,7 @@ import AllBoardsLoader from '../../components/UI/Loaders/AllBoardsLoader';
 import { useRouter } from 'next/router';
 
 const AllBoards = () => {
-  const [allBoards, setAllBoards] = useState([]);
-
-  const { status } = useQuery('all-boards', fetchAllBoards, {
-    onSuccess: (data) => {
-      setAllBoards(data);
-    },
-  });
+  const { data, status } = useQuery('all-boards', fetchAllBoards);
 
   const boardDisclosure = useDisclosure();
 
@@ -77,7 +71,7 @@ const AllBoards = () => {
       </Flex>
 
       <Loader
-        length={allBoards?.length}
+        length={data?.length}
         loader={<AllBoardsLoader />}
         status={status}
         emptyTextTitle='No boards found'
@@ -88,7 +82,7 @@ const AllBoards = () => {
         }}
       >
         <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-          {allBoards?.map((board: any) => {
+          {data?.map((board: any) => {
             return (
               <Flex
                 key={board.id}

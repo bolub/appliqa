@@ -35,7 +35,7 @@ const CreateBoard: FC<any> = () => {
     }
   }, [router?.query?.onboard]);
 
-  const { mutate } = useMutation(createBoard, {
+  const { mutate, isLoading } = useMutation(createBoard, {
     onSuccess: (response) => {
       queryClient.invalidateQueries('all-boards');
       toast({
@@ -50,7 +50,7 @@ const CreateBoard: FC<any> = () => {
         ),
       });
       if (addOpen) {
-        router.push(`/boards/${response?.id}`);
+        window.location.href = `/boards/${response?.id}`;
       } else {
         router.push(DASHBOARD_ROUTES.BOARDS);
       }
@@ -181,6 +181,7 @@ const CreateBoard: FC<any> = () => {
         </Button>
         <Button
           isDisabled={!dataToSend.title}
+          isLoading={isLoading}
           onClick={() => {
             const stagesToSend = stagesToDisplay.map(
               (stageData) => stageData.value
