@@ -13,8 +13,6 @@ const CreateBoard: FC<any> = () => {
     title: '',
   });
 
-  const [addOpen, setAddOpen] = useState(false);
-
   const [onboard, setOnboard] = useState(false);
 
   const setData = (label: string, value: string | number | undefined) => {
@@ -36,7 +34,7 @@ const CreateBoard: FC<any> = () => {
   }, [router?.query?.onboard]);
 
   const { mutate, isLoading } = useMutation(createBoard, {
-    onSuccess: (response) => {
+    onSuccess: () => {
       queryClient.invalidateQueries('all-boards');
       toast({
         position: 'top-right',
@@ -49,13 +47,31 @@ const CreateBoard: FC<any> = () => {
           />
         ),
       });
-      if (addOpen) {
-        window.location.href = `/boards/${response?.id}`;
-      } else {
-        window.location.href = DASHBOARD_ROUTES.BOARDS;
-      }
+
+      window.location.href = DASHBOARD_ROUTES.BOARDS;
     },
   });
+
+  const { mutate: openMutate, isLoading: openLoading } = useMutation(
+    createBoard,
+    {
+      onSuccess: (response) => {
+        queryClient.invalidateQueries('all-boards');
+        toast({
+          position: 'top-right',
+          isClosable: true,
+          render: () => (
+            <ToastBody
+              title='Success'
+              message='Board created successfully'
+              status='success'
+            />
+          ),
+        });
+        router.push(`/boards/${response?.id}`);
+      },
+    }
+  );
 
   const toast = useToast();
 
@@ -158,14 +174,14 @@ const CreateBoard: FC<any> = () => {
 
       <Flex justifyContent={'end'} mt={12}>
         <Button
-          isDisabled={!dataToSend.title}
+          isDisabled={!dataToSend.title || isLoading}
+          isLoading={openLoading}
           onClick={() => {
-            setAddOpen(true);
             const stagesToSend = stagesToDisplay.map(
               (stageData) => stageData.value
             );
 
-            mutate({
+            openMutate({
               userId: getCookie('USER_ID'),
 
               title: dataToSend.title,
@@ -180,7 +196,7 @@ const CreateBoard: FC<any> = () => {
           Create & Open
         </Button>
         <Button
-          isDisabled={!dataToSend.title}
+          isDisabled={!dataToSend.title || openLoading}
           isLoading={isLoading}
           onClick={() => {
             const stagesToSend = stagesToDisplay.map(
