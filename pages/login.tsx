@@ -1,7 +1,9 @@
 import {
   Button,
+  Center,
   Flex,
   Heading,
+  HStack,
   Text,
   useToast,
   VStack,
@@ -83,10 +85,31 @@ export default function Login() {
         color='gray.800'
         fontSize={'lg'}
         mt={2}
-        mb={12}
+        // mb={12}
       >
         Nice to have you back 😇
       </Text>
+
+      {router?.query?.onboard === 'true' && (
+        <Center
+          mt={6}
+          flexDir={'column'}
+          py={6}
+          borderRadius='lg'
+          borderWidth={'1px'}
+          borderColor='green.600'
+          bg='green.50'
+          px={{ base: 2, md: 10 }}
+          textAlign='center'
+        >
+          <HStack spacing={3}>
+            <Text fontSize={'lg'}> ✅</Text>
+            <Text fontSize={'md'} fontWeight='bold'>
+              Email confirmed, please login
+            </Text>
+          </HStack>
+        </Center>
+      )}
 
       <form
         onSubmit={(e) => {
@@ -95,7 +118,7 @@ export default function Login() {
           mutate({ identifier: email, password });
         }}
       >
-        <VStack spacing={8}>
+        <VStack spacing={8} mt={12}>
           <FormInput
             type='email'
             label='Email'
