@@ -10,7 +10,7 @@ import CustomSeo from '../components/UI/CustomSeo';
 const Home: NextPage = () => {
   return (
     <>
-      <CustomSeo />
+      <CustomSeo title='Home' />
       <LandingNavbar />
       <LandingHeader />
       <main>
