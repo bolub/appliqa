@@ -72,7 +72,7 @@ const ManageProcess = () => {
           <Accordion w='full' allowMultiple defaultIndex={0}>
             <Data
               emoji='ℹ️'
-              title='Mange Job Information'
+              title='Manage Job Information'
               description='Easily manage your job application information, Company information, salary and more in one central location'
             />
 
