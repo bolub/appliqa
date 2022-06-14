@@ -54,11 +54,9 @@ const Navbar = () => {
           <HiOutlineMenu size='18px' />
         </chakra.button>
 
-        <Logo
-          color='white'
-          textColor='green.500'
-          containerProps={{ my: 'auto', mr: 20 }}
-        />
+        <CustomLink href='/analytics' containerProps={{ my: 'auto', mr: 20 }}>
+          <Logo color='white' textColor='green.500' />
+        </CustomLink>
 
         <HStack spacing={4} d={{ base: 'none', md: 'flex' }}>
           <NavItem
@@ -159,10 +157,15 @@ const Navbar = () => {
             </MenuButton>
             <MenuList>
               <CustomLink href={DASHBOARD_ROUTES.PROFILE}>
-                <MenuItem>My Profile</MenuItem>
+                <MenuItem fontSize={'md'}>My Profile</MenuItem>
               </CustomLink>
+              <a href='/'>
+                <MenuItem fontSize={'md'}>Go to Homepage</MenuItem>
+              </a>
               <CustomLink href={AUTH_ROUTES.LOGIN}>
-                <MenuItem onClick={logout}>Logout</MenuItem>
+                <MenuItem fontSize={'md'} onClick={logout}>
+                  Logout
+                </MenuItem>
               </CustomLink>
             </MenuList>
           </Menu>
