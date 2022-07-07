@@ -55,7 +55,7 @@ const Navbar = () => {
         </chakra.button>
 
         <CustomLink href='/analytics' containerProps={{ my: 'auto', mr: 20 }}>
-          <Logo color='white' textColor='green.500' />
+          <Logo color='#ffffff' />
         </CustomLink>
 
         <HStack spacing={4} d={{ base: 'none', md: 'flex' }}>
