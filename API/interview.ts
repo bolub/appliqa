@@ -1,7 +1,21 @@
 import { getCookie } from 'cookies-next';
+import { CookieValueTypes } from 'cookies-next/lib/types';
 import API from '.';
 
-export const createInterview = async (data: any) => {
+interface interviewProps {
+  title: string;
+  category: string;
+  start?: Date;
+  end?: Date | undefined;
+  description?: string;
+  completed?: boolean;
+  userId: CookieValueTypes;
+  jobId: string;
+  job: string;
+  boardId: string | string[] | undefined;
+}
+
+export const createInterview = async (data: interviewProps) => {
   const response = await API.post(`/interviews`, {
     data: { ...data },
   });
@@ -11,7 +25,7 @@ export const createInterview = async (data: any) => {
 
 export const updateInterview = async (data: {
   id: string | number;
-  body: any;
+  body: Omit<interviewProps, 'userId' | 'jobId' | 'job' | 'boardId'>;
 }) => {
   const response = await API.put(`/interviews/${data.id}`, {
     data: { ...data.body },

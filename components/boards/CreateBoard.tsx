@@ -205,7 +205,6 @@ const CreateBoard: FC<any> = () => {
 
             mutate({
               userId: getCookie('USER_ID'),
-
               title: dataToSend.title,
               stages: stagesToSend,
               stage_order: 1,

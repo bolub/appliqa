@@ -87,7 +87,7 @@ export default function ResetPassword() {
 
           mutate({
             password,
-            code: query?.code,
+            code: query?.code as string,
             passwordConfirmation: confirmPassword,
           });
         }}

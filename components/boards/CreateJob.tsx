@@ -268,9 +268,6 @@ const CreateJob: FC = ({
       </VStack>
 
       <Flex justifyContent={'end'} mt={16}>
-        {/* <Button onClick={disclosure.onClose} variant={'ghost'}>
-          Cancel
-        </Button> */}
         <Button
           isDisabled={
             !dataToSend.board ||

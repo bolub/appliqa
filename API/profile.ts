@@ -7,7 +7,9 @@ export const fetchProfile = async () => {
 
 export const updateProfile = async (data: {
   id: string | number;
-  body: any;
+  body: {
+    fullname: string;
+  };
 }) => {
   const response = await API.put(`/users/${data.id}`, {
     ...data.body,

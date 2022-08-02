@@ -41,7 +41,9 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
     slug: uuidv4(),
   });
   const [allBoards, setAllBoards] = useState([]);
-  const [boardId, setBoardId] = useState<string | number>('');
+  const [boardId, setBoardId] = useState<
+    string | string[] | undefined | number
+  >('');
   const [addOpen, setAddOpen] = useState(false);
 
   const router = useRouter();
@@ -305,7 +307,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               slug: uuidv4(),
               stage: dataToSend?.stage_slug,
               userId: getCookie('USER_ID'),
-              boardId: boardId.toString(),
+              boardId: boardId?.toString(),
             });
           }}
           ml={2}
@@ -332,7 +334,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               slug: uuidv4(),
               stage: dataToSend?.stage_slug,
               userId: getCookie('USER_ID'),
-              boardId: boardId.toString(),
+              boardId: boardId?.toString(),
             });
           }}
           ml={2}

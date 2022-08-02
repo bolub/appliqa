@@ -1,7 +1,20 @@
 import { getCookie } from 'cookies-next';
+import { CookieValueTypes } from 'cookies-next/lib/types';
 import API from '.';
 
-export const createTask = async (data: any) => {
+interface taskProps {
+  title: string;
+  start?: Date;
+  end?: Date | undefined;
+  description?: string;
+  completed?: boolean;
+  userId: CookieValueTypes;
+  jobId: string;
+  job: string;
+  boardId: string | string[] | undefined;
+}
+
+export const createTask = async (data: taskProps) => {
   const response = await API.post(`/tasks`, {
     data: { ...data },
   });
@@ -9,7 +22,10 @@ export const createTask = async (data: any) => {
   return response.data.data;
 };
 
-export const updateTask = async (data: { id: string | number; body: any }) => {
+export const updateTask = async (data: {
+  id: string | number;
+  body: Omit<taskProps, 'userId' | 'jobId' | 'job' | 'boardId'>;
+}) => {
   const response = await API.put(`/tasks/${data.id}`, {
     data: { ...data.body },
   });

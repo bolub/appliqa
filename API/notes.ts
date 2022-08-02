@@ -1,7 +1,14 @@
 import { getCookie } from 'cookies-next';
+import { CookieValueTypes } from 'cookies-next/lib/types';
 import API from '.';
 
-export const createNote = async (data: any) => {
+interface noteProps {
+  content: string | undefined;
+  userId: CookieValueTypes;
+  jobId: string;
+}
+
+export const createNote = async (data: noteProps) => {
   const response = await API.post(`/notes`, {
     data: { ...data },
   });
@@ -9,7 +16,10 @@ export const createNote = async (data: any) => {
   return response.data.data;
 };
 
-export const updateNote = async (data: { id: string | number; body: any }) => {
+export const updateNote = async (data: {
+  id: string | number;
+  body: Partial<Pick<noteProps, 'content'>>;
+}) => {
   const response = await API.put(`/notes/${data.id}`, {
     data: { ...data.body },
   });
