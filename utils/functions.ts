@@ -18,8 +18,8 @@ export const formatNumber = (num: number, currency: string) => {
 
 export const getRange = (
   currency: string = 'USD',
-  min: string,
-  max: string
+  min: string | number,
+  max: string | number
 ) => {
   return `${formatNumber(Number(min), currency)} - ${formatNumber(
     Number(max),

@@ -170,6 +170,7 @@ const CreateGoal: FC<{ close: () => void }> = ({ close }) => {
         <Button
           isLoading={isLoading}
           onClick={() => {
+            // @ts-ignore
             mutate({ ...dataToSend, userId: getCookie('USER_ID') });
           }}
           ml={2}
