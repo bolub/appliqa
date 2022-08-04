@@ -11,7 +11,7 @@ import { Options } from './../../utils/GeneralProps';
 import { getCookie } from 'cookies-next';
 import ToastBody from '../UI/ToastBody';
 
-const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
+const CreateGoal: FC<{ close: () => void }> = ({ close }) => {
   const [dataToSend, setDataToSend] = useState({
     minimum_salary_range: 5000,
     maximum_salary_range: 500000,
@@ -44,7 +44,7 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
         ),
       });
 
-      disclosure.onClose();
+      close();
     },
     onError: (data: any) => {
       const errors = { ...data };
@@ -164,11 +164,7 @@ const CreateGoal: FC<{ disclosure: any }> = ({ disclosure }) => {
       </VStack>
 
       <Flex justifyContent={'end'} mt={16}>
-        <Button
-          onClick={disclosure.onClose}
-          isLoading={isLoading}
-          variant={'ghost'}
-        >
+        <Button onClick={close} isLoading={isLoading} variant={'ghost'}>
           Cancel
         </Button>
         <Button

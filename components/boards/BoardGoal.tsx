@@ -2,9 +2,10 @@ import { Text, Link as ChakraLink } from '@chakra-ui/react';
 import Link from 'next/link';
 import React, { FC } from 'react';
 import { formatNumber } from '../../utils/functions';
+import { singleGoalProps } from '../../utils/GeneralProps';
 import { DASHBOARD_ROUTES } from '../../utils/routes';
 
-const BoardGoal: FC<{ data: any }> = ({ data }) => {
+const BoardGoal: FC<{ data: singleGoalProps }> = ({ data }) => {
   return (
     <>
       {data ? (

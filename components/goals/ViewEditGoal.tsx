@@ -7,26 +7,30 @@ import { getCurrencyLabel } from '../../utils/functions';
 import FormInput from '../UI/Form/FormInput';
 import RangeInput from '../UI/Form/RangeInput';
 import SearchableSelect from '../UI/Form/SearchableSelect';
-import { Options } from './../../utils/GeneralProps';
+import {
+  goalProps,
+  Options,
+  singleGoalProps,
+} from './../../utils/GeneralProps';
 import ToastBody from '../UI/ToastBody';
-import { GoalProps } from '../../pages/goals';
 import _ from 'lodash';
 
-const ViewEditGoal: FC<{ disclosure: any; data: GoalProps }> = ({
-  disclosure,
-  data,
-}) => {
-  const [dataToSend, setDataToSend] = useState({
-    minimum_salary_range: data?.attributes?.minimum_salary_range,
-    maximum_salary_range: data?.attributes?.maximum_salary_range,
-    level: '',
-    role: '',
-    job_type: '',
-    country: '',
-    currency: data?.attributes?.currency,
-  });
+const ViewEditGoal: FC<{ data: goalProps; close: () => void }> = ({ data }) => {
+  const [dataToSend, setDataToSend] = useState<Omit<singleGoalProps, 'userId'>>(
+    {
+      minimum_salary_range: data?.attributes?.minimum_salary_range,
+      maximum_salary_range: data?.attributes?.maximum_salary_range,
+      level: '',
+      role: '',
+      job_type: '',
+      country: '',
+      currency: data?.attributes?.currency,
+    }
+  );
 
-  const [initialData, setInitialData] = useState({
+  const [initialData, setInitialData] = useState<
+    Omit<singleGoalProps, 'userId'>
+  >({
     minimum_salary_range: data?.attributes?.minimum_salary_range,
     maximum_salary_range: data?.attributes?.maximum_salary_range,
     level: '',
@@ -81,7 +85,7 @@ const ViewEditGoal: FC<{ disclosure: any; data: GoalProps }> = ({
         ),
       });
 
-      disclosure.onClose();
+      close();
     },
     onError: (data: any) => {
       const errors = { ...data };
@@ -201,7 +205,7 @@ const ViewEditGoal: FC<{ disclosure: any; data: GoalProps }> = ({
 
       <Flex justifyContent={'end'} mt={16}>
         <Button
-          onClick={disclosure.onClose}
+          onClick={close}
           isDisabled={status === 'loading'}
           variant={'ghost'}
         >

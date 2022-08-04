@@ -37,19 +37,6 @@ import JobInterviewTips from '../components/jobs/JobInterviewTips';
 import BrowseJobsLoader from '../components/UI/Loaders/BrowseJobsLoader';
 import CustomSeo from '../components/UI/CustomSeo';
 
-export interface GoalProps {
-  id: string | number;
-  attributes: {
-    level: string;
-    role: string;
-    job_type: string;
-    country: string;
-    currency: string;
-    minimum_salary_range: string;
-    maximum_salary_range: string;
-  };
-}
-
 const BrowseJobs = () => {
   const [allJobs, setAllJobs] = useState([]);
   const [originalData, setOriginalData] = useState([]);

@@ -25,7 +25,6 @@ const Column = ({
   const filteredTasks = tasks?.filter((element) => {
     return element !== undefined;
   });
-
   return (
     <Box
       borderWidth={!draggingOver ? '1px' : '2px'}

@@ -184,7 +184,7 @@ const Singleinterview: FC<any> = ({ interviewData, id }) => {
             mx: 1,
           }}
           selected={new Date(data?.start)}
-          onChange={(value: any) => {
+          onChange={(value: string) => {
             setInfo('start', value);
           }}
         />
@@ -206,7 +206,7 @@ const Singleinterview: FC<any> = ({ interviewData, id }) => {
                   color: 'green.500',
                 }}
                 selected={new Date(data?.end)}
-                onChange={(value: any) => {
+                onChange={(value: string) => {
                   setInfo('end', value);
                 }}
               />

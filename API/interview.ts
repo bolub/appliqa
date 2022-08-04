@@ -1,21 +1,8 @@
 import { getCookie } from 'cookies-next';
-import { CookieValueTypes } from 'cookies-next/lib/types';
 import API from '.';
+import { singleInterviewProps } from '../utils/GeneralProps';
 
-interface interviewProps {
-  title: string;
-  category: string;
-  start?: Date;
-  end?: Date | undefined;
-  description?: string;
-  completed?: boolean;
-  userId: CookieValueTypes;
-  jobId: string;
-  job: string;
-  boardId: string | string[] | undefined;
-}
-
-export const createInterview = async (data: interviewProps) => {
+export const createInterview = async (data: singleInterviewProps) => {
   const response = await API.post(`/interviews`, {
     data: { ...data },
   });
@@ -25,7 +12,7 @@ export const createInterview = async (data: interviewProps) => {
 
 export const updateInterview = async (data: {
   id: string | number;
-  body: Omit<interviewProps, 'userId' | 'jobId' | 'job' | 'boardId'>;
+  body: Omit<singleInterviewProps, 'userId' | 'jobId' | 'job' | 'boardId'>;
 }) => {
   const response = await API.put(`/interviews/${data.id}`, {
     data: { ...data.body },
@@ -50,7 +37,9 @@ export const fetchInterviews = async (jobId: string | number) => {
   return response.data.data;
 };
 
-export const fetchInterviewsForAnalytics = async (boardId: string | number) => {
+export const fetchInterviewsForAnalytics = async (
+  boardId: string | number | undefined
+) => {
   const response = await API.get(
     `/interviews?filters[$and][0][userId][$eq]=${getCookie(
       'USER_ID'

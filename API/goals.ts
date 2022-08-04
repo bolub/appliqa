@@ -1,17 +1,6 @@
 import API from '.';
 import { getCookie } from 'cookies-next';
-import { CookieValueTypes } from 'cookies-next/lib/types';
-
-interface createGoalProps {
-  userId: CookieValueTypes;
-  minimum_salary_range: string | number;
-  maximum_salary_range: string | number;
-  level: string;
-  role: string;
-  job_type: string;
-  country: string;
-  currency: string | undefined;
-}
+import { singleGoalProps } from '../utils/GeneralProps';
 
 export const fetchGoals = async () => {
   const response = await API.get(
@@ -21,7 +10,7 @@ export const fetchGoals = async () => {
   return response.data.data;
 };
 
-export const createGoal = async (data: createGoalProps) => {
+export const createGoal = async (data: singleGoalProps) => {
   const response = await API.post(`/goals`, {
     data: { ...data },
   });
@@ -31,7 +20,7 @@ export const createGoal = async (data: createGoalProps) => {
 
 export const updateGoal = async (data: {
   id: string | number;
-  body: Omit<createGoalProps, 'userId'>;
+  body: Omit<singleGoalProps, 'userId'>;
 }) => {
   const response = await API.put(`/goals/${data.id}`, {
     data: { ...data.body },

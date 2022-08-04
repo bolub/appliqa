@@ -23,6 +23,7 @@ import CreateBoard from '../../components/boards/CreateBoard';
 import AllBoardsLoader from '../../components/UI/Loaders/AllBoardsLoader';
 import { useRouter } from 'next/router';
 import CustomSeo from '../../components/UI/CustomSeo';
+import { boardProps } from '../../utils/GeneralProps';
 
 const AllBoards = () => {
   const { data, status } = useQuery('all-boards', fetchAllBoards);
@@ -85,7 +86,7 @@ const AllBoards = () => {
         }}
       >
         <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-          {data?.map((board: any) => {
+          {data?.map((board: boardProps) => {
             return (
               <Flex
                 key={board.id}

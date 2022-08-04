@@ -16,14 +16,14 @@ import {
 } from 'react-icons/hi';
 import { useMutation, useQueryClient } from 'react-query';
 import { deleteGoal } from '../../API/goals';
-import { GoalProps } from '../../pages/goals';
 import { getRange } from '../../utils/functions';
+import { goalProps } from '../../utils/GeneralProps';
 import CustomMenu from '../UI/CustomMenu';
 import CustomModal from '../UI/CustomModal';
 import ToastBody from '../UI/ToastBody';
 import ViewEditGoal from './ViewEditGoal';
 
-const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
+const SingleGoal: FC<{ data: goalProps }> = ({ data }) => {
   const viewGoalDisclosure = useDisclosure();
   const deleteGoalDisclosure = useDisclosure();
   const toast = useToast();
@@ -126,7 +126,7 @@ const SingleGoal: FC<{ data: GoalProps }> = ({ data }) => {
           disclosure={viewGoalDisclosure}
           title={`${data.attributes.level} ${data.attributes.role} Goal`}
         >
-          <ViewEditGoal disclosure={viewGoalDisclosure} data={data} />
+          <ViewEditGoal close={viewGoalDisclosure.onClose} data={data} />
         </CustomModal>
 
         <CustomModal

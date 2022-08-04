@@ -32,7 +32,7 @@ interface dataProps {
 
 interface logInterviewProps {
   jobId: string;
-  onClose: any;
+  onClose: () => void;
 }
 
 const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
@@ -178,7 +178,7 @@ const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
               isRequired: true,
             }}
             selected={data?.start}
-            onChange={(value: any) => {
+            onChange={(value: string | boolean) => {
               setInfo('start', value);
             }}
           />
@@ -187,7 +187,7 @@ const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
             <CustomDateTimePicker
               label='End Time'
               selected={data?.end}
-              onChange={(value: any) => {
+              onChange={(value: string | boolean) => {
                 setInfo('end', value);
               }}
             />

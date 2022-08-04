@@ -21,21 +21,28 @@ import { boardState } from '../../../recoil/board';
 import { useRecoilValue } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { updateStage } from '../../../API/boards';
+import {
+  currentStageProps,
+  singleJobProps,
+  StagesDatum,
+} from '../../../utils/GeneralProps';
 
 interface Props {
-  data: any;
-  stage: any;
+  data: singleJobProps;
+  stage: currentStageProps;
 }
 
 const ModalTitleComponent: FC<Props> = ({ data, stage }) => {
   const boardData = useRecoilValue(boardState);
-  const allStages = boardData?.attributes?.stages?.data?.map((sd: any) => {
-    return {
-      label: sd.attributes.title,
-      value: sd.id,
-      slug: sd.attributes.slug,
-    };
-  });
+  const allStages = boardData?.attributes?.stages?.data?.map(
+    (sd: StagesDatum) => {
+      return {
+        label: sd.attributes.title,
+        value: sd.id,
+        slug: sd.attributes.slug,
+      };
+    }
+  );
 
   const [selectedStage, setSelectedStage] = React.useState({
     label: '',
@@ -52,7 +59,11 @@ const ModalTitleComponent: FC<Props> = ({ data, stage }) => {
     },
   });
 
-  const moveJob = (stageData: any) => {
+  const moveJob = (stageData: {
+    label: string;
+    value: string;
+    slug: string;
+  }) => {
     const start = stage;
     const finish = formatDataForBoard(boardData)?.columns[stageData?.slug];
 
@@ -101,24 +112,26 @@ const ModalTitleComponent: FC<Props> = ({ data, stage }) => {
             h='40px'
           />
           <MenuList zIndex={3}>
-            {allStages?.map((stageData: any) => {
-              if (stageData.slug === stage.slug) return;
+            {allStages?.map(
+              (stageData: { label: string; value: string; slug: string }) => {
+                if (stageData.slug === stage.slug) return;
 
-              return (
-                <MenuItem
-                  zIndex={100}
-                  key={stageData?.value}
-                  onClick={() => {
-                    setSelectedStage(stageData);
-                    moveJob(stageData);
-                  }}
-                  fontSize='md'
-                  fontWeight={'medium'}
-                >
-                  {stageData?.label}
-                </MenuItem>
-              );
-            })}
+                return (
+                  <MenuItem
+                    zIndex={100}
+                    key={stageData?.value}
+                    onClick={() => {
+                      setSelectedStage(stageData);
+                      moveJob(stageData);
+                    }}
+                    fontSize='md'
+                    fontWeight={'medium'}
+                  >
+                    {stageData?.label}
+                  </MenuItem>
+                );
+              }
+            )}
           </MenuList>
         </Menu>
       </ButtonGroup>
@@ -143,9 +156,16 @@ const ModalTitleComponent: FC<Props> = ({ data, stage }) => {
               &bull;
             </Text>
 
-            <Text my='auto' fontWeight='bold' color='gray.500' fontSize={'sm'}>
-              {formatDateAgo(data?.publishedAt)}
-            </Text>
+            {data?.publishedAt && (
+              <Text
+                my='auto'
+                fontWeight='bold'
+                color='gray.500'
+                fontSize={'sm'}
+              >
+                {formatDateAgo(data?.publishedAt)}
+              </Text>
+            )}
           </Flex>
         </VStack>
       </HStack>

@@ -3,13 +3,21 @@ import {
   Button,
   Flex,
   SimpleGrid,
+  UseDisclosureProps,
   useToast,
   VStack,
 } from '@chakra-ui/react';
 import React, { FC, useMemo, useState } from 'react';
 import FormInput from '../UI/Form/FormInput';
 import SearchableSelect from '../UI/Form/SearchableSelect';
-import { Options } from './../../utils/GeneralProps';
+import {
+  ArrangedBoardProps,
+  currentStageProps,
+  fullBoardProps,
+  JobsDatum,
+  Options,
+  StagesDatum,
+} from './../../utils/GeneralProps';
 import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
@@ -22,13 +30,37 @@ import ToastBody from '../UI/ToastBody';
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 
-const CreateJob: FC = ({
+interface dataProps {
+  boardData: ArrangedBoardProps;
+  originalBoardData: fullBoardProps;
+  disclosure: UseDisclosureProps;
+  currentStage: currentStageProps;
+}
+
+interface createStateProps {
+  post_url: string;
+  company_name: string;
+  level: string;
+  role: string;
+  slug: string | number;
+  stage_id: string | number;
+  stage_slug: string | number;
+  board: string;
+}
+
+interface stageOptions {
+  label: string;
+  value: string;
+  slug: string;
+}
+
+const CreateJob: FC<dataProps> = ({
   boardData,
   originalBoardData,
   disclosure,
   currentStage,
-}: any) => {
-  const [dataToSend, setDataToSend] = useState({
+}) => {
+  const [dataToSend, setDataToSend] = useState<createStateProps>({
     post_url: '',
     company_name: '',
     level: '',
@@ -43,8 +75,6 @@ const CreateJob: FC = ({
     originalBoardData?.id
   );
   const [newJobId, setNewJobId] = useState('');
-
-  console.log(originalBoardData);
 
   const setData = (label: string, value: string | number | undefined) => {
     setDataToSend((prev) => {
@@ -108,13 +138,14 @@ const CreateJob: FC = ({
 
       const columnToUpdate = {
         job_ids: [
-          ...boardData.columns[dataToSend.stage_slug].taskIds,
+          // @ts-ignore
+          ...boardData.columns[dataToSend?.stage_slug].taskIds,
           createdData?.attributes?.slug,
         ].toString(),
       };
 
       const mappedJobIds = originalBoardData.attributes.jobs.data.map(
-        (jd: any) => {
+        (jd: JobsDatum) => {
           return jd.id;
         }
       );
@@ -130,24 +161,25 @@ const CreateJob: FC = ({
 
   const toast = useToast();
 
-  const allStages = originalBoardData.attributes.stages.data.map((sd: any) => {
-    return {
-      label: sd.attributes.title,
-      value: sd.id,
-      slug: sd.attributes.slug,
-    };
-  });
+  const allStages = originalBoardData.attributes.stages.data.map(
+    (sd: StagesDatum) => {
+      return {
+        label: sd.attributes.title,
+        value: sd.id,
+        slug: sd.attributes.slug,
+      };
+    }
+  );
 
   const [addOpen, setAddOpen] = useState(false);
   const boardsToDisplay = useMemo(() => {
-    return allBoards?.map((bd: any) => {
+    return allBoards?.map((bd: fullBoardProps) => {
       return {
         label: bd?.attributes?.title,
         value: bd?.id,
       };
     });
   }, [allBoards]);
-
   return (
     <>
       <VStack align='start' w='100%' spacing={6}>
@@ -238,11 +270,11 @@ const CreateJob: FC = ({
             <SearchableSelect
               label='Stage'
               options={allStages}
-              onChange={(value: any) => {
+              onChange={(value: stageOptions) => {
                 setData('stage_id', value.value);
                 setData('stage_slug', value.slug);
               }}
-              value={allStages?.filter((option: Options) => {
+              value={allStages?.filter((option) => {
                 return option?.value === dataToSend?.stage_id;
               })}
               formControlProps={{

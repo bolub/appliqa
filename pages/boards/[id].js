@@ -256,6 +256,7 @@ const Boards = () => {
       </Center>
     );
   }
+
   return (
     <Container maxW='7xl' pt={{ base: 12 }}>
       <CustomSeo title={boardTitle ?? 'Board'} />

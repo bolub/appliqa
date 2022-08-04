@@ -17,19 +17,7 @@ import SearchInput from '../components/UI/Form/SearchInput';
 import Loader from '../components/UI/Loader';
 import GoalsLoader from '../components/UI/Loaders/GoalsLoader';
 import { logout } from '../utils/functions';
-
-export interface GoalProps {
-  id: string | number;
-  attributes: {
-    level: string;
-    role: string;
-    job_type: string;
-    country: string;
-    currency: string;
-    minimum_salary_range: string;
-    maximum_salary_range: string;
-  };
-}
+import { goalProps } from '../utils/GeneralProps';
 
 export default function Goals() {
   const [allGoals, setAllGoals] = useState([]);
@@ -56,8 +44,8 @@ export default function Goals() {
       return;
     }
 
-    const filteredGoals = [...allGoals].filter((goal: any) => {
-      return `${goal.attributes.level} ${goal.role}`.includes(value);
+    const filteredGoals = [...allGoals].filter((goal: goalProps) => {
+      return `${goal.attributes.level} ${goal.attributes.role}`.includes(value);
     });
 
     setAllGoals(filteredGoals);
@@ -105,14 +93,14 @@ export default function Goals() {
         emptyActionText='Create Goal'
       >
         <SimpleGrid mt={10} columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-          {allGoals?.map((goal: GoalProps) => {
+          {allGoals?.map((goal: goalProps) => {
             return <SingleGoal key={goal.id} data={goal} />;
           })}
         </SimpleGrid>
       </Loader>
 
       <CustomModal disclosure={createGoalDisclosure} title='Create Goal'>
-        <CreateGoal disclosure={createGoalDisclosure} />
+        <CreateGoal close={createGoalDisclosure.onClose} />
       </CustomModal>
     </Container>
   );

@@ -19,9 +19,16 @@ import { fetchInterviewsForAnalytics } from '../../API/interview';
 import { logout } from '../../utils/functions';
 import { fetchTasksForAnalytics } from '../../API/task';
 import Link from 'next/link';
-// import advancedFormat from 'dayjs/plugin/advancedFormat';
+import {
+  interviewAnalyticsProps,
+  interviewProps,
+  taskAnalyticsProps,
+  taskProps,
+} from '../../utils/GeneralProps';
 
-const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
+const UpcomingTasksAndInterviews: FC<{ boardId: string | undefined }> = ({
+  boardId,
+}) => {
   const [allInterviews, setAllInterviews] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
 
@@ -31,7 +38,7 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
     {
       enabled: !!boardId,
       onSuccess: (data) => {
-        const mappedInterviews = data?.map((ind: any) => {
+        const mappedInterviews = data?.map((ind: interviewProps) => {
           return {
             id: ind?.id,
             ...ind?.attributes,
@@ -55,7 +62,7 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
     () => fetchTasksForAnalytics(boardId),
     {
       onSuccess: (data) => {
-        const mappedTasks = data?.map((td: any) => {
+        const mappedTasks = data?.map((td: taskProps) => {
           return {
             id: td?.id,
             ...td?.attributes,
@@ -73,17 +80,19 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
     }
   );
 
-  const allData = [...allInterviews, ...allTasks].filter((data: any) => {
-    const startDate = dayjs(data?.start);
-    const endDate = dayjs(data?.end);
-    const currentDate = dayjs(new Date());
-    let difference = startDate.diff(currentDate, 'day');
-    if (data?.end) {
-      difference = endDate.diff(currentDate, 'day');
-    }
+  const allData = [...allInterviews, ...allTasks].filter(
+    (data: taskAnalyticsProps | interviewAnalyticsProps) => {
+      const startDate = dayjs(data?.start);
+      const endDate = dayjs(data?.end);
+      const currentDate = dayjs(new Date());
+      let difference = startDate.diff(currentDate, 'day');
+      if (data?.end) {
+        difference = endDate.diff(currentDate, 'day');
+      }
 
-    return difference > 0;
-  });
+      return difference > 0;
+    }
+  );
 
   return (
     <>
@@ -103,95 +112,97 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string }> = ({ boardId }) => {
         </Text>
 
         <VStack mt={8} spacing={8} align={'start'}>
-          {allData?.map((data: any) => {
-            const job = data?.job?.data?.attributes;
-            return (
-              <Flex key={data?.id} w='100%'>
-                {/* 1 */}
-                <HStack w='55%'>
-                  <Switch
-                    isReadOnly
-                    isChecked={data?.completed}
-                    colorScheme={'green'}
-                    id='email-alerts'
-                  />
-
-                  <Box w='full'>
-                    <Text
-                      fontSize={'sm'}
-                      fontWeight='bold'
-                      isTruncated
-                      pr={6}
-                      w='240px'
-                    >
-                      {data?.title}
-                    </Text>
-
-                    <HStack spacing={4}>
-                      <HStack spacing={1} color='green.500'>
-                        <Icon as={HiOutlineClock} my='auto' />
-                        <Text
-                          fontWeight={'bold'}
-                          fontSize={'xs'}
-                          textTransform='capitalize'
-                        >
-                          {dayjs(data?.start).fromNow()}
-                        </Text>
-                      </HStack>
-
-                      <HStack spacing={1} color='green.500'>
-                        <Text fontSize={'sm'}>🗒️</Text>
-
-                        <Text
-                          fontWeight={'bold'}
-                          fontSize={'xs'}
-                          textTransform='capitalize'
-                        >
-                          {data?.type}
-                        </Text>
-                      </HStack>
-                    </HStack>
-                  </Box>
-                </HStack>
-
-                {/* 2 */}
-                <Box w='35%' fontSize={'13px'} fontWeight='medium' pr={6}>
-                  <Text isTruncated>
-                    {job?.level} {job?.role}
-                  </Text>
-                  <HStack spacing={1}>
-                    <Avatar
-                      rounded='full'
-                      objectFit={'cover'}
-                      bg='green.500'
-                      src={`https://logo.clearbit.com/${job?.company_name}.com`}
-                      boxSize='20px'
+          {allData?.map(
+            (data: taskAnalyticsProps | interviewAnalyticsProps) => {
+              const job = data?.job?.data?.attributes;
+              return (
+                <Flex key={data?.id} w='100%'>
+                  {/* 1 */}
+                  <HStack w='55%'>
+                    <Switch
+                      isReadOnly
+                      isChecked={data?.completed}
+                      colorScheme={'green'}
+                      id='email-alerts'
                     />
 
-                    <Text>{job?.company_name}</Text>
-                  </HStack>
-                </Box>
+                    <Box w='full'>
+                      <Text
+                        fontSize={'sm'}
+                        fontWeight='bold'
+                        isTruncated
+                        pr={6}
+                        w='240px'
+                      >
+                        {data?.title}
+                      </Text>
 
-                <Center ml='auto' w='10%'>
-                  <Link
-                    passHref
-                    href={`/boards/${boardId}?jobId=${data?.jobId}&tab=${data?.type}`}
-                  >
-                    <Button
-                      colorScheme={'green'}
-                      variant='ghost'
-                      bg='green.50'
-                      rounded='full'
-                      size='sm'
-                      fontSize={'13px'}
+                      <HStack spacing={4}>
+                        <HStack spacing={1} color='green.500'>
+                          <Icon as={HiOutlineClock} my='auto' />
+                          <Text
+                            fontWeight={'bold'}
+                            fontSize={'xs'}
+                            textTransform='capitalize'
+                          >
+                            {dayjs(data?.start).fromNow()}
+                          </Text>
+                        </HStack>
+
+                        <HStack spacing={1} color='green.500'>
+                          <Text fontSize={'sm'}>🗒️</Text>
+
+                          <Text
+                            fontWeight={'bold'}
+                            fontSize={'xs'}
+                            textTransform='capitalize'
+                          >
+                            {data?.type}
+                          </Text>
+                        </HStack>
+                      </HStack>
+                    </Box>
+                  </HStack>
+
+                  {/* 2 */}
+                  <Box w='35%' fontSize={'13px'} fontWeight='medium' pr={6}>
+                    <Text isTruncated>
+                      {job?.level} {job?.role}
+                    </Text>
+                    <HStack spacing={1}>
+                      <Avatar
+                        rounded='full'
+                        objectFit={'cover'}
+                        bg='green.500'
+                        src={`https://logo.clearbit.com/${job?.company_name}.com`}
+                        boxSize='20px'
+                      />
+
+                      <Text>{job?.company_name}</Text>
+                    </HStack>
+                  </Box>
+
+                  <Center ml='auto' w='10%'>
+                    <Link
+                      passHref
+                      href={`/boards/${boardId}?jobId=${data?.jobId}&tab=${data?.type}`}
                     >
-                      View
-                    </Button>
-                  </Link>
-                </Center>
-              </Flex>
-            );
-          })}
+                      <Button
+                        colorScheme={'green'}
+                        variant='ghost'
+                        bg='green.50'
+                        rounded='full'
+                        size='sm'
+                        fontSize={'13px'}
+                      >
+                        View
+                      </Button>
+                    </Link>
+                  </Center>
+                </Flex>
+              );
+            }
+          )}
 
           {allData?.length === 0 && (
             <Center w='100%' textAlign={'center'} h='250px' flexDir={'column'}>

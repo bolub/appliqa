@@ -1,24 +1,6 @@
 import API from '.';
 import { getCookie } from 'cookies-next';
-import { CookieValueTypes } from 'cookies-next/lib/types';
-
-interface createBoardProps {
-  userId: CookieValueTypes;
-  title: string;
-  stages: string[] | number[];
-  stage_order: number | string;
-}
-
-interface createJobProps {
-  post_url: string;
-  company_name: string;
-  level: string;
-  role: string;
-  slug: string | number;
-  stage: string | number;
-  userId: CookieValueTypes;
-  boardId: string | string[] | undefined | number;
-}
+import { singleBoardProps, singleJobProps } from '../utils/GeneralProps';
 
 export const fetchAllBoards = async () => {
   const response = await API.get(
@@ -36,7 +18,7 @@ export const fetchSingleBoard = async (id: string | number) => {
   return response.data.data;
 };
 
-export const createBoard = async (data: createBoardProps) => {
+export const createBoard = async (data: singleBoardProps) => {
   const response = await API.post(`/boards`, {
     data: { ...data },
   });
@@ -81,7 +63,7 @@ export const updateStageOrder = async (data: {
   return response.data.data;
 };
 
-export const createJob = async (data: createJobProps) => {
+export const createJob = async (data: singleJobProps) => {
   const response = await API.post(`/jobs`, { data: { ...data } });
 
   return response.data.data;
@@ -95,7 +77,7 @@ export const deleteJob = async (data: { id: string | number }) => {
 
 export const updateJob = async (data: {
   id: string | number;
-  body: Partial<createJobProps>;
+  body: Partial<singleJobProps>;
 }) => {
   const response = await API.put(`/jobs/${data.id}`, {
     data: { ...data.body },

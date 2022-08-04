@@ -10,7 +10,7 @@ const AuthLayout: FC<Props> = ({ children, imgSrc }) => {
   return (
     <Flex h='100vh' overflowY={{ md: 'hidden' }}>
       <Center w={{ base: '100%', md: '50%' }} py={10} px={{ base: 10, md: 36 }}>
-        <Box w={{ base: '100%' }}>
+        <Box w={{ base: '100%' }} maxW='md'>
           <Logo />
           {children}
         </Box>

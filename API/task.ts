@@ -49,7 +49,9 @@ export const fetchTasks = async (jobId: string | number) => {
   return response.data.data;
 };
 
-export const fetchTasksForAnalytics = async (boardId: string | number) => {
+export const fetchTasksForAnalytics = async (
+  boardId: string | number | undefined
+) => {
   const response = await API.get(
     `/tasks?filters[$and][0][userId][$eq]=${getCookie(
       'USER_ID'

@@ -12,7 +12,7 @@ interface dataProps {
 
 interface logInterviewProps {
   jobId: string;
-  onClose: any;
+  onClose: () => void;
 }
 
 const CreateNote: FC<logInterviewProps> = ({ onClose, jobId }) => {

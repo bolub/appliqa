@@ -20,11 +20,11 @@ import UpcomingTasksAndInterviews from '../components/analytics/UpcomingTasksAnd
 import CustomSeo from '../components/UI/CustomSeo';
 import Loader from '../components/UI/Loader';
 import AnalyticsLoader from '../components/UI/Loaders/AnalyticsLoader';
+import { fullBoardProps, JobsDatum } from '../utils/GeneralProps';
 
 const Analytics = () => {
-  const [currentBoard, setCurrentBoard] = useState<any>();
-  const [allBoards, setAllBoards] = useState<any>();
-
+  const [currentBoard, setCurrentBoard] = useState<fullBoardProps>();
+  const [allBoards, setAllBoards] = useState<fullBoardProps[]>();
   const { status } = useQuery('all-boards', fetchAllBoards, {
     onSuccess: (data) => {
       setAllBoards(data);
@@ -36,13 +36,13 @@ const Analytics = () => {
 
   const getAnalytics = () => {
     const appliedJobs = currentBoard?.attributes?.jobs.data?.filter(
-      (job: any) => job?.attributes?.stage === 'stage-2'
+      (job: JobsDatum) => job?.attributes?.stage === 'stage-2'
     );
     const interviewdJobs = currentBoard?.attributes?.jobs.data?.filter(
-      (job: any) => job?.attributes?.stage === 'stage-3'
+      (job: JobsDatum) => job?.attributes?.stage === 'stage-3'
     );
     const offeredJobs = currentBoard?.attributes?.jobs.data?.filter(
-      (job: any) => job?.attributes?.stage === 'stage-4'
+      (job: JobsDatum) => job?.attributes?.stage === 'stage-4'
     );
 
     return {
@@ -69,7 +69,7 @@ const Analytics = () => {
             {currentBoard?.attributes?.title}
           </MenuButton>
           <MenuList>
-            {allBoards?.map((bd: any) => {
+            {allBoards?.map((bd: fullBoardProps) => {
               return (
                 <MenuItem
                   fontSize='15px'
