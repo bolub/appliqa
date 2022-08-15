@@ -29,7 +29,8 @@ export const createBoard = async (data: singleBoardProps) => {
 export const updateBoard = async (data: {
   id: string | string[] | undefined | number;
   body: {
-    jobs: string[];
+    title?: string;
+    jobs?: string[];
   };
 }) => {
   const response = await API.put(`/boards/${data.id}`, {

@@ -4,14 +4,12 @@ import {
   Container,
   Flex,
   Heading,
-  // IconButton,
   Link,
   SimpleGrid,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
-// import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { useQuery } from 'react-query';
 import { fetchAllBoards } from '../../API/boards';
 import SearchInput from '../../components/UI/Form/SearchInput';
@@ -96,18 +94,6 @@ const AllBoards = () => {
                 pt={4}
                 flexDir='column'
               >
-                {/* <IconButton
-                  ml='auto'
-                  mr={6}
-                  my='auto'
-                  size='sm'
-                  variant={'ghost'}
-                  aria-label='More Options'
-                  color='gray.500'
-                  fontSize={'lg'}
-                  icon={<HiOutlineDotsVertical />}
-                /> */}
-
                 <NextLink
                   href={`${DASHBOARD_ROUTES.BOARDS}/${board.id}`}
                   passHref

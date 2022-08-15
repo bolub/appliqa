@@ -17,6 +17,7 @@ import {
   Button,
   Text,
   Avatar,
+  Link,
 } from '@chakra-ui/react';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
@@ -159,9 +160,9 @@ const Navbar = () => {
               <CustomLink href={DASHBOARD_ROUTES.PROFILE}>
                 <MenuItem fontSize={'md'}>My Profile</MenuItem>
               </CustomLink>
-              <a href='/'>
+              <Link href='/'>
                 <MenuItem fontSize={'md'}>Go to Homepage</MenuItem>
-              </a>
+              </Link>
               <CustomLink href={AUTH_ROUTES.LOGIN}>
                 <MenuItem fontSize={'md'} onClick={logout}>
                   Logout

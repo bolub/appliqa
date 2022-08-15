@@ -24,7 +24,7 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import SearchInput from '../../components/UI/Form/SearchInput';
 import { initialData } from '../../utils/board';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Column from '../../components/boards/Column';
 import BoardGoal from '../../components/boards/BoardGoal';
 import CustomModal from '../../components/UI/CustomModal';
@@ -42,16 +42,21 @@ import {
 } from 'react-icons/hi';
 import ToastBody from '../../components/UI/ToastBody';
 import { useSetRecoilState } from 'recoil';
-import { boardState } from './../../recoil/board';
+import { boardState } from '../../recoil/board';
 import { getCookie } from 'cookies-next';
-import BoardLoader from './../../components/UI/Loaders/BoardLoader';
+import BoardLoader from '../../components/UI/Loaders/BoardLoader';
 import CustomSeo from '../../components/UI/CustomSeo';
+import {
+  ArrangedBoardProps,
+  goalProps,
+  StagesDatum,
+} from '../../utils/GeneralProps';
 
 const Boards = () => {
-  const [boardData, setBoardData] = useState(initialData);
+  const [boardData, setBoardData] = useState<ArrangedBoardProps>(initialData);
   const setUnfilteredBoardData = useSetRecoilState(boardState);
-  const [allGoals, setAllGoals] = useState([]);
-  const [boardTitle, setBoardTitle] = useState('');
+  const [allGoals, setAllGoals] = useState<goalProps[]>([]);
+  const [boardTitle, setBoardTitle] = useState<string>('');
   const toast = useToast();
   const [currentStage, setCurrentStage] = useState({});
 
@@ -59,6 +64,7 @@ const Boards = () => {
 
   const queryClient = useQueryClient();
   const { data, status } = useQuery(['board', query.id], () =>
+    // @ts-ignore
     fetchSingleBoard(query.id)
   );
   useQuery('goals', fetchGoals, {
@@ -102,7 +108,7 @@ const Boards = () => {
     setBoardTitle(data?.attributes?.title);
   }, [data, setUnfilteredBoardData]);
 
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
     // if the content was dropped outside the dragdrop container
@@ -116,8 +122,12 @@ const Boards = () => {
       return;
 
     // get column where we picked the content to drag and column where we are going to drop
-    const start = boardData.columns[source.droppableId];
-    const finish = boardData.columns[destination.droppableId];
+
+    // @ts-ignore
+    const start = boardData?.columns[source?.droppableId];
+
+    // @ts-ignore
+    const finish = boardData?.columns[destination?.droppableId];
 
     if (start === finish) {
       // get taskIds from column
@@ -194,7 +204,7 @@ const Boards = () => {
 
   const [headerUpdate, setHeaderUpdate] = useState(false);
 
-  const searchJobs = (value) => {
+  const searchJobs = (value: string) => {
     if (!value || value === '') {
       setBoardData({
         ...formatDataForBoard(data),
@@ -210,25 +220,27 @@ const Boards = () => {
       );
     });
 
-    const filteredStages = data?.attributes?.stages?.data?.map((stage) => {
-      const CopiedJobIds = stage?.attributes?.job_ids?.split(',');
+    const filteredStages = data?.attributes?.stages?.data?.map(
+      (stage: StagesDatum) => {
+        const CopiedJobIds = stage?.attributes?.job_ids?.split(',');
 
-      let JobIds = [];
+        let JobIds: string[] = [];
 
-      CopiedJobIds.forEach((jobId, index) => {
-        if (jobId === filteredJobs[index]?.attributes?.slug) {
-          JobIds.push(jobId);
-        }
-      });
+        CopiedJobIds.forEach((jobId, index) => {
+          if (jobId === filteredJobs[index]?.attributes?.slug) {
+            JobIds.push(jobId);
+          }
+        });
 
-      return {
-        ...stage,
-        attributes: {
-          ...stage.attributes,
-          job_ids: JobIds?.toString() || '',
-        },
-      };
-    });
+        return {
+          ...stage,
+          attributes: {
+            ...stage.attributes,
+            job_ids: JobIds?.toString() || '',
+          },
+        };
+      }
+    );
 
     const newBoardData = {
       ...data,
@@ -331,7 +343,7 @@ const Boards = () => {
               </Flex>
             </MenuButton>
             <MenuList zIndex={3}>
-              {goalsToDisplay?.map((gd) => {
+              {goalsToDisplay?.map((gd: { label: string; value: string }) => {
                 return (
                   <MenuItem
                     zIndex={100}
@@ -341,6 +353,7 @@ const Boards = () => {
                       updateCBoard({
                         id: data.id,
                         body: {
+                          // @ts-ignore
                           goal: gd.value,
                         },
                       });
@@ -411,10 +424,11 @@ const Boards = () => {
           <HStack align='start' spacing={6} mt={8} overflowX='scroll' h='63vh'>
             {boardData?.columnOrder?.map((columnId) => {
               // get columnData based on the current columId
+              // @ts-ignore
               const column = boardData?.columns[columnId];
 
               // get all tasks related to the gotten column
-              const ntasks = column?.taskIds?.map((taskId) => {
+              const ntasks = column?.taskIds?.map((taskId: string) => {
                 return boardData?.tasks[taskId];
               });
 
@@ -437,6 +451,7 @@ const Boards = () => {
             boardData={boardData}
             originalBoardData={data}
             disclosure={jobDisclosure}
+            // @ts-ignore
             currentStage={currentStage}
           />
         </CustomModal>

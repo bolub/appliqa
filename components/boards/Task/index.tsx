@@ -9,7 +9,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import CustomModal from '../../UI/CustomModal';
 import ModalTitleComponent from './ModalTitleComponent';
@@ -25,8 +25,25 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import ToastBody from '../../UI/ToastBody';
 import { formatDateAgo } from '../../../utils/functions';
+import {
+  fullBoardProps,
+  Stage,
+  Task as TaskProps,
+} from '../../../utils/GeneralProps';
 
-const Task = ({ task, index, column, originalBoardData }) => {
+interface customtaskProps {
+  task: TaskProps;
+  index: number;
+  column: Stage;
+  originalBoardData: fullBoardProps;
+}
+
+const Task: FC<customtaskProps> = ({
+  task,
+  index,
+  column,
+  originalBoardData,
+}) => {
   const viewJobDisclosure = useDisclosure();
   const deleteJobDisclosure = useDisclosure();
   const toast = useToast();
@@ -81,6 +98,7 @@ const Task = ({ task, index, column, originalBoardData }) => {
 
     updateCStage({ id: column?.id, body: stageDataToUpdate });
 
+    // @ts-ignore
     updateCBoard({ id: query.id, body: boardDataToUpdate });
 
     deleteCJob({ id: task?.id });

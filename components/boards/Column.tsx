@@ -10,10 +10,24 @@ import {
 } from '@chakra-ui/react';
 import Task from './Task';
 import { Droppable } from 'react-beautiful-dnd';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
+import {
+  fullBoardProps,
+  Stage,
+  Task as TaskProps,
+} from '../../utils/GeneralProps';
 
-const Column = ({
+interface ColumnProps {
+  column: Stage;
+  tasks: TaskProps[];
+  originalData: fullBoardProps;
+  AddJobHandler: () => void;
+  // @eslint-disable-next-line
+  setCurrentStage: (column: Stage) => void;
+}
+
+const Column: FC<ColumnProps> = ({
   column,
   tasks,
   originalData,
