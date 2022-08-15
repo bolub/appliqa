@@ -29,7 +29,7 @@ interface dataProps {
 
 interface logInterviewProps {
   jobId: string;
-  onClose: any;
+  onClose: () => void;
 }
 
 const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {

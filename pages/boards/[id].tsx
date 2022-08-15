@@ -194,10 +194,10 @@ const Boards = () => {
   const jobDisclosure = useDisclosure();
 
   const goalsToDisplay = useMemo(() => {
-    return allGoals?.map((bd) => {
+    return allGoals?.map((gd) => {
       return {
-        label: `${bd?.attributes?.level} ${bd?.attributes?.role}`,
-        value: bd?.id,
+        label: `${gd?.attributes?.level} ${gd?.attributes?.role}`,
+        value: gd?.id,
       };
     });
   }, [allGoals]);

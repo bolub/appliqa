@@ -6,7 +6,14 @@ const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
-const OverviewDuration: FC<any> = (data) => {
+interface dataProps {
+  jobsSaved: number;
+  applications: number;
+  interviews: number;
+  offers: number;
+}
+
+const OverviewDuration: FC<dataProps> = (data) => {
   let options = {
     chart: {
       id: 'basic-bar',

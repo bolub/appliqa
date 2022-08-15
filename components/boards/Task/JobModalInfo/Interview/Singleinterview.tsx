@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import {
   Flex,
   FormControl,
@@ -34,7 +34,7 @@ dayjs.extend(advancedFormat);
 interface dataProps {
   title: string;
   category: string;
-  start?: any;
+  start?: Date | undefined;
   end?: Date | undefined;
   description?: string;
   completed?: boolean;
@@ -159,7 +159,8 @@ const Singleinterview: FC<any> = ({ interviewData, id }) => {
             <Switch
               colorScheme={'green'}
               isChecked={data?.completed}
-              onChange={(e: any) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                // @ts-ignore
                 setInfo('completed', e.target.checked);
               }}
               id='completed'
@@ -183,6 +184,7 @@ const Singleinterview: FC<any> = ({ interviewData, id }) => {
             w: 'fit-content',
             mx: 1,
           }}
+          // @ts-ignore
           selected={new Date(data?.start)}
           onChange={(value: string) => {
             setInfo('start', value);

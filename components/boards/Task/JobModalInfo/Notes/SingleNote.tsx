@@ -106,7 +106,7 @@ const SingleNote: FC<any> = ({ interviewData, id }) => {
         transition={'all 0.2s'}
         value={data?.content}
         onChange={(e) => {
-          setInfo('description', e.target.value);
+          setInfo('content', e.target.value);
         }}
       />
 

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
 
 // pick a date util library
@@ -16,7 +16,7 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface pickerProps {
-  labelIcon?: any;
+  labelIcon?: ReactNode;
   label?: string;
   onChange?: any;
   generalProps?: ReactDatePickerProps;
