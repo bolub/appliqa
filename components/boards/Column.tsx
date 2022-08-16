@@ -8,7 +8,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import Task from './Task';
+import Job from './Job';
 import { Droppable } from 'react-beautiful-dnd';
 import { FC, useState } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
@@ -20,7 +20,7 @@ import {
 
 interface ColumnProps {
   column: Stage;
-  tasks: TaskProps[];
+  jobs: TaskProps[];
   originalData: fullBoardProps;
   AddJobHandler: () => void;
   // @eslint-disable-next-line
@@ -29,14 +29,14 @@ interface ColumnProps {
 
 const Column: FC<ColumnProps> = ({
   column,
-  tasks,
+  jobs,
   originalData,
   AddJobHandler,
   setCurrentStage,
 }) => {
   const [draggingOver, setIsDraggingOver] = useState(false);
 
-  const filteredTasks = tasks?.filter((element) => {
+  const filteredJobs = jobs?.filter((element) => {
     return element !== undefined;
   });
   return (
@@ -74,8 +74,7 @@ const Column: FC<ColumnProps> = ({
           fontWeight='bold'
           fontSize={'md'}
         >
-          {filteredTasks?.length}
-          {/* {tasks?.length && tasks[0] ? tasks?.length : 0} */}
+          {filteredJobs?.length}
         </Badge>
       </HStack>
 
@@ -91,9 +90,9 @@ const Column: FC<ColumnProps> = ({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {tasks?.map((task, index) => {
+              {jobs?.map((task, index) => {
                 return (
-                  <Task
+                  <Job
                     key={task?.id}
                     task={task}
                     index={index}

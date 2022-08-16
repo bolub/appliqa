@@ -90,10 +90,9 @@ const UpcomingTasksAndInterviews: FC<{ boardId: string | undefined }> = ({
         difference = endDate.diff(currentDate, 'day');
       }
 
-      return difference > 0;
+      return difference >= 0;
     }
   );
-
   return (
     <>
       <Box

@@ -436,7 +436,7 @@ const Boards = () => {
                 <Column
                   key={column?.slug}
                   column={column}
-                  tasks={ntasks}
+                  jobs={ntasks}
                   originalData={data}
                   AddJobHandler={jobDisclosure.onOpen}
                   setCurrentStage={setCurrentStage}

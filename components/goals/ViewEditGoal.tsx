@@ -15,7 +15,10 @@ import {
 import ToastBody from '../UI/ToastBody';
 import _ from 'lodash';
 
-const ViewEditGoal: FC<{ data: goalProps; close: () => void }> = ({ data }) => {
+const ViewEditGoal: FC<{ data: goalProps; close: () => void }> = ({
+  data,
+  close,
+}) => {
   const [dataToSend, setDataToSend] = useState<Omit<singleGoalProps, 'userId'>>(
     {
       minimum_salary_range: data?.attributes?.minimum_salary_range,

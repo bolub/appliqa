@@ -10,7 +10,7 @@ import React, { useState, FC } from 'react';
 import { useQuery } from 'react-query';
 import { logout } from '../../../../../utils/functions';
 import CreateTask from './CreateTask';
-import Loader from '../../../../../components/UI/Loader';
+import Loader from '../../../../UI/Loader';
 import SingleTask from './SingleTask';
 import { fetchTasks } from '../../../../../API/task';
 

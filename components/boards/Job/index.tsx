@@ -178,6 +178,7 @@ const Task: FC<customtaskProps> = ({
                 </Tooltip>
               </VStack>
 
+              {/* Quick menu */}
               <CustomMenu
                 buttonProps={{
                   ml: 'auto',
@@ -253,6 +254,7 @@ const Task: FC<customtaskProps> = ({
         <JobModalInfo data={task} />
       </CustomModal>
 
+      {/* Delete job modal */}
       <CustomModal
         disclosure={deleteJobDisclosure}
         title='Delete Job'

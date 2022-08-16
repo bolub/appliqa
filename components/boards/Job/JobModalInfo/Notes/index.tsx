@@ -8,22 +8,22 @@ import {
 } from '@chakra-ui/react';
 import React, { useState, FC } from 'react';
 import { useQuery } from 'react-query';
-import { fetchInterviews } from '../../../../../API/interview';
 import { logout } from '../../../../../utils/functions';
-import LogInterview from './LogInterview';
-import Loader from '../../../../../components/UI/Loader';
-import Singleinterview from './Singleinterview';
+import CreateNote from './CreateNote';
+import Loader from '../../../../UI/Loader';
+import SingleNote from './SingleNote';
+import { fetchNotes } from '../../../../../API/notes';
 
-const Interview: FC<{ jobId: string }> = ({ jobId }) => {
+const Notes: FC<{ jobId: string }> = ({ jobId }) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
-  const [allInterviews, setAllInterviews] = useState([]);
+  const [allNotes, setAllNotes] = useState([]);
 
   const { status } = useQuery(
-    [`${jobId} interviews`, jobId],
-    () => fetchInterviews(jobId),
+    [`${jobId} notes`, jobId],
+    () => fetchNotes(jobId),
     {
       onSuccess: (data) => {
-        setAllInterviews(data);
+        setAllNotes(data);
       },
       onError: (data: any) => {
         const errors = { ...data };
@@ -53,20 +53,20 @@ const Interview: FC<{ jobId: string }> = ({ jobId }) => {
           borderWidth={isOpen ? '1px' : ''}
           onClick={onToggle}
         >
-          {isOpen ? 'Close' : 'Log Interview'}
+          {isOpen ? 'Close' : 'Add Note'}
         </Button>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <LogInterview onClose={onClose} jobId={jobId.toString()} />
+        <CreateNote onClose={onClose} jobId={jobId.toString()} />
       </Collapse>
 
       {/* Interview list */}
       <Loader status={status}>
         <SimpleGrid columns={{ base: 1 }} spacing={4} mt={12} mb={5}>
-          {allInterviews?.map((interviewData: any) => {
+          {allNotes?.map((interviewData: any) => {
             return (
-              <Singleinterview
+              <SingleNote
                 key={interviewData?.id}
                 id={interviewData?.id}
                 interviewData={interviewData?.attributes}
@@ -79,4 +79,4 @@ const Interview: FC<{ jobId: string }> = ({ jobId }) => {
   );
 };
 
-export default Interview;
+export default Notes;
