@@ -6,9 +6,9 @@ import {
   ModalBody,
   ModalCloseButton,
   Text,
-} from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { FC } from 'react';
+} from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { FC, ReactNode } from "react";
 
 interface Props {
   disclosure: any;
@@ -16,6 +16,7 @@ interface Props {
   titleComponent?: any;
   minW?: string | object;
   onClickCloseIcon?: () => void;
+  children: ReactNode;
 }
 
 const CustomModal: FC<Props> = ({
@@ -23,7 +24,7 @@ const CustomModal: FC<Props> = ({
   children,
   title,
   titleComponent,
-  minW = { md: '620px' },
+  minW = { md: "620px" },
   onClickCloseIcon = () => {},
 }) => {
   const { isOpen, onClose } = disclosure;
@@ -34,8 +35,8 @@ const CustomModal: FC<Props> = ({
     <Modal
       isOpen={isOpen}
       onClose={() => {
-        if (router.pathname.includes('[id]')) {
-          router.push(router.pathname.replace('[id]', router?.query?.id));
+        if (router.pathname.includes("[id]")) {
+          router.push(router.pathname.replace("[id]", router?.query?.id));
         } else {
           if (Object.keys(router.query).length > 0) {
             router.push(router.pathname);
@@ -48,15 +49,15 @@ const CustomModal: FC<Props> = ({
     >
       <ModalOverlay />
 
-      <ModalContent minW={minW} borderRadius={'20px'} pt={6} pb={4}>
+      <ModalContent minW={minW} borderRadius={"20px"} pt={6} pb={4}>
         <ModalHeader px={8}>
-          <Text as='span' fontWeight={'black'} fontSize='xl'>
+          <Text as="span" fontWeight={"black"} fontSize="xl">
             {title}
           </Text>
           {titleComponent}
         </ModalHeader>
 
-        <ModalCloseButton color='gray.400' />
+        <ModalCloseButton color="gray.400" />
         <ModalBody px={8}>{children}</ModalBody>
       </ModalContent>
     </Modal>

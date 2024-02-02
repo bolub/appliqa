@@ -30,78 +30,76 @@ const JobInterviewTips: FC = () => {
       }
     },
   });
-  return (
-    <>
-      <Card
-        flexProps={{
-          onClick: () => {
-            jobInterviewTipsDisclosure.onOpen();
-          },
-        }}
-      >
-        <HStack spacing={4} align='center' mx='auto'>
-          <Text fontSize={'xl'} fontWeight='bold'>
-            🤔
-          </Text>
-          <Text fontSize={'md'} fontWeight='bold'>
-            Explore Job Search Tips
-          </Text>
-        </HStack>
-      </Card>
+  return <>
+    <Card
+      flexProps={{
+        onClick: () => {
+          jobInterviewTipsDisclosure.onOpen();
+        },
+      }}
+    >
+      <HStack spacing={4} align='center' mx='auto'>
+        <Text fontSize={'xl'} fontWeight='bold'>
+          🤔
+        </Text>
+        <Text fontSize={'md'} fontWeight='bold'>
+          Explore Job Search Tips
+        </Text>
+      </HStack>
+    </Card>
 
-      <CustomModal
-        title='Popular Job Sites'
-        disclosure={jobInterviewTipsDisclosure}
-      >
-        <VStack align={'start'} spacing={6} mb={6}>
-          <Link href={''} passHref>
-            <Loader
-              status={status}
-              length={allJobTips?.length}
-              emptyText='None available'
-            >
-              {allJobTips?.map((jobTip: any) => {
-                const data = jobTip?.attributes;
+    <CustomModal
+      title='Popular Job Sites'
+      disclosure={jobInterviewTipsDisclosure}
+    >
+      <VStack align={'start'} spacing={6} mb={6}>
+        <Link href={''} passHref legacyBehavior>
+          <Loader
+            status={status}
+            length={allJobTips?.length}
+            emptyText='None available'
+          >
+            {allJobTips?.map((jobTip: any) => {
+              const data = jobTip?.attributes;
 
-                return (
-                  <Link key={data?.id} href={data?.url} passHref>
-                    <ChakraLink
-                      w='full'
-                      isExternal
-                      fontSize={'lg'}
-                      fontWeight={'medium'}
-                    >
-                      <HStack align='start' spacing={2}>
-                        <Text as='span' fontSize={'lg'}>
-                          🔗
+              return (
+                <Link key={data?.id} href={data?.url} passHref legacyBehavior>
+                  <ChakraLink
+                    w='full'
+                    isExternal
+                    fontSize={'lg'}
+                    fontWeight={'medium'}
+                  >
+                    <HStack align='start' spacing={2}>
+                      <Text as='span' fontSize={'lg'}>
+                        🔗
+                      </Text>
+
+                      <VStack align='start' spacing={0}>
+                        <Text
+                          color='green.500'
+                          as='span'
+                          fontWeight={'bold'}
+                          _hover={{
+                            textDecor: 'underline !important',
+                          }}
+                        >
+                          {data?.name}
                         </Text>
-
-                        <VStack align='start' spacing={0}>
-                          <Text
-                            color='green.500'
-                            as='span'
-                            fontWeight={'bold'}
-                            _hover={{
-                              textDecor: 'underline !important',
-                            }}
-                          >
-                            {data?.name}
-                          </Text>
-                          <Text fontSize={'md'} as='span' color='gray.500'>
-                            {data?.description}
-                          </Text>
-                        </VStack>
-                      </HStack>
-                    </ChakraLink>
-                  </Link>
-                );
-              })}
-            </Loader>
-          </Link>
-        </VStack>
-      </CustomModal>
-    </>
-  );
+                        <Text fontSize={'md'} as='span' color='gray.500'>
+                          {data?.description}
+                        </Text>
+                      </VStack>
+                    </HStack>
+                  </ChakraLink>
+                </Link>
+              );
+            })}
+          </Loader>
+        </Link>
+      </VStack>
+    </CustomModal>
+  </>;
 };
 
 export default JobInterviewTips;

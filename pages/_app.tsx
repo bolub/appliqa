@@ -1,21 +1,21 @@
-import '../styles/globals.css';
-import '../styles/datetimepicker.css';
+import "../styles/globals.css";
+import "../styles/datetimepicker.css";
 
-import type { AppProps } from 'next/app';
-import { ChakraProvider, Text } from '@chakra-ui/react';
-import { theme } from '../chakra/theme';
+import type { AppProps } from "next/app";
+import { ChakraProvider, Text } from "@chakra-ui/react";
+import { theme } from "../chakra/theme";
 
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { AUTH_ROUTES, DASHBOARD_ROUTES } from '../utils/routes';
-import Navbar from '../components/UI/Layout/Navbar';
-import Joyride, { STATUS } from 'react-joyride';
-import { RecoilRoot } from 'recoil';
-import Script from 'next/script';
-import CustomSeo from '../components/UI/CustomSeo';
+import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { AUTH_ROUTES, DASHBOARD_ROUTES } from "../utils/routes";
+import Navbar from "../components/UI/Layout/Navbar";
+import Joyride, { STATUS } from "react-joyride";
+import { RecoilRoot } from "recoil";
+import Script from "next/script";
+import CustomSeo from "../components/UI/CustomSeo";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -51,34 +51,34 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const steps = [
     {
-      target: '.boards',
+      target: ".boards",
       title: (
-        <Text fontWeight={'extrabold'} mt={4}>
+        <Text fontWeight={"extrabold"} mt={4}>
           Boards
         </Text>
       ),
       content:
-        'Manage your jobs in the board section and find the best job for you.',
+        "Manage your jobs in the board section and find the best job for you.",
       disableBeacon: true,
     },
     {
-      target: '.goals',
+      target: ".goals",
       title: (
-        <Text fontWeight={'extrabold'} mt={4}>
+        <Text fontWeight={"extrabold"} mt={4}>
           Goals
         </Text>
       ),
-      content: 'Manage your goals in the goals section',
+      content: "Manage your goals in the goals section",
       disableBeacon: true,
     },
     {
-      target: '.browse-jobs',
+      target: ".browse-jobs",
       title: (
-        <Text fontWeight={'extrabold'} mt={4}>
+        <Text fontWeight={"extrabold"} mt={4}>
           Browse Jobs
         </Text>
       ),
-      content: 'Browse through different jobs and add to boards to track them',
+      content: "Browse through different jobs and add to boards to track them",
       disableBeacon: true,
     },
   ];
@@ -91,7 +91,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   // }, [query?.signup, setRun]);
 
   useEffect(() => {
-    if (query?.tour === 'true') {
+    if (query?.tour === "true") {
       setRun(true);
     }
   }, [query?.tour, setRun]);
@@ -106,23 +106,25 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider theme={theme}>
+      {/* @ts-ignore */}
       <QueryClientProvider client={queryClient}>
+        {/* @ts-ignore */}
         <Hydrate state={pageProps.dehydratedState}>
           <ReactQueryDevtools initialIsOpen={false} />
           <RecoilRoot>
             <Head>
               <link
-                href='https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap'
-                rel='stylesheet'
+                href="https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap"
+                rel="stylesheet"
               />
-              <link rel='icon' href='/Logo.svg' />
+              <link rel="icon" href="/Logo.svg" />
             </Head>
 
             <CustomSeo />
 
             <Script
-              id='tawk'
-              strategy='lazyOnload'
+              id="tawk"
+              strategy="lazyOnload"
               dangerouslySetInnerHTML={{
                 __html: `
               var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -139,7 +141,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             />
 
             {isDashboardRoute && !isAuthRoute && <Navbar />}
-            {query?.tour === 'true' && (
+            {query?.tour === "true" && (
               <Joyride
                 continuous={true}
                 run={run}
@@ -150,7 +152,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 styles={{
                   options: {
                     zIndex: 10000,
-                    primaryColor: '#16a34a',
+                    primaryColor: "#16a34a",
                   },
                 }}
                 callback={handleJoyrideCallback}

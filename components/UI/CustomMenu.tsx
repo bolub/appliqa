@@ -6,9 +6,9 @@ import {
   MenuButtonProps,
   MenuListProps,
   MenuItemProps,
-} from '@chakra-ui/react';
-import { FC } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+} from "@chakra-ui/react";
+import { FC, ReactNode } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 interface itemProps {
   title: any;
@@ -19,6 +19,7 @@ interface Props {
   buttonProps?: MenuButtonProps;
   listProps?: MenuListProps;
   items?: itemProps[];
+  children: ReactNode;
 }
 
 const CustomMenu: FC<Props> = ({ buttonProps, listProps, children, items }) => {

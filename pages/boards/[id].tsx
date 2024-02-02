@@ -20,54 +20,54 @@ import {
   Text,
   useDisclosure,
   useToast,
-} from '@chakra-ui/react';
-import React, { useEffect, useMemo, useState } from 'react';
-import SearchInput from '../../components/UI/Form/SearchInput';
-import { initialData } from '../../utils/board';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import Column from '../../components/boards/Column';
-import BoardGoal from '../../components/boards/BoardGoal';
-import CustomModal from '../../components/UI/CustomModal';
-import CreateJob from '../../components/boards/CreateJob';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { fetchSingleBoard, updateBoard, updateStage } from '../../API/boards';
-import { fetchGoals } from '../../API/goals';
-import Loader from '../../components/UI/Loader';
-import { useRouter } from 'next/router';
-import { formatDataForBoard } from '../../utils/functions';
+} from "@chakra-ui/react";
+import React, { useEffect, useMemo, useState } from "react";
+import SearchInput from "../../components/UI/Form/SearchInput";
+import { initialData } from "../../utils/board";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import Column from "../../components/boards/Column";
+import BoardGoal from "../../components/boards/BoardGoal";
+import CustomModal from "../../components/UI/CustomModal";
+import CreateJob from "../../components/boards/CreateJob";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { fetchSingleBoard, updateBoard, updateStage } from "../../API/boards";
+import { fetchGoals } from "../../API/goals";
+import Loader from "../../components/UI/Loader";
+import { useRouter } from "next/router";
+import { formatDataForBoard } from "../../utils/functions";
 import {
   HiOutlineCheck,
   HiOutlineInformationCircle,
   HiOutlineX,
-} from 'react-icons/hi';
-import ToastBody from '../../components/UI/ToastBody';
-import { useSetRecoilState } from 'recoil';
-import { boardState } from '../../recoil/board';
-import { getCookie } from 'cookies-next';
-import BoardLoader from '../../components/UI/Loaders/BoardLoader';
-import CustomSeo from '../../components/UI/CustomSeo';
+} from "react-icons/hi";
+import ToastBody from "../../components/UI/ToastBody";
+import { useSetRecoilState } from "recoil";
+import { boardState } from "../../recoil/board";
+import { getCookie } from "cookies-next";
+import BoardLoader from "../../components/UI/Loaders/BoardLoader";
+import CustomSeo from "../../components/UI/CustomSeo";
 import {
   ArrangedBoardProps,
   goalProps,
   StagesDatum,
-} from '../../utils/GeneralProps';
+} from "../../utils/GeneralProps";
 
 const Boards = () => {
   const [boardData, setBoardData] = useState<ArrangedBoardProps>(initialData);
   const setUnfilteredBoardData = useSetRecoilState(boardState);
   const [allGoals, setAllGoals] = useState<goalProps[]>([]);
-  const [boardTitle, setBoardTitle] = useState<string>('');
+  const [boardTitle, setBoardTitle] = useState<string>("");
   const toast = useToast();
   const [currentStage, setCurrentStage] = useState({});
 
   const { query } = useRouter();
 
   const queryClient = useQueryClient();
-  const { data, status } = useQuery(['board', query.id], () =>
+  const { data, status } = useQuery(["board", query.id], () =>
     // @ts-ignore
     fetchSingleBoard(query.id)
   );
-  useQuery('goals', fetchGoals, {
+  useQuery("goals", fetchGoals, {
     onSuccess: (data) => {
       setAllGoals(data);
     },
@@ -75,7 +75,7 @@ const Boards = () => {
 
   const { mutate: updateCStage } = useMutation(updateStage, {
     onSuccess: () => {
-      queryClient.invalidateQueries('board');
+      queryClient.invalidateQueries("board");
     },
   });
 
@@ -84,18 +84,18 @@ const Boards = () => {
     {
       onSuccess: () => {
         toast({
-          position: 'top-right',
+          position: "top-right",
           isClosable: true,
           render: () => (
             <ToastBody
-              title='Success'
-              message='Job updated successfully'
-              status='success'
+              title="Success"
+              message="Job updated successfully"
+              status="success"
             />
           ),
         });
         setHeaderUpdate(false);
-        queryClient.invalidateQueries('board');
+        queryClient.invalidateQueries("board");
       },
     }
   );
@@ -205,7 +205,7 @@ const Boards = () => {
   const [headerUpdate, setHeaderUpdate] = useState(false);
 
   const searchJobs = (value: string) => {
-    if (!value || value === '') {
+    if (!value || value === "") {
       setBoardData({
         ...formatDataForBoard(data),
       });
@@ -222,7 +222,7 @@ const Boards = () => {
 
     const filteredStages = data?.attributes?.stages?.data?.map(
       (stage: StagesDatum) => {
-        const CopiedJobIds = stage?.attributes?.job_ids?.split(',');
+        const CopiedJobIds = stage?.attributes?.job_ids?.split(",");
 
         let JobIds: string[] = [];
 
@@ -236,7 +236,7 @@ const Boards = () => {
           ...stage,
           attributes: {
             ...stage.attributes,
-            job_ids: JobIds?.toString() || '',
+            job_ids: JobIds?.toString() || "",
           },
         };
       }
@@ -257,47 +257,47 @@ const Boards = () => {
   };
 
   if (
-    status === 'success' &&
-    data?.attributes?.userId !== getCookie('USER_ID')
+    status === "success" &&
+    data?.attributes?.userId !== getCookie("USER_ID")
   ) {
     return (
-      <Center w='100%' h='90vh'>
-        <Text fontSize={'xl'} fontWeight='bold'>
-          Board not available{' '}
+      <Center w="100%" h="90vh">
+        <Text fontSize={"xl"} fontWeight="bold">
+          Board not available{" "}
         </Text>
       </Center>
     );
   }
 
   return (
-    <Container maxW='7xl' pt={{ base: 12 }}>
-      <CustomSeo title={boardTitle ?? 'Board'} />
+    <Container maxW="7xl" pt={{ base: 12 }}>
+      <CustomSeo title={boardTitle ?? "Board"} />
 
       {/* Header title and goal */}
       <Flex>
         <Input
-          variant={'unstyled'}
+          variant={"unstyled"}
           value={boardTitle}
-          fontWeight={'black'}
-          fontSize='2xl'
-          w='fit-content'
+          fontWeight={"black"}
+          fontSize="2xl"
+          w="fit-content"
           onFocus={() => setHeaderUpdate(true)}
           onChange={(e) => {
             setBoardTitle(e.target.value);
           }}
           pr={3}
-          my='auto'
+          my="auto"
         />
 
         {headerUpdate && (
-          <HStack ml={2} mr={10} my='auto'>
+          <HStack ml={2} mr={10} my="auto">
             <IconButton
-              aria-label='Update title'
+              aria-label="Update title"
               icon={<HiOutlineCheck />}
-              rounded='full'
-              colorScheme={'green'}
-              fontSize='lg'
-              size='sm'
+              rounded="full"
+              colorScheme={"green"}
+              fontSize="lg"
+              size="sm"
               isLoading={isBoardUpdateLoading}
               isDisabled={!boardTitle}
               onClick={() => {
@@ -310,11 +310,11 @@ const Boards = () => {
               }}
             />
             <IconButton
-              aria-label='Close'
+              aria-label="Close"
               icon={<HiOutlineX />}
-              rounded='full'
-              fontSize='lg'
-              size='sm'
+              rounded="full"
+              fontSize="lg"
+              size="sm"
               isDisabled={isBoardUpdateLoading}
               onClick={() => {
                 if (!boardTitle) {
@@ -328,16 +328,16 @@ const Boards = () => {
         )}
 
         {/* Goal */}
-        <Flex bg='gray.100' w='fit-content' rounded='lg' pr={4}>
+        <Flex bg="gray.100" w="fit-content" rounded="lg" pr={4}>
           <Menu autoSelect={false}>
             <MenuButton
               as={Button}
-              fontWeight={'bold'}
-              variant='unstyled'
+              fontWeight={"bold"}
+              variant="unstyled"
               pl={4}
             >
               <Flex>
-                <Text as='span' my='auto' mr={3} fontSize='lg'>
+                <Text as="span" my="auto" mr={3} fontSize="lg">
                   🥅
                 </Text>
               </Flex>
@@ -367,25 +367,26 @@ const Boards = () => {
           </Menu>
 
           <Popover autoFocus={false}>
+            {/* @ts-ignore */}
             <PopoverTrigger>
-              <Text as='span' tabIndex={0} my='auto'>
+              <Text as="span" tabIndex={0} my="auto">
                 <Icon
                   as={HiOutlineInformationCircle}
-                  fontSize={'18px'}
+                  fontSize={"18px"}
                   mt={2}
-                  cursor='pointer'
+                  cursor="pointer"
                 />
               </Text>
             </PopoverTrigger>
             <PopoverContent
-              borderWidth='1px'
-              borderRadius={'xl'}
-              borderColor={'green.600'}
+              borderWidth="1px"
+              borderRadius={"xl"}
+              borderColor={"green.600"}
             >
               <PopoverArrow />
               <PopoverCloseButton />
 
-              <PopoverBody fontSize='sm' py={5} px={5}>
+              <PopoverBody fontSize="sm" py={5} px={5}>
                 {/* {data?.attributes?.goal?.data && ( */}
                 <BoardGoal data={data?.attributes?.goal?.data?.attributes} />
                 {/* )} */}
@@ -395,11 +396,11 @@ const Boards = () => {
         </Flex>
       </Flex>
       {/* Search Input and "Add Job" button */}
-      <Flex flexDir={{ base: 'column', md: 'row' }} mt={{ base: 5, md: 8 }}>
+      <Flex flexDir={{ base: "column", md: "row" }} mt={{ base: 5, md: 8 }}>
         <SearchInput
           containerProps={{
-            maxW: '400px',
-            my: 'auto',
+            maxW: "400px",
+            my: "auto",
           }}
           inputProps={{
             onChange: (e) => {
@@ -409,10 +410,10 @@ const Boards = () => {
         />
 
         <Button
-          ml='auto'
-          mt={{ base: 3, md: 'auto' }}
-          mb={{ md: 'auto' }}
-          colorScheme={'green'}
+          ml="auto"
+          mt={{ base: 3, md: "auto" }}
+          mb={{ md: "auto" }}
+          colorScheme={"green"}
           onClick={jobDisclosure.onOpen}
           isDisabled={!data}
         >
@@ -420,8 +421,9 @@ const Boards = () => {
         </Button>
       </Flex>
       <Loader loader={<BoardLoader />} status={status}>
+        {/* @ts-ignore */}
         <DragDropContext onDragEnd={onDragEnd}>
-          <HStack align='start' spacing={6} mt={8} overflowX='scroll' h='63vh'>
+          <HStack align="start" spacing={6} mt={8} overflowX="scroll" h="63vh">
             {boardData?.columnOrder?.map((columnId) => {
               // get columnData based on the current columId
               // @ts-ignore
@@ -442,11 +444,11 @@ const Boards = () => {
                   setCurrentStage={setCurrentStage}
                 />
               );
-            })}{' '}
+            })}{" "}
           </HStack>
         </DragDropContext>
 
-        <CustomModal disclosure={jobDisclosure} title='Add Job'>
+        <CustomModal disclosure={jobDisclosure} title="Add Job">
           <CreateJob
             boardData={boardData}
             originalBoardData={data}

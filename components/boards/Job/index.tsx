@@ -8,28 +8,28 @@ import {
   useDisclosure,
   useToast,
   VStack,
-} from '@chakra-ui/react';
-import React, { FC, useEffect } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
-import CustomModal from '../../UI/CustomModal';
-import ModalTitleComponent from './ModalTitleComponent';
-import JobModalInfo from './JobModalInfo';
-import CustomMenu from '../../UI/CustomMenu';
+} from "@chakra-ui/react";
+import React, { FC, useEffect } from "react";
+import { Draggable } from "react-beautiful-dnd";
+import CustomModal from "../../UI/CustomModal";
+import ModalTitleComponent from "./ModalTitleComponent";
+import JobModalInfo from "./JobModalInfo";
+import CustomMenu from "../../UI/CustomMenu";
 import {
   HiOutlineDotsVertical,
   HiOutlineInformationCircle,
   HiOutlineTrash,
-} from 'react-icons/hi';
-import { deleteJob, updateBoard, updateStage } from '../../../API/boards';
-import { useMutation, useQueryClient } from 'react-query';
-import { useRouter } from 'next/router';
-import ToastBody from '../../UI/ToastBody';
-import { formatDateAgo } from '../../../utils/functions';
+} from "react-icons/hi";
+import { deleteJob, updateBoard, updateStage } from "../../../API/boards";
+import { useMutation, useQueryClient } from "react-query";
+import { useRouter } from "next/router";
+import ToastBody from "../../UI/ToastBody";
+import { formatDateAgo } from "../../../utils/functions";
 import {
   fullBoardProps,
   Stage,
   Task as TaskProps,
-} from '../../../utils/GeneralProps';
+} from "../../../utils/GeneralProps";
 
 interface customtaskProps {
   task: TaskProps;
@@ -61,15 +61,15 @@ const Task: FC<customtaskProps> = ({
 
   const { mutate: deleteCJob, isLoading } = useMutation(deleteJob, {
     onSuccess: () => {
-      queryClient.invalidateQueries('board');
+      queryClient.invalidateQueries("board");
       toast({
-        position: 'top-right',
+        position: "top-right",
         isClosable: true,
         render: () => (
           <ToastBody
-            title='Success'
-            message='Job Deleted successfully'
-            status='success'
+            title="Success"
+            message="Job Deleted successfully"
+            status="success"
           />
         ),
       });
@@ -116,31 +116,32 @@ const Task: FC<customtaskProps> = ({
 
   return (
     <>
+      {/* @ts-ignore */}
       <Draggable draggableId={task?.slug} index={index}>
         {(provided, snapshot) => (
           <Flex
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            w='full'
-            borderRadius='8px'
-            bg={!snapshot?.isDragging ? 'white' : 'green.50'}
-            borderWidth='1px'
-            borderColor={!snapshot?.isDragging ? 'gray.300' : 'green.500'}
-            boxShadow={snapshot?.isDragging ? 'lg' : ''}
+            w="full"
+            borderRadius="8px"
+            bg={!snapshot?.isDragging ? "white" : "green.50"}
+            borderWidth="1px"
+            borderColor={!snapshot?.isDragging ? "gray.300" : "green.500"}
+            boxShadow={snapshot?.isDragging ? "lg" : ""}
             pt={6}
             px={5}
             pb={4}
-            flexDir='column'
-            transition='border 0.2s ease'
+            flexDir="column"
+            transition="border 0.2s ease"
           >
-            <Flex align='start'>
+            <Flex align="start">
               <Avatar
-                rounded='full'
-                objectFit={'cover'}
-                bg='green.500'
+                rounded="full"
+                objectFit={"cover"}
+                bg="green.500"
                 src={`https://logo.clearbit.com/${company}.com`}
-                boxSize='32px'
+                boxSize="32px"
                 mr={2}
               />
 
@@ -148,18 +149,18 @@ const Task: FC<customtaskProps> = ({
                 onClick={() => {
                   router.push(`/boards/${query.id}?jobId=${task.id}`);
                 }}
-                align='start'
+                align="start"
                 spacing={0}
                 mr={4}
               >
                 <Tooltip label={title} openDelay={1000} closeDelay={500}>
                   <Text
-                    as='span'
-                    my='auto'
-                    fontWeight='extrabold'
-                    fontSize={'sm'}
+                    as="span"
+                    my="auto"
+                    fontWeight="extrabold"
+                    fontSize={"sm"}
                     isTruncated
-                    maxW='200px'
+                    maxW="200px"
                   >
                     {title}
                   </Text>
@@ -167,10 +168,10 @@ const Task: FC<customtaskProps> = ({
 
                 <Tooltip label={company} openDelay={1000} closeDelay={500}>
                   <Text
-                    color='gray.500'
-                    fontSize={'sm'}
-                    fontWeight='semibold'
-                    maxW='200px'
+                    color="gray.500"
+                    fontSize={"sm"}
+                    fontWeight="semibold"
+                    maxW="200px"
                     isTruncated
                   >
                     {company}
@@ -181,21 +182,21 @@ const Task: FC<customtaskProps> = ({
               {/* Quick menu */}
               <CustomMenu
                 buttonProps={{
-                  ml: 'auto',
-                  color: 'gray.500',
-                  fontSize: 'xl',
+                  ml: "auto",
+                  color: "gray.500",
+                  fontSize: "xl",
                 }}
                 items={[
                   {
                     title: (
                       <HStack>
-                        <Text fontSize={'lg'} color='gray.500'>
+                        <Text fontSize={"lg"} color="gray.500">
                           <HiOutlineInformationCircle />
                         </Text>
                         <Text
-                          fontSize={'sm'}
-                          fontWeight='bold'
-                          color='gray.500'
+                          fontSize={"sm"}
+                          fontWeight="bold"
+                          color="gray.500"
                         >
                           View Info
                         </Text>
@@ -210,10 +211,10 @@ const Task: FC<customtaskProps> = ({
                   {
                     title: (
                       <HStack>
-                        <Text fontSize={'md'} color='red.500'>
+                        <Text fontSize={"md"} color="red.500">
                           <HiOutlineTrash />
                         </Text>
-                        <Text fontSize={'sm'} fontWeight='bold' color='red.500'>
+                        <Text fontSize={"sm"} fontWeight="bold" color="red.500">
                           Delete Job
                         </Text>
                       </HStack>
@@ -232,10 +233,10 @@ const Task: FC<customtaskProps> = ({
 
             <Text
               mt={3}
-              fontSize='xs'
-              ml='auto'
-              fontWeight={'semibold'}
-              color='gray.500'
+              fontSize="xs"
+              ml="auto"
+              fontWeight={"semibold"}
+              color="gray.500"
             >
               {formatDateAgo(task?.publishedAt)}
             </Text>
@@ -246,7 +247,7 @@ const Task: FC<customtaskProps> = ({
       <CustomModal
         disclosure={viewJobDisclosure}
         titleComponent={<ModalTitleComponent data={task} stage={column} />}
-        minW={{ base: 'auto', md: '856px' }}
+        minW={{ base: "auto", md: "856px" }}
         onClickCloseIcon={() => {
           router.push(`/boards/${query.id}`);
         }}
@@ -257,18 +258,18 @@ const Task: FC<customtaskProps> = ({
       {/* Delete job modal */}
       <CustomModal
         disclosure={deleteJobDisclosure}
-        title='Delete Job'
-        minW={{ base: 'auto', md: 'md' }}
+        title="Delete Job"
+        minW={{ base: "auto", md: "md" }}
       >
         <Text>Are you sure you want to delete this job?</Text>
 
-        <HStack justifyContent={'end'} mt={8}>
+        <HStack justifyContent={"end"} mt={8}>
           <Button onClick={deleteJobDisclosure.onClose} isDisabled={isLoading}>
             Cancel
           </Button>
           <Button
             onClick={deleteJobHandler}
-            colorScheme='red'
+            colorScheme="red"
             isLoading={isLoading}
           >
             Delete
