@@ -94,10 +94,7 @@ const AllBoards = () => {
                 pt={4}
                 flexDir='column'
               >
-                <NextLink
-                  href={`${DASHBOARD_ROUTES.BOARDS}/${board.id}`}
-                  passHref
-                >
+                <NextLink href={`${DASHBOARD_ROUTES.BOARDS}/${board.id}`} passHref legacyBehavior>
                   <Link cursor={'pointer'} px={6} pb={4}>
                     <Center flexDir={'column'} pt={10} pb={16}>
                       <Text fontSize={'2xl'}>🎯</Text>

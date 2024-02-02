@@ -31,62 +31,60 @@ const JobSites: FC = () => {
     },
   });
 
-  return (
-    <>
-      <Card
-        flexProps={{
-          onClick: () => {
-            jobSitesDisclosure.onOpen();
-          },
-        }}
-      >
-        <HStack spacing={4} align='center' mx='auto'>
-          <Text fontSize={'xl'} fontWeight='bold'>
-            💼
-          </Text>
-          <Text fontSize={'md'} fontWeight='bold'>
-            Explore Popular Job Sites
-          </Text>
-        </HStack>
-      </Card>
+  return <>
+    <Card
+      flexProps={{
+        onClick: () => {
+          jobSitesDisclosure.onOpen();
+        },
+      }}
+    >
+      <HStack spacing={4} align='center' mx='auto'>
+        <Text fontSize={'xl'} fontWeight='bold'>
+          💼
+        </Text>
+        <Text fontSize={'md'} fontWeight='bold'>
+          Explore Popular Job Sites
+        </Text>
+      </HStack>
+    </Card>
 
-      <CustomModal title='Popular Job Sites' disclosure={jobSitesDisclosure}>
-        <VStack align={'start'} spacing={6} mb={8}>
-          <Loader
-            status={status}
-            length={allJobSites?.length}
-            emptyText='None available'
-          >
-            {allJobSites?.map((jobSite: any) => {
-              const data = jobSite?.attributes;
+    <CustomModal title='Popular Job Sites' disclosure={jobSitesDisclosure}>
+      <VStack align={'start'} spacing={6} mb={8}>
+        <Loader
+          status={status}
+          length={allJobSites?.length}
+          emptyText='None available'
+        >
+          {allJobSites?.map((jobSite: any) => {
+            const data = jobSite?.attributes;
 
-              return (
-                <Link key={data?.id} href={data?.url} passHref>
-                  <ChakraLink
-                    w='full'
-                    isExternal
-                    fontSize={'lg'}
-                    color='green.500'
-                    fontWeight={'medium'}
-                  >
-                    <HStack spacing={2}>
-                      <Text as='span' fontSize={'lg'}>
-                        🔗
-                      </Text>
+            return (
+              <Link key={data?.id} href={data?.url} passHref legacyBehavior>
+                <ChakraLink
+                  w='full'
+                  isExternal
+                  fontSize={'lg'}
+                  color='green.500'
+                  fontWeight={'medium'}
+                >
+                  <HStack spacing={2}>
+                    <Text as='span' fontSize={'lg'}>
+                      🔗
+                    </Text>
 
-                      <Text textDecor={'underline !important'} as='span'>
-                        {data?.name}
-                      </Text>
-                    </HStack>
-                  </ChakraLink>
-                </Link>
-              );
-            })}
-          </Loader>
-        </VStack>
-      </CustomModal>
-    </>
-  );
+                    <Text textDecor={'underline !important'} as='span'>
+                      {data?.name}
+                    </Text>
+                  </HStack>
+                </ChakraLink>
+              </Link>
+            );
+          })}
+        </Loader>
+      </VStack>
+    </CustomModal>
+  </>;
 };
 
 export default JobSites;

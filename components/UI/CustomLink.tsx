@@ -9,7 +9,7 @@ interface Props {
 
 const CustomLink: FC<Props> = ({ href, children, containerProps }) => {
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <ChakraLink {...containerProps}>{children}</ChakraLink>
     </Link>
   );
