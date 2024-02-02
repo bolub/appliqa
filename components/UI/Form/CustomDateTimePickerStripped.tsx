@@ -1,5 +1,5 @@
-import React, { FC, ReactNode } from 'react';
-import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
+import React, { FC, ReactNode } from "react";
+import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 
 // pick a date util library
 import {
@@ -11,9 +11,9 @@ import {
   InputProps,
   Text,
   VStack,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 interface pickerProps {
   labelIcon?: ReactNode;
@@ -34,33 +34,35 @@ const CustomDateTimePickerStripped: FC<pickerProps> = ({
   inputProps,
 }) => {
   return (
-    <VStack align={'start'} spacing={0}>
+    <VStack align={"start"} spacing={0}>
       <FormControl {...formControlProps}>
         <FormLabel
-          fontWeight={'bold'}
-          fontSize='sm'
-          color='gray.500'
-          htmlFor='date'
+          fontWeight={"bold"}
+          fontSize="sm"
+          color="gray.500"
+          htmlFor="date"
           mb={1}
-          d='flex'
-          w='100%'
+          d="flex"
+          w="100%"
         >
-          <Text as='span' my='auto'>
+          <Text as="span" my="auto">
             {label}
           </Text>
 
           {labelIcon && (
-            <Box ml='auto' my='auto'>
+            <Box ml="auto" my="auto">
               {labelIcon}
             </Box>
           )}
         </FormLabel>
+
+        {/* @ts-ignore */}
         <DatePicker
           selected={selected}
           onChange={onChange}
-          customInput={<Input variant={'unstyled'} {...inputProps} />}
-          timeInputLabel='Time:'
-          dateFormat='do MMM h:mm aa'
+          customInput={<Input variant={"unstyled"} {...inputProps} />}
+          timeInputLabel="Time:"
+          dateFormat="do MMM h:mm aa"
           showTimeInput
           shouldCloseOnSelect={false}
           showMonthDropdown
