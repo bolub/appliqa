@@ -203,6 +203,7 @@ const Navbar = () => {
                   label="Browse Jobs (beta)"
                   href={DASHBOARD_ROUTES.JOBS}
                   close={onClose}
+                  isExternal
                 />
                 <SideNavItem
                   className="contacts"
