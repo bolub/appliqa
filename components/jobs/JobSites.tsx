@@ -4,87 +4,63 @@ import {
   useDisclosure,
   VStack,
   Link as ChakraLink,
-} from '@chakra-ui/react';
-import Link from 'next/link';
-import React, { FC, useState } from 'react';
-import { useQuery } from 'react-query';
-import { fetchJobSites } from '../../API/jobs';
-import { logout } from '../../utils/functions';
-import CustomModal from '../UI/CustomModal';
-import Loader from '../UI/Loader';
-import Card from './Card';
+} from "@chakra-ui/react";
+import Link from "next/link";
+import CustomModal from "../UI/CustomModal";
+import Card from "./Card";
+import { jobSites } from "./data";
 
-const JobSites: FC = () => {
+const JobSites = () => {
   const jobSitesDisclosure = useDisclosure();
 
-  const [allJobSites, setAllJobSites] = useState([]);
+  return (
+    <>
+      <Card
+        flexProps={{
+          onClick: () => {
+            jobSitesDisclosure.onOpen();
+          },
+        }}
+      >
+        <HStack spacing={4} align="center" mx="auto">
+          <Text fontSize={"xl"} fontWeight="bold">
+            💼
+          </Text>
+          <Text fontSize={"md"} fontWeight="bold">
+            Explore Popular Job Sites
+          </Text>
+        </HStack>
+      </Card>
 
-  const { status } = useQuery('job_sites', fetchJobSites, {
-    onSuccess: (data) => {
-      setAllJobSites(data?.data);
-    },
-    onError: (data: any) => {
-      const errors = { ...data };
-      if (!errors?.response) {
-        logout();
-      }
-    },
-  });
-
-  return <>
-    <Card
-      flexProps={{
-        onClick: () => {
-          jobSitesDisclosure.onOpen();
-        },
-      }}
-    >
-      <HStack spacing={4} align='center' mx='auto'>
-        <Text fontSize={'xl'} fontWeight='bold'>
-          💼
-        </Text>
-        <Text fontSize={'md'} fontWeight='bold'>
-          Explore Popular Job Sites
-        </Text>
-      </HStack>
-    </Card>
-
-    <CustomModal title='Popular Job Sites' disclosure={jobSitesDisclosure}>
-      <VStack align={'start'} spacing={6} mb={8}>
-        <Loader
-          status={status}
-          length={allJobSites?.length}
-          emptyText='None available'
-        >
-          {allJobSites?.map((jobSite: any) => {
-            const data = jobSite?.attributes;
-
+      <CustomModal title="Popular Job Sites" disclosure={jobSitesDisclosure}>
+        <VStack align={"start"} spacing={6} mb={8}>
+          {jobSites?.map((jobSite) => {
             return (
-              <Link key={data?.id} href={data?.url} passHref legacyBehavior>
+              <Link key={jobSite.id} href={jobSite.url} passHref legacyBehavior>
                 <ChakraLink
-                  w='full'
+                  w="full"
                   isExternal
-                  fontSize={'lg'}
-                  color='green.500'
-                  fontWeight={'medium'}
+                  fontSize={"lg"}
+                  color="green.500"
+                  fontWeight={"medium"}
                 >
                   <HStack spacing={2}>
-                    <Text as='span' fontSize={'lg'}>
+                    <Text as="span" fontSize={"lg"}>
                       🔗
                     </Text>
 
-                    <Text textDecor={'underline !important'} as='span'>
-                      {data?.name}
+                    <Text textDecor={"underline !important"} as="span">
+                      {jobSite.name}
                     </Text>
                   </HStack>
                 </ChakraLink>
               </Link>
             );
           })}
-        </Loader>
-      </VStack>
-    </CustomModal>
-  </>;
+        </VStack>
+      </CustomModal>
+    </>
+  );
 };
 
 export default JobSites;
