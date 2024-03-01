@@ -14,18 +14,20 @@ import {
   WrapItem,
   Link,
   Tooltip,
-} from '@chakra-ui/react';
-import React, { FC } from 'react';
+} from "@chakra-ui/react";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import React, { FC } from "react";
 import {
   HiChevronDown,
   HiChevronUp,
   HiOutlineCalendar,
   HiOutlineTag,
   HiPlus,
-} from 'react-icons/hi';
-import { formatDateAgo } from '../../utils/functions';
-import CustomModal from '../UI/CustomModal';
-import AddJobToBoard from './AddJobToBoard';
+} from "react-icons/hi";
+import { formatDateAgo } from "../../utils/functions";
+import CustomModal from "../UI/CustomModal";
+import AddJobToBoard from "./AddJobToBoard";
 
 const SingleJob: FC<{ job: any }> = ({ job }) => {
   const { isOpen, onToggle } = useDisclosure();
@@ -34,23 +36,23 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
 
   const DateTags = () => (
     <>
-      <HStack mb={{ base: 5, md: 8 }} fontSize={'sm'} color='gray.500'>
-        <Text fontSize={'md'}>
+      <HStack mb={{ base: 5, md: 8 }} fontSize={"sm"} color="gray.500">
+        <Text fontSize={"md"}>
           <HiOutlineCalendar />
         </Text>
 
-        <Text fontWeight='bold'>
+        <Text fontWeight="bold">
           Posted {formatDateAgo(job?.publication_date)}
         </Text>
       </HStack>
 
-      <VStack align={'start'} d={{ base: 'none', md: 'flex' }}>
-        <HStack fontSize={'sm'} color='gray.500'>
-          <Text fontSize={'md'}>
+      <VStack align={"start"} d={{ base: "none", md: "flex" }}>
+        <HStack fontSize={"sm"} color="gray.500">
+          <Text fontSize={"md"}>
             <HiOutlineTag />
           </Text>
 
-          <Text fontWeight='bold'>Tags</Text>
+          <Text fontWeight="bold">Tags</Text>
         </HStack>
 
         <Wrap>
@@ -58,14 +60,14 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
             return (
               <WrapItem key={ld?.name}>
                 <Tag
-                  colorScheme='green'
-                  fontWeight={'bold'}
+                  colorScheme="green"
+                  fontWeight={"bold"}
                   py={2}
                   px={3}
-                  textAlign={'center'}
-                  d='inline-block'
+                  textAlign={"center"}
+                  d="inline-block"
                 >
-                  {' '}
+                  {" "}
                   📍 {ld?.name}
                 </Tag>
               </WrapItem>
@@ -75,14 +77,14 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
             return (
               <WrapItem key={levelData?.name}>
                 <Tag
-                  colorScheme='green'
-                  fontWeight={'bold'}
+                  colorScheme="green"
+                  fontWeight={"bold"}
                   py={2}
                   px={3}
-                  textAlign={'center'}
-                  d='inline-block'
+                  textAlign={"center"}
+                  d="inline-block"
                 >
-                  {' '}
+                  {" "}
                   {levelData?.name}
                 </Tag>
               </WrapItem>
@@ -92,14 +94,14 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
             return (
               <WrapItem key={categoryData?.name}>
                 <Tag
-                  colorScheme='green'
-                  fontWeight={'bold'}
-                  alignItems='center'
-                  d='inline-block'
+                  colorScheme="green"
+                  fontWeight={"bold"}
+                  alignItems="center"
+                  d="inline-block"
                   py={2}
                   px={3}
                 >
-                  {' '}
+                  {" "}
                   {categoryData?.name}
                 </Tag>
               </WrapItem>
@@ -110,15 +112,15 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
 
       <Link href={job?.refs?.landing_page} isExternal>
         <Button
-          w='full'
+          w="full"
           mt={6}
-          variant='unstyled'
-          colorScheme='green'
-          bg='green.50'
+          variant="unstyled"
+          colorScheme="green"
+          bg="green.50"
           _hover={{
-            bg: 'green.100',
+            bg: "green.100",
           }}
-          color='green.500'
+          color="green.500"
           onClick={addJobToBoardDisclosure.onOpen}
         >
           Apply
@@ -127,52 +129,54 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
     </>
   );
 
+  const router = useRouter();
+
   return (
     <Flex
-      flexDir={'column'}
-      w='full'
-      borderWidth='1px'
-      borderColor={'gray.300'}
-      borderRadius='8px'
+      flexDir={"column"}
+      w="full"
+      borderWidth="1px"
+      borderColor={"gray.300"}
+      borderRadius="8px"
       pt={6}
       pb={6}
     >
       <Flex
-        flexDir={{ base: 'column', md: 'row' }}
-        w='full'
+        flexDir={{ base: "column", md: "row" }}
+        w="full"
         px={{ base: 4, md: 8 }}
       >
         <HStack
-          flexDir={{ base: 'column', md: 'row' }}
-          align={'start'}
+          flexDir={{ base: "column", md: "row" }}
+          align={"start"}
           spacing={{ md: 6 }}
-          w={{ base: '100%', md: '50%' }}
-          my='auto'
+          w={{ base: "100%", md: "50%" }}
+          my="auto"
         >
           <Avatar
             src={`https://logo.clearbit.com/${job?.company?.name}.com`}
-            size={'lg'}
+            size={"lg"}
           />
 
-          <Box w='full' pt={{ base: 4, md: 0 }}>
-            <Text fontSize={'sm'} fontWeight='bold' color='gray.500'>
+          <Box w="full" pt={{ base: 4, md: 0 }}>
+            <Text fontSize={"sm"} fontWeight="bold" color="gray.500">
               {job?.company?.name}
             </Text>
-            <Text fontWeight='bold'>{job?.name}</Text>
+            <Text fontWeight="bold">{job?.name}</Text>
 
             <Wrap mt={2}>
               {job?.locations?.map((ld: any) => {
                 return (
                   <WrapItem key={ld?.name}>
                     <Tag
-                      colorScheme='green'
-                      fontWeight={'bold'}
+                      colorScheme="green"
+                      fontWeight={"bold"}
                       py={2}
                       px={3}
-                      textAlign={'center'}
-                      d='inline-block'
+                      textAlign={"center"}
+                      d="inline-block"
                     >
-                      {' '}
+                      {" "}
                       📍 {ld?.name}
                     </Tag>
                   </WrapItem>
@@ -182,14 +186,14 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
                 return (
                   <WrapItem key={levelData?.name}>
                     <Tag
-                      colorScheme='green'
-                      fontWeight={'bold'}
+                      colorScheme="green"
+                      fontWeight={"bold"}
                       py={2}
                       px={3}
-                      textAlign={'center'}
-                      d='inline-block'
+                      textAlign={"center"}
+                      d="inline-block"
                     >
-                      {' '}
+                      {" "}
                       {levelData?.name}
                     </Tag>
                   </WrapItem>
@@ -199,14 +203,14 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
                 return (
                   <WrapItem key={categoryData?.name}>
                     <Tag
-                      colorScheme='green'
-                      fontWeight={'bold'}
-                      alignItems='center'
-                      d='inline-block'
+                      colorScheme="green"
+                      fontWeight={"bold"}
+                      alignItems="center"
+                      d="inline-block"
                       py={2}
                       px={3}
                     >
-                      {' '}
+                      {" "}
                       {categoryData?.name}
                     </Tag>
                   </WrapItem>
@@ -216,12 +220,12 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
           </Box>
         </HStack>
 
-        <Box w={{ base: '100%', md: '30%' }} my={{ base: 3, md: 'auto' }}>
+        <Box w={{ base: "100%", md: "30%" }} my={{ base: 3, md: "auto" }}>
           <Text
-            fontSize={'sm'}
-            fontWeight='bold'
-            color='gray.500'
-            textAlign={{ md: 'center' }}
+            fontSize={"sm"}
+            fontWeight="bold"
+            color="gray.500"
+            textAlign={{ md: "center" }}
           >
             {formatDateAgo(job?.publication_date)}
           </Text>
@@ -229,29 +233,35 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
 
         <HStack
           mt={{ base: 8, md: 0 }}
-          w={{ base: '100%', md: '20%' }}
-          justifyContent={{ md: 'end' }}
+          w={{ base: "100%", md: "20%" }}
+          justifyContent={{ md: "end" }}
           spacing={5}
         >
-          <Tooltip label='Add to board'>
+          <Tooltip label="Add to board">
             <IconButton
-              onClick={addJobToBoardDisclosure.onOpen}
-              ml='auto'
-              my='auto'
-              size='sm'
-              aria-label='More Options'
-              bg='green.100'
-              borderColor='green.600'
-              borderWidth={'1px'}
-              color='green.600'
-              fontSize={'lg'}
+              onClick={() => {
+                if (!getCookie("USER_AUTHENTICATED")) {
+                  router.push(`/login?redirect=/browse-jobs`);
+                } else {
+                  addJobToBoardDisclosure.onOpen();
+                }
+              }}
+              ml="auto"
+              my="auto"
+              size="sm"
+              aria-label="More Options"
+              bg="green.100"
+              borderColor="green.600"
+              borderWidth={"1px"}
+              color="green.600"
+              fontSize={"lg"}
               icon={<HiPlus />}
             />
           </Tooltip>
 
           <Link href={job?.refs?.landing_page} isExternal>
             <Button
-              colorScheme={'green'}
+              colorScheme={"green"}
               onClick={addJobToBoardDisclosure.onOpen}
             >
               Apply
@@ -262,15 +272,15 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
 
       <Flex px={{ base: 4, md: 8 }}>
         <IconButton
-          mx='auto'
+          mx="auto"
           onClick={onToggle}
           mt={3}
-          size='sm'
-          bg='green.100'
-          rounded={'full'}
-          color='green.500'
-          aria-label='More Options'
-          fontSize={'lg'}
+          size="sm"
+          bg="green.100"
+          rounded={"full"}
+          color="green.500"
+          aria-label="More Options"
+          fontSize={"lg"}
           icon={isOpen ? <HiChevronUp /> : <HiChevronDown />}
         />
       </Flex>
@@ -278,26 +288,26 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
       {/* More Info */}
       <Collapse in={isOpen} animateOpacity>
         <Flex
-          borderTopWidth={'1px'}
-          borderColor='gray.300'
-          borderStyle={'dashed'}
+          borderTopWidth={"1px"}
+          borderColor="gray.300"
+          borderStyle={"dashed"}
           px={{ base: 4, md: 8 }}
           pt={10}
           mt={3}
-          w='full'
-          flexDir={{ base: 'column', md: 'row' }}
+          w="full"
+          flexDir={{ base: "column", md: "row" }}
         >
           {/* Content */}
-          <Box w={{ base: '100%', md: '70%' }} pr={{ md: 24 }}>
-            <Text fontWeight='bold' color='gray.500'>
+          <Box w={{ base: "100%", md: "70%" }} pr={{ md: 24 }}>
+            <Text fontWeight="bold" color="gray.500">
               {job?.company?.name} is hiring a
             </Text>
 
-            <Text fontWeight='bold' fontSize={'2xl'} color='gray.800'>
+            <Text fontWeight="bold" fontSize={"2xl"} color="gray.800">
               {job?.name}
             </Text>
 
-            <Box mt={6} d={{ base: 'block', md: 'none' }}>
+            <Box mt={6} d={{ base: "block", md: "none" }}>
               <DateTags />
             </Box>
 
@@ -305,10 +315,10 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
           </Box>
 
           <Box
-            w={{ base: '100%', md: '30%' }}
-            d={{ base: 'none', md: 'block' }}
+            w={{ base: "100%", md: "30%" }}
+            d={{ base: "none", md: "block" }}
           >
-            <Box pos='sticky' top={10}>
+            <Box pos="sticky" top={10}>
               <DateTags />
             </Box>
           </Box>
@@ -316,13 +326,13 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
 
         <Flex px={{ base: 4, md: 8 }}>
           <Button
-            mx='auto'
+            mx="auto"
             onClick={onToggle}
             mt={6}
-            bg='green.50'
-            color='green.500'
-            aria-label='More Options'
-            fontSize={'md'}
+            bg="green.50"
+            color="green.500"
+            aria-label="More Options"
+            fontSize={"md"}
           >
             Close
           </Button>
@@ -331,7 +341,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
 
       <CustomModal
         disclosure={addJobToBoardDisclosure}
-        title='Add Job to Board'
+        title="Add Job to Board"
       >
         <AddJobToBoard disclosure={addJobToBoardDisclosure} jobData={job} />
       </CustomModal>

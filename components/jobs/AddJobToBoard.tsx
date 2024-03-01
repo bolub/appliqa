@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Button,
@@ -6,23 +8,23 @@ import {
   UseDisclosureProps,
   useToast,
   VStack,
-} from '@chakra-ui/react';
-import React, { FC, useEffect, useMemo, useState } from 'react';
-import FormInput from '../UI/Form/FormInput';
-import SearchableSelect from '../UI/Form/SearchableSelect';
-import { Options } from './../../utils/GeneralProps';
-import { v4 as uuidv4 } from 'uuid';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+} from "@chakra-ui/react";
+import React, { FC, useEffect, useMemo, useState } from "react";
+import FormInput from "../UI/Form/FormInput";
+import SearchableSelect from "../UI/Form/SearchableSelect";
+import { Options } from "./../../utils/GeneralProps";
+import { v4 as uuidv4 } from "uuid";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   createJob,
   fetchAllBoards,
   updateBoard,
   updateStage,
-} from '../../API/boards';
-import ToastBody from '../UI/ToastBody';
-import { formatDataForBoard } from '../../utils/functions';
-import { useRouter } from 'next/router';
-import { getCookie } from 'cookies-next';
+} from "../../API/boards";
+import ToastBody from "../UI/ToastBody";
+import { formatDataForBoard } from "../../utils/functions";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 interface Props {
   disclosure: UseDisclosureProps;
@@ -34,16 +36,16 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
     post_url: jobData?.refs?.landing_page,
     company_name: jobData?.company?.name,
     level: jobData?.levels[0]?.name,
-    role: '',
-    stage_id: '',
-    stage_slug: '',
-    board: '',
+    role: "",
+    stage_id: "",
+    stage_slug: "",
+    board: "",
     slug: uuidv4(),
   });
   const [allBoards, setAllBoards] = useState([]);
   const [boardId, setBoardId] = useState<
     string | string[] | undefined | number
-  >('');
+  >("");
   const [addOpen, setAddOpen] = useState(false);
 
   const router = useRouter();
@@ -55,17 +57,17 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
       };
     });
   };
-  const [newJobId, setNewJobId] = useState('');
+  const [newJobId, setNewJobId] = useState("");
 
   const queryClient = useQueryClient();
 
   // Fetch all existing boards
-  useQuery('all-boards', fetchAllBoards, {
+  useQuery("all-boards", fetchAllBoards, {
     onSuccess: (data) => {
       setAllBoards(data);
       if (data.length > 0) {
         setBoardId(data[0].id);
-        setData('board', data[0].id);
+        setData("board", data[0].id);
       }
     },
   });
@@ -75,7 +77,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
     updateStage,
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('board');
+        queryClient.invalidateQueries("board");
       },
     }
   );
@@ -84,15 +86,15 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
     updateBoard,
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('board');
+        queryClient.invalidateQueries("board");
         toast({
-          position: 'top-right',
+          position: "top-right",
           isClosable: true,
           render: () => (
             <ToastBody
-              title='Success'
-              message='Job Added successfully'
-              status='success'
+              title="Success"
+              message="Job Added successfully"
+              status="success"
             />
           ),
         });
@@ -173,29 +175,29 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
 
   return (
     <>
-      <VStack align='start' w='100%' spacing={6}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} w='100%' spacing={8}>
+      <VStack align="start" w="100%" spacing={6}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} w="100%" spacing={8}>
           <FormInput
-            label='Post url'
-            type='url'
-            for='post_url'
+            label="Post url"
+            type="url"
+            for="post_url"
             inputProps={{
-              placeholder: 'https://abstergo.com/frontend',
+              placeholder: "https://abstergo.com/frontend",
               onChange: (e) => {
-                setData('post_url', e.target.value);
+                setData("post_url", e.target.value);
               },
               value: dataToSend?.post_url,
             }}
           />
 
           <FormInput
-            label='Company Name'
-            type='text'
-            for='company_name'
+            label="Company Name"
+            type="text"
+            for="company_name"
             inputProps={{
-              placeholder: 'Abstergo',
+              placeholder: "Abstergo",
               onChange: (e) => {
-                setData('company_name', e.target.value);
+                setData("company_name", e.target.value);
               },
               value: dataToSend?.company_name,
             }}
@@ -205,46 +207,46 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
           />
         </SimpleGrid>
 
-        <SimpleGrid columns={{ base: 1, md: 2 }} w='100%' spacing={8}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} w="100%" spacing={8}>
           <FormInput
-            label='Level'
-            type='string'
-            for='level'
+            label="Level"
+            type="string"
+            for="level"
             inputProps={{
-              placeholder: 'Senior',
+              placeholder: "Senior",
               onChange: (e) => {
-                setData('level', e.target.value);
+                setData("level", e.target.value);
               },
               value: dataToSend?.level,
             }}
-            listLabel='levels'
+            listLabel="levels"
             listData={[
-              'CEO',
-              'CTO',
-              'CPO',
-              'Principal',
-              'Senior',
-              'Mid',
-              'Junior',
+              "CEO",
+              "CTO",
+              "CPO",
+              "Principal",
+              "Senior",
+              "Mid",
+              "Junior",
             ]}
           />
 
           <FormInput
-            label='Role'
-            type='string'
-            for='role'
+            label="Role"
+            type="string"
+            for="role"
             inputProps={{
-              placeholder: 'Frontend Developer',
+              placeholder: "Frontend Developer",
               onChange: (e) => {
-                setData('role', e.target.value);
+                setData("role", e.target.value);
               },
             }}
-            listLabel='roles'
+            listLabel="roles"
             listData={[
-              'Marketer',
-              'Fullstack Developer',
-              'Frontend Developer',
-              'Backend Developer',
+              "Marketer",
+              "Fullstack Developer",
+              "Frontend Developer",
+              "Backend Developer",
             ]}
             formControlProps={{
               isRequired: true,
@@ -252,21 +254,21 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
           />
         </SimpleGrid>
 
-        <Box w='100%'>
+        <Box w="100%">
           <SimpleGrid
             mt={4}
-            borderTopWidth={'1px'}
+            borderTopWidth={"1px"}
             pt={10}
             columns={{ base: 1, md: 2 }}
-            w='100%'
+            w="100%"
             spacing={8}
           >
             <SearchableSelect
-              label='Board'
+              label="Board"
               options={boardsToDisplay}
               value={boardsToDisplay[0]}
               onChange={(value: Options) => {
-                setData('board', value.label);
+                setData("board", value.label);
                 setBoardId(value.value);
               }}
               formControlProps={{
@@ -274,11 +276,11 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               }}
             />
             <SearchableSelect
-              label='Stage'
+              label="Stage"
               options={stagesToDisplay}
               onChange={(value: any) => {
-                setData('stage_id', value.value);
-                setData('stage_slug', value.slug);
+                setData("stage_id", value.value);
+                setData("stage_slug", value.slug);
               }}
               formControlProps={{
                 isRequired: true,
@@ -288,7 +290,7 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
         </Box>
       </VStack>
 
-      <Flex justifyContent={'end'} mt={16}>
+      <Flex justifyContent={"end"} mt={16}>
         <Button
           isDisabled={
             !dataToSend.board ||
@@ -306,13 +308,13 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               role: dataToSend.role,
               slug: uuidv4(),
               stage: dataToSend?.stage_slug,
-              userId: getCookie('USER_ID'),
+              userId: getCookie("USER_ID"),
               boardId: boardId?.toString(),
             });
           }}
           ml={2}
-          colorScheme={'green'}
-          variant='outline'
+          colorScheme={"green"}
+          variant="outline"
         >
           Add & Open
         </Button>
@@ -333,12 +335,12 @@ const AddJobToBoard: FC<Props> = ({ disclosure, jobData }) => {
               role: dataToSend.role,
               slug: uuidv4(),
               stage: dataToSend?.stage_slug,
-              userId: getCookie('USER_ID'),
+              userId: getCookie("USER_ID"),
               boardId: boardId?.toString(),
             });
           }}
           ml={2}
-          colorScheme={'green'}
+          colorScheme={"green"}
         >
           Add Job
         </Button>

@@ -8,24 +8,24 @@ import {
   HStack,
   useToast,
   VStack,
-} from '@chakra-ui/react';
-import { getCookie, setCookies } from 'cookies-next';
-import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { fetchProfile, updateProfile } from '../API/profile';
-import FormInput from '../components/UI/Form/FormInput';
-import ToastBody from '../components/UI/ToastBody';
-import { profileState } from '../recoil/profile';
-import { logout } from '../utils/functions';
-import { useSetRecoilState } from 'recoil';
+} from "@chakra-ui/react";
+import { setCookies } from "cookies-next";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { fetchProfile, updateProfile } from "../API/profile";
+import FormInput from "../components/UI/Form/FormInput";
+import ToastBody from "../components/UI/ToastBody";
+import { profileState } from "../recoil/profile";
+import { logout } from "../utils/functions";
+import { useSetRecoilState } from "recoil";
 
 const Profile = () => {
-  const [fullname, setFullname] = useState('');
-  const [userId, setId] = useState('');
+  const [fullname, setFullname] = useState("");
+  const [userId, setId] = useState("");
 
   const setRecoilUserName = useSetRecoilState(profileState);
 
-  useQuery('profile', fetchProfile, {
+  useQuery("profile", fetchProfile, {
     onSuccess: (data) => {
       setFullname(data?.fullname);
       setId(data?.id);
@@ -44,18 +44,18 @@ const Profile = () => {
 
   const { mutate, isLoading } = useMutation(updateProfile, {
     onSuccess: () => {
-      queryClient.invalidateQueries('profile');
+      queryClient.invalidateQueries("profile");
 
       setRecoilUserName({
         username: fullname,
       });
-      setCookies('USER_NAME', fullname, { maxAge: 604800 });
+      setCookies("USER_NAME", fullname, { maxAge: 604800 });
 
       toast({
-        position: 'top-right',
+        position: "top-right",
         isClosable: true,
         render: () => (
-          <ToastBody title='Success' message='Profile updated successfully' />
+          <ToastBody title="Success" message="Profile updated successfully" />
         ),
       });
     },
@@ -63,14 +63,14 @@ const Profile = () => {
       const errors = { ...data };
 
       toast({
-        position: 'top-right',
+        position: "top-right",
         isClosable: true,
         render: () => (
           <ToastBody
-            status='error'
-            title={errors?.response?.data?.error?.name || 'Error'}
+            status="error"
+            title={errors?.response?.data?.error?.name || "Error"}
             message={
-              errors?.response?.data?.error?.message || 'Something happened'
+              errors?.response?.data?.error?.message || "Something happened"
             }
           />
         ),
@@ -79,27 +79,25 @@ const Profile = () => {
   });
 
   return (
-    <Container maxW='7xl' py={{ base: 12, md: 20 }}>
-      <Heading as='h1' fontWeight={'black'} fontSize='2xl'>
+    <Container maxW="7xl" py={{ base: 12, md: 20 }}>
+      <Heading as="h1" fontWeight={"black"} fontSize="2xl">
         My Profile
       </Heading>
 
-      <VStack align={'start'} spacing={24} mt={16}>
+      <VStack align={"start"} spacing={24} mt={16}>
         <Box>
-          <Heading as='h2' fontSize={'lg'} fontWeight={'bold'} color='gray.500'>
+          <Heading as="h2" fontSize={"lg"} fontWeight={"bold"} color="gray.500">
             Update Information
           </Heading>
 
-          <HStack flexDir={{ base: 'column', md: 'row' }} mt={8} spacing={5}>
+          <HStack flexDir={{ base: "column", md: "row" }} mt={8} spacing={5}>
             <Avatar
-              size='xl'
-              p='4'
-              bg='gray.100'
-              borderWidth={'2px'}
-              borderColor='gray.100'
-              src={`https://avatars.dicebear.com/api/bottts/${getCookie(
-                'USER_NAME'
-              )}.svg`}
+              size="xl"
+              p="4"
+              bg="gray.100"
+              borderWidth={"2px"}
+              borderColor="gray.100"
+              src="https://api.dicebear.com/7.x/bottts/svg"
               mb={{ base: 6, md: 0 }}
             />
 
@@ -114,14 +112,14 @@ const Profile = () => {
                 });
               }}
             >
-              <Flex flexDir={{ base: 'column', md: 'row' }}>
+              <Flex flexDir={{ base: "column", md: "row" }}>
                 <FormInput
-                  type='text'
-                  label='Fullname'
-                  for='fullname'
+                  type="text"
+                  label="Fullname"
+                  for="fullname"
                   inputProps={{
-                    placeholder: 'Temisan Omatsola',
-                    w: '300px',
+                    placeholder: "Temisan Omatsola",
+                    w: "300px",
                     onChange: (e) => {
                       setFullname(e.target.value);
                     },
@@ -135,10 +133,10 @@ const Profile = () => {
                 <Button
                   mt={{ base: 4, md: 6 }}
                   ml={{ md: 3 }}
-                  type='submit'
+                  type="submit"
                   isLoading={isLoading}
                   isFullWidth
-                  colorScheme={'green'}
+                  colorScheme={"green"}
                 >
                   Update
                 </Button>

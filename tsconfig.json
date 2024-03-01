@@ -17,14 +17,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "pages/boards/boards.js",
-    "components/UI/Form/CustomDateTimePicker.ts"
+    "components/UI/Form/CustomDateTimePicker.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
