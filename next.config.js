@@ -7,104 +7,90 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: '/login',
+        source: "/login",
         has: [
           {
-            type: 'cookie',
-            key: 'USER_AUTHENTICATED',
-            value: 'true',
+            type: "cookie",
+            key: "USER_AUTHENTICATED",
+            value: "true",
           },
         ],
-        destination: '/analytics',
+        destination: "/analytics",
         permanent: false,
       },
 
       {
-        source: '/signup',
+        source: "/signup",
         has: [
           {
-            type: 'cookie',
-            key: 'USER_AUTHENTICATED',
-            value: 'true',
+            type: "cookie",
+            key: "USER_AUTHENTICATED",
+            value: "true",
           },
         ],
-        destination: '/analytics',
+        destination: "/analytics",
         permanent: false,
       },
 
       {
-        source: '/analytics',
+        source: "/analytics",
         has: [
           {
-            type: 'cookie',
-            key: 'USER_AUTHENTICATED',
-            value: 'false',
+            type: "cookie",
+            key: "USER_AUTHENTICATED",
+            value: "false",
           },
         ],
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
 
       {
-        source: '/goals',
+        source: "/goals",
         has: [
           {
-            type: 'cookie',
-            key: 'USER_AUTHENTICATED',
-            value: 'false',
+            type: "cookie",
+            key: "USER_AUTHENTICATED",
+            value: "false",
           },
         ],
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
       {
-        source: '/boards',
+        source: "/boards",
         has: [
           {
-            type: 'cookie',
-            key: 'USER_AUTHENTICATED',
-            value: 'false',
+            type: "cookie",
+            key: "USER_AUTHENTICATED",
+            value: "false",
           },
         ],
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
       {
-        source: '/boards/:id*',
+        source: "/boards/:id*",
         has: [
           {
-            type: 'cookie',
-            key: 'USER_AUTHENTICATED',
-            value: 'false',
+            type: "cookie",
+            key: "USER_AUTHENTICATED",
+            value: "false",
           },
         ],
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
-
       {
-        source: '/browse-jobs',
+        source: "/contacts",
         has: [
           {
-            type: 'cookie',
-            key: 'USER_AUTHENTICATED',
-            value: 'false',
+            type: "cookie",
+            key: "USER_AUTHENTICATED",
+            value: "false",
           },
         ],
-        destination: '/login',
-        permanent: false,
-      },
-
-      {
-        source: '/contacts',
-        has: [
-          {
-            type: 'cookie',
-            key: 'USER_AUTHENTICATED',
-            value: 'false',
-          },
-        ],
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     ];

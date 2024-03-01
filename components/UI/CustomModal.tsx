@@ -7,7 +7,6 @@ import {
   ModalCloseButton,
   Text,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { FC, ReactNode } from "react";
 
 interface Props {
@@ -29,18 +28,16 @@ const CustomModal: FC<Props> = ({
 }) => {
   const { isOpen, onClose } = disclosure;
 
-  const router: any = useRouter();
-
   return (
     <Modal
       isOpen={isOpen}
       onClose={() => {
-        if (router.pathname.includes("[id]")) {
-          router.push(router.pathname.replace("[id]", router?.query?.id));
+        if (window.location.pathname.includes("[id]")) {
+          // router.push(window.location.pathname.replace("[id]", window ?.query?.id));
         } else {
-          if (Object.keys(router.query).length > 0) {
-            router.push(router.pathname);
-          }
+          // if (Object.keys(window.location.query).length > 0) {
+          //   router.push(window.location.pathname);
+          // }
         }
 
         onClose();

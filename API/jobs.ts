@@ -1,5 +1,5 @@
-import axios from 'axios';
-import API from '.';
+import axios from "axios";
+import API from ".";
 
 export const fetchAllJobs = async (page = 1, filters?: string) => {
   const response = await axios.get(

@@ -7,21 +7,21 @@ import {
   Text,
   useToast,
   VStack,
-} from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { useMutation } from 'react-query';
-import { loginOp } from '../API/auth';
-import AuthLayout from '../components/auth/AuthLayout';
-import CustomLink from '../components/UI/CustomLink';
-import FormInput from '../components/UI/Form/FormInput';
-import ToastBody from '../components/UI/ToastBody';
-import { setCookies } from 'cookies-next';
-import { DASHBOARD_ROUTES } from '../utils/routes';
-import { useRouter } from 'next/router';
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
+import { loginOp } from "../API/auth";
+import AuthLayout from "../components/auth/AuthLayout";
+import CustomLink from "../components/UI/CustomLink";
+import FormInput from "../components/UI/Form/FormInput";
+import ToastBody from "../components/UI/ToastBody";
+import { setCookies } from "cookies-next";
+import { DASHBOARD_ROUTES } from "../utils/routes";
+import { useRouter } from "next/router";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const toast = useToast();
 
@@ -32,36 +32,44 @@ export default function Login() {
       const { user, jwt } = data;
 
       toast({
-        position: 'top-right',
+        position: "top-right",
         isClosable: true,
         render: () => (
-          <ToastBody title='Success' message='Logged in successfully' />
+          <ToastBody title="Success" message="Logged in successfully" />
         ),
       });
 
-      setCookies('USER_TOKEN', jwt, { maxAge: 604800 });
-      setCookies('USER_ID', user.id, { maxAge: 604800 });
-      setCookies('USER_AUTHENTICATED', 'true');
-      setCookies('USER_NAME', user.username, { maxAge: 604800 });
+      setCookies("USER_TOKEN", jwt, { maxAge: 604800 });
+      setCookies("USER_ID", user.id, { maxAge: 604800 });
+      setCookies("USER_AUTHENTICATED", "true");
+      setCookies("USER_NAME", user.username, { maxAge: 604800 });
 
-      if (router?.query?.onboard === 'true') {
+      if (router?.query?.onboard === "true") {
         window.location.href = `${DASHBOARD_ROUTES.BOARDS}?onboard=true`;
-      } else {
-        window.location.href = DASHBOARD_ROUTES.ANALYTICS;
+
+        return;
       }
+
+      if (router?.query?.redirect) {
+        window.location.href = router?.query?.redirect as string;
+
+        return;
+      }
+
+      window.location.href = DASHBOARD_ROUTES.ANALYTICS;
     },
     onError: (data: any) => {
       const errors = { ...data };
 
       toast({
-        position: 'top-right',
+        position: "top-right",
         isClosable: true,
         render: () => (
           <ToastBody
-            status='error'
-            title={errors?.response?.data?.error?.name || 'Error'}
+            status="error"
+            title={errors?.response?.data?.error?.name || "Error"}
             message={
-              errors?.response?.data?.error?.message || 'Something happened'
+              errors?.response?.data?.error?.message || "Something happened"
             }
           />
         ),
@@ -69,42 +77,42 @@ export default function Login() {
     },
   });
   return (
-    <AuthLayout imgSrc='login.svg'>
+    <AuthLayout imgSrc="login.svg">
       <Heading
         mt={16}
-        as='h1'
-        fontWeight={'black'}
-        fontSize='4xl'
-        color='gray.800'
+        as="h1"
+        fontWeight={"black"}
+        fontSize="4xl"
+        color="gray.800"
       >
         Login
       </Heading>
 
       <Text
-        fontWeight={'semibold'}
-        color='gray.800'
-        fontSize={'lg'}
+        fontWeight={"semibold"}
+        color="gray.800"
+        fontSize={"lg"}
         mt={2}
         // mb={12}
       >
         Nice to have you back 😇
       </Text>
 
-      {router?.query?.onboard === 'true' && (
+      {router?.query?.onboard === "true" && (
         <Center
           mt={6}
-          flexDir={'column'}
+          flexDir={"column"}
           py={6}
-          borderRadius='lg'
-          borderWidth={'1px'}
-          borderColor='green.600'
-          bg='green.50'
+          borderRadius="lg"
+          borderWidth={"1px"}
+          borderColor="green.600"
+          bg="green.50"
           px={{ base: 2, md: 10 }}
-          textAlign='center'
+          textAlign="center"
         >
           <HStack spacing={3}>
-            <Text fontSize={'lg'}> ✅</Text>
-            <Text fontSize={'md'} fontWeight='bold'>
+            <Text fontSize={"lg"}> ✅</Text>
+            <Text fontSize={"md"} fontWeight="bold">
               Email confirmed, please login
             </Text>
           </HStack>
@@ -120,11 +128,11 @@ export default function Login() {
       >
         <VStack spacing={8} mt={12}>
           <FormInput
-            type='email'
-            label='Email'
-            for='email'
+            type="email"
+            label="Email"
+            for="email"
             inputProps={{
-              placeholder: 'temisan@email.com',
+              placeholder: "temisan@email.com",
               onChange: (e) => {
                 setEmail(e.target.value);
               },
@@ -136,11 +144,11 @@ export default function Login() {
           />
 
           <FormInput
-            type='password'
-            label='Password'
-            for='password'
+            type="password"
+            label="Password"
+            for="password"
             inputProps={{
-              placeholder: '*********',
+              placeholder: "*********",
               onChange: (e) => {
                 setPassword(e.target.value);
               },
@@ -152,14 +160,14 @@ export default function Login() {
           />
         </VStack>
 
-        <Flex mt={8} flexDir='column'>
+        <Flex mt={8} flexDir="column">
           <CustomLink
-            href='/forgot-password'
+            href="/forgot-password"
             containerProps={{
-              fontSize: 'sm',
-              fontWeight: 'bold',
-              color: 'green.500',
-              ml: 'auto',
+              fontSize: "sm",
+              fontWeight: "bold",
+              color: "green.500",
+              ml: "auto",
               mb: 2,
             }}
           >
@@ -167,20 +175,20 @@ export default function Login() {
           </CustomLink>
           <Button
             isFullWidth
-            colorScheme={'green'}
-            type='submit'
+            colorScheme={"green"}
+            type="submit"
             isLoading={isLoading}
           >
             Login
           </Button>
           <CustomLink
-            href='/signup'
+            href="/signup"
             containerProps={{
-              fontSize: 'sm',
-              fontWeight: 'bold',
-              color: 'green.500',
+              fontSize: "sm",
+              fontWeight: "bold",
+              color: "green.500",
               mt: 2,
-              mx: 'auto',
+              mx: "auto",
             }}
           >
             Don&apos;t have an account?
