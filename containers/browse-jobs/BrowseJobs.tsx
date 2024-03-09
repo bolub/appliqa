@@ -30,7 +30,7 @@ export const BrowseJobs = ({
 }) => {
   const { category, experience, page, search } = filterValues;
 
-  const currentPage = Number(page);
+  const currentPage = Number(page) || 1;
 
   const { setQueryParam } = useQueryParamsActions();
 
