@@ -28,7 +28,9 @@ export const BrowseJobs = ({
 }: {
   filterValues: BrowseJobsProps["searchParams"];
 }) => {
-  const { category, experience, page: currentPage, search } = filterValues;
+  const { category, experience, page, search } = filterValues;
+
+  const currentPage = Number(page);
 
   const { setQueryParam } = useQueryParamsActions();
 
