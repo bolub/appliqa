@@ -40,15 +40,15 @@ const Navbar = () => {
   const username = useRecoilValue(profileState)?.username;
 
   return (
-    <chakra.nav bg="green.500" h="68px" d="flex" alignItems={"center"}>
-      <Container maxW="7xl" d="flex">
+    <chakra.nav bg="green.500" h="68px" display="flex" alignItems={"center"}>
+      <Container maxW="7xl" display="flex">
         <chakra.button
           aria-label="Menu"
           color="white"
           mr={5}
           p={2}
           borderRadius="lg"
-          d={{ base: "inline", md: "none" }}
+          display={{ base: "inline", md: "none" }}
           onClick={onOpen}
         >
           <HiOutlineMenu size="18px" />
@@ -58,7 +58,7 @@ const Navbar = () => {
           <Logo color="#ffffff" />
         </CustomLink>
 
-        <HStack spacing={4} d={{ base: "none", md: "flex" }}>
+        <HStack spacing={4} display={{ base: "none", md: "flex" }}>
           <NavItem
             className="my-first-step"
             label="Analytics"
@@ -106,7 +106,7 @@ const Navbar = () => {
             }}
             px={3}
           >
-            <HStack d={{ base: "none", md: "inline" }}>
+            <HStack display={{ base: "none", md: "inline" }}>
               <Text as="span" fontSize={"lg"}>
                 🚀
               </Text>
@@ -136,7 +136,7 @@ const Navbar = () => {
               <Text as="span" fontSize={"lg"}>
                 🙋
               </Text>
-              <Text as="span" d={{ base: "none", md: "inline" }}>
+              <Text as="span" display={{ base: "none", md: "inline" }}>
                 Help
               </Text>
             </HStack>

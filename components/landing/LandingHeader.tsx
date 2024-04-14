@@ -54,7 +54,7 @@ const LandingHeader = () => {
         pos='relative'
       >
         <chakra.svg
-          d={{ base: 'none', md: 'block' }}
+          display={{ base: 'none', md: 'block' }}
           width='204'
           height='204'
           viewBox='0 0 204 204'

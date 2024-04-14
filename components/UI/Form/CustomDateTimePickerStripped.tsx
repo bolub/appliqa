@@ -42,7 +42,7 @@ const CustomDateTimePickerStripped: FC<pickerProps> = ({
           color="gray.500"
           htmlFor="date"
           mb={1}
-          d="flex"
+          display="flex"
           w="100%"
         >
           <Text as="span" my="auto">

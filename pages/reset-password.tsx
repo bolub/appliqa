@@ -129,7 +129,6 @@ export default function ResetPassword() {
         <Flex mt={8} flexDir='column'>
           <Button
             isDisabled={password !== confirmPassword}
-            isFullWidth
             colorScheme={'green'}
             type='submit'
             isLoading={isLoading}

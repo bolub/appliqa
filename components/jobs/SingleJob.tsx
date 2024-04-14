@@ -46,7 +46,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
         </Text>
       </HStack>
 
-      <VStack align={"start"} d={{ base: "none", md: "flex" }}>
+      <VStack align={"start"} display={{ base: "none", md: "flex" }}>
         <HStack fontSize={"sm"} color="gray.500">
           <Text fontSize={"md"}>
             <HiOutlineTag />
@@ -65,7 +65,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
                   py={2}
                   px={3}
                   textAlign={"center"}
-                  d="inline-block"
+                  display="inline-block"
                 >
                   {" "}
                   📍 {ld?.name}
@@ -82,7 +82,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
                   py={2}
                   px={3}
                   textAlign={"center"}
-                  d="inline-block"
+                  display="inline-block"
                 >
                   {" "}
                   {levelData?.name}
@@ -97,7 +97,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
                   colorScheme="green"
                   fontWeight={"bold"}
                   alignItems="center"
-                  d="inline-block"
+                  display="inline-block"
                   py={2}
                   px={3}
                 >
@@ -174,7 +174,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
                       py={2}
                       px={3}
                       textAlign={"center"}
-                      d="inline-block"
+                      display="inline-block"
                     >
                       {" "}
                       📍 {ld?.name}
@@ -191,7 +191,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
                       py={2}
                       px={3}
                       textAlign={"center"}
-                      d="inline-block"
+                      display="inline-block"
                     >
                       {" "}
                       {levelData?.name}
@@ -206,7 +206,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
                       colorScheme="green"
                       fontWeight={"bold"}
                       alignItems="center"
-                      d="inline-block"
+                      display="inline-block"
                       py={2}
                       px={3}
                     >
@@ -307,7 +307,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
               {job?.name}
             </Text>
 
-            <Box mt={6} d={{ base: "block", md: "none" }}>
+            <Box mt={6} display={{ base: "block", md: "none" }}>
               <DateTags />
             </Box>
 
@@ -316,7 +316,7 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
 
           <Box
             w={{ base: "100%", md: "30%" }}
-            d={{ base: "none", md: "block" }}
+            display={{ base: "none", md: "block" }}
           >
             <Box pos="sticky" top={10}>
               <DateTags />

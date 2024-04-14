@@ -145,7 +145,7 @@ export const BrowseJobs = ({
               </PaginationPrevious>
               <PaginationPageGroup
                 mx={3}
-                d={{ base: "none", md: "flex" }}
+                display={{ base: "none", md: "flex" }}
                 separator={
                   <PaginationSeparator
                     bg="gray.100"
