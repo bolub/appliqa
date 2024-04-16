@@ -12,14 +12,14 @@ const LandingNavbar = () => {
     <chakra.nav
       bg="white"
       h="90px"
-      d="flex"
+      display="flex"
       justifyContent={"center"}
       alignItems={"center"}
     >
-      <Container maxW="7xl" d="flex" px={{ base: 4 }}>
+      <Container maxW="7xl" display="flex" px={{ base: 4 }}>
         <Logo containerProps={{ my: "auto", mr: 20 }} />
 
-        <HStack ml="auto" d={{ base: "none", md: "flex" }}>
+        <HStack ml="auto" display={{ base: "none", md: "flex" }}>
           {pathname !== DASHBOARD_ROUTES.JOBS && (
             <Link href={DASHBOARD_ROUTES.JOBS}>
               <Button variant={"ghost"}>Browse jobs</Button>

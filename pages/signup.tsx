@@ -176,7 +176,6 @@ const Signup = () => {
             <Button
               type='submit'
               isLoading={isLoading}
-              isFullWidth
               colorScheme={'green'}
             >
               Signup

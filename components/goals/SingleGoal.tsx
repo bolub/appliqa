@@ -66,7 +66,7 @@ const SingleGoal: FC<{ data: goalProps }> = ({ data }) => {
           as='h2'
           fontWeight='bold'
           fontSize={'md'}
-          d='flex'
+          display='flex'
         >
           <Text as='span' my='auto' mr={2}>
             🥅

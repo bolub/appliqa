@@ -113,15 +113,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <ReactQueryDevtools initialIsOpen={false} />
           <RecoilRoot>
             <Head>
-              <link
-                href="https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap"
-                rel="stylesheet"
-              />
               <link rel="icon" href="/Logo.svg" />
             </Head>
-
             <CustomSeo />
-
             <Script
               id="tawk"
               strategy="lazyOnload"

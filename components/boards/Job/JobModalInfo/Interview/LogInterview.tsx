@@ -153,7 +153,7 @@ const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
           <CustomDateTimePicker
             label='Start Time'
             labelIcon={
-              <FormControl d='flex' alignItems='center'>
+              <FormControl display='flex' alignItems='center'>
                 <FormLabel
                   fontWeight={'bold'}
                   fontSize='sm'
@@ -211,7 +211,7 @@ const LogInterview: FC<logInterviewProps> = ({ onClose, jobId }) => {
           }}
         />
 
-        <FormControl d='flex' alignItems='center'>
+        <FormControl display='flex' alignItems='center'>
           <FormLabel
             fontWeight={'bold'}
             fontSize='sm'

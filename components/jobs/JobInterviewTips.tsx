@@ -37,9 +37,10 @@ const JobInterviewTips = () => {
         disclosure={jobInterviewTipsDisclosure}
       >
         <VStack align={"start"} spacing={6} mb={6}>
-          {jobTips?.map((jobTip) => {
+          {jobTips?.map((jobTip,i) => {
             return (
               <ChakraLink
+                key={i}
                 w="full"
                 isExternal
                 fontSize={"lg"}

@@ -135,7 +135,6 @@ const Profile = () => {
                   ml={{ md: 3 }}
                   type="submit"
                   isLoading={isLoading}
-                  isFullWidth
                   colorScheme={"green"}
                 >
                   Update

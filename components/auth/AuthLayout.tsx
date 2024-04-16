@@ -18,7 +18,7 @@ const AuthLayout: FC<Props> = ({ children, imgSrc }) => {
       </Center>
 
       <Box
-        d={{ base: "none", md: "flex" }}
+        display={{ base: "none", md: "flex" }}
         w={{ base: "100%", md: "50%" }}
         bg="green.50"
         p={10}

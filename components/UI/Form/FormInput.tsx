@@ -43,7 +43,7 @@ const FormInput: FC<FormInputProps> = (props) => {
         color='gray.500'
         htmlFor={props.for}
         mb={1}
-        d='flex'
+        display='flex'
       >
         <Text as='span'>{props.label}</Text>
 

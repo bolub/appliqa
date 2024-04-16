@@ -174,7 +174,6 @@ export default function Login() {
             Forgot Password?
           </CustomLink>
           <Button
-            isFullWidth
             colorScheme={"green"}
             type="submit"
             isLoading={isLoading}

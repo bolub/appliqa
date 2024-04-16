@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ajna/pagination": "^1.4.17",
-    "@chakra-ui/react": "^1.8.8",
+    "@ajna/pagination": "^1.4.19",
+    "@chakra-ui/react": "^2.8.2",
     "@date-io/dayjs": "^2.14.0",
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-datepicker": "^4.4.1",
     "@types/uuid": "^8.3.4",

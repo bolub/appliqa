@@ -103,7 +103,6 @@ export default function ForgotPassword() {
 
           <Flex mt={8} flexDir='column'>
             <Button
-              isFullWidth
               colorScheme={'green'}
               type='submit'
               isLoading={isLoading}
