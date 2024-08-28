@@ -63,7 +63,7 @@ const Footer = () => {
 
           <Link
             isExternal
-            href="https://www.linkedin.com/in/abiola-boluwatife-2569a915b/"
+            href="https://www.linkedin.com/in/boluseyi/"
             rounded="full"
             p={3}
             bg="gray.300"

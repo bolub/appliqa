@@ -100,7 +100,7 @@ export const BrowseJobs = ({
   const jobsToDisplay = searchJobs(allJobs);
 
   return (
-    <Container maxW="7xl" py={{ base: 12, md: 20 }}>
+    <Container maxW="7xl" py={{ base: 12 }}>
       <CustomSeo title="Browse Jobs" />
 
       <Heading as="h1" fontWeight={"black"} fontSize="2xl">
