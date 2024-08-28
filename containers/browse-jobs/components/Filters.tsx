@@ -82,11 +82,13 @@ export const Filters = ({
                   setQueryParam({
                     name: "category",
                     value: joinedValues,
+                    pathname: "/browse-jobs",
                   });
                 } else {
                   setQueryParam({
                     name: "category",
                     value,
+                    pathname: "/browse-jobs",
                   });
                 }
               }}
@@ -133,11 +135,13 @@ export const Filters = ({
                   setQueryParam({
                     name: "experience",
                     value: joinedValues,
+                    pathname: "/browse-jobs",
                   });
                 } else {
                   setQueryParam({
                     name: "experience",
                     value,
+                    pathname: "/browse-jobs",
                   });
                 }
               }}

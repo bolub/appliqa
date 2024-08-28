@@ -14,7 +14,6 @@ import { AUTH_ROUTES, DASHBOARD_ROUTES } from "../utils/routes";
 import Navbar from "../components/UI/Layout/Navbar";
 import Joyride, { STATUS } from "react-joyride";
 import { RecoilRoot } from "recoil";
-import Script from "next/script";
 import CustomSeo from "../components/UI/CustomSeo";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -84,12 +83,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   ];
   const [run, setRun] = useState(false);
 
-  // useEffect(() => {
-  //   if (query?.signup === 'true') {
-  //     setRun(true);
-  //   }
-  // }, [query?.signup, setRun]);
-
   useEffect(() => {
     if (query?.tour === "true") {
       setRun(true);
@@ -116,7 +109,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <link rel="icon" href="/Logo.svg" />
             </Head>
             <CustomSeo />
-            <Script
+            {/* <Script
               id="tawk"
               strategy="lazyOnload"
               dangerouslySetInnerHTML={{
@@ -132,7 +125,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               })();
           `,
               }}
-            />
+            /> */}
 
             {isDashboardRoute && !isAuthRoute && <Navbar />}
             {query?.tour === "true" && (

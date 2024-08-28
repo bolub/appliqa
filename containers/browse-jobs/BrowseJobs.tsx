@@ -93,6 +93,7 @@ export const BrowseJobs = ({
     setQueryParam({
       name: "page",
       value: nextPage,
+      pathname: "/browse-jobs",
     });
   };
 
