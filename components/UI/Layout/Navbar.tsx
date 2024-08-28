@@ -19,7 +19,6 @@ import {
   Avatar,
   Link,
 } from "@chakra-ui/react";
-import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useRecoilValue } from "recoil";
@@ -36,8 +35,6 @@ const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const router = useRouter();
-
-  const username = useRecoilValue(profileState)?.username;
 
   return (
     <chakra.nav bg="green.500" h="68px" display="flex" alignItems={"center"}>

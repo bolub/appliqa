@@ -17,7 +17,13 @@ export const useQueryParamsActions = () => {
     router.replace(`${window.location.pathname}?${search.toString()}`);
   };
 
-  const setQueryParam = ({ name, value }: Params) => {
+  const setQueryParam = ({
+    name,
+    value,
+    pathname,
+  }: Params & {
+    pathname?: string;
+  }) => {
     const search = new URLSearchParams(window.location.search);
 
     if (!value) {
@@ -28,9 +34,9 @@ export const useQueryParamsActions = () => {
 
     const questionMark = search.toString() ? "?" : "";
 
-    router.replace(
-      `${window.location.pathname}${questionMark}${search.toString()}`
-    );
+    const newPathname = pathname || window.location.pathname;
+
+    router.replace(`${newPathname}${questionMark}${search.toString()}`);
   };
 
   const setMultipleQueryParams = (searchParams: Params[]) => {

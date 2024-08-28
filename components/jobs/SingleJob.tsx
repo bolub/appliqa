@@ -13,17 +13,13 @@ import {
   Wrap,
   WrapItem,
   Link,
-  Tooltip,
 } from "@chakra-ui/react";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
 import React, { FC } from "react";
 import {
   HiChevronDown,
   HiChevronUp,
   HiOutlineCalendar,
   HiOutlineTag,
-  HiPlus,
 } from "react-icons/hi";
 import { formatDateAgo } from "../../utils/functions";
 import CustomModal from "../UI/CustomModal";
@@ -128,8 +124,6 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
       </Link>
     </>
   );
-
-  const router = useRouter();
 
   return (
     <Flex
@@ -237,28 +231,6 @@ const SingleJob: FC<{ job: any }> = ({ job }) => {
           justifyContent={{ md: "end" }}
           spacing={5}
         >
-          <Tooltip label="Add to board">
-            <IconButton
-              onClick={() => {
-                if (!getCookie("USER_AUTHENTICATED")) {
-                  router.push(`/login?redirect=/browse-jobs`);
-                } else {
-                  addJobToBoardDisclosure.onOpen();
-                }
-              }}
-              ml="auto"
-              my="auto"
-              size="sm"
-              aria-label="More Options"
-              bg="green.100"
-              borderColor="green.600"
-              borderWidth={"1px"}
-              color="green.600"
-              fontSize={"lg"}
-              icon={<HiPlus />}
-            />
-          </Tooltip>
-
           <Link href={job?.refs?.landing_page} isExternal>
             <Button
               colorScheme={"green"}
